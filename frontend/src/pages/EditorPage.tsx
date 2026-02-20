@@ -208,7 +208,7 @@ function CueDetailPanel({
             const ownedState = cue.regionStates.find((rs) => rs.regionId === region.id) ?? null;
             const resolvedEntry = resolved.get(region.id);
             const trackedState = resolvedEntry?.state
-              ?? { regionId: region.id, fadeTime: 3, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } as Effect };
+              ?? { regionId: region.id, fadeTime: 3, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } };
 
             return (
               <RegionRow
@@ -236,9 +236,10 @@ export function EditorPage() {
   const { plays, setPlays, selectedPlayId, setSelectedPlayId } = usePlays();
   const [selectedCueId, setSelectedCueId] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>('regions');
+  const [pendingDeletePlayId, setPendingDeletePlayId] = useState<string | null>(null);
 
   const selectedPlay = plays.find((p) => p.id === selectedPlayId) ?? plays[0];
-  const selectedCueIndex = selectedPlay.cues.findIndex((c: Cue) => c.id === selectedCueId);
+  const selectedCueIndex = selectedPlay.cues.findIndex((c) => c.id === selectedCueId);
   const selectedCue = selectedCueIndex >= 0 ? selectedPlay.cues[selectedCueIndex] : null;
 
   function updatePlay(patch: Partial<Play>) {
@@ -246,19 +247,46 @@ export function EditorPage() {
   }
 
   function updateCue(updated: Cue) {
-    updatePlay({ cues: selectedPlay.cues.map((c: Cue) => (c.id === updated.id ? updated : c)) });
+    updatePlay({ cues: selectedPlay.cues.map((c) => (c.id === updated.id ? updated : c)) });
   }
 
   function deleteCue(id: string) {
-    updatePlay({ cues: selectedPlay.cues.filter((c: Cue) => c.id !== id) });
+    updatePlay({ cues: selectedPlay.cues.filter((c) => c.id !== id) });
     setSelectedCueId(null);
   }
 
+  function deletePlay(id: string) {
+    if (plays.length <= 1) return;
+    const remaining = plays.filter((p) => p.id !== id);
+    setPlays(remaining);
+    if (selectedPlayId === id) {
+      setSelectedPlayId(remaining[0].id);
+      setSelectedCueId(null);
+    }
+    setPendingDeletePlayId(null);
+  }
+
+  function addPlay() {
+    const newPlay: Play = {
+      id: crypto.randomUUID(),
+      title: 'New Show',
+      description: '',
+      regions: [],
+      cues: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    setPlays((prev) => [...prev, newPlay]);
+    setSelectedPlayId(newPlay.id);
+    setSelectedCueId(null);
+    setTab('regions');
+  }
+
   function addCue() {
-    const nums = selectedPlay.cues.map((c: Cue) => parseFloat(c.number)).filter(isFinite);
+    const nums = selectedPlay.cues.map((c) => parseFloat(c.number)).filter(isFinite);
     const nextNum = nums.length ? Math.max(...nums) + 1 : 1;
     const newCue: Cue = {
-      id: Math.random().toString(36).slice(2),
+      id: crypto.randomUUID(),
       number: String(nextNum),
       label: 'New Cue',
       notes: '',
@@ -275,25 +303,74 @@ export function EditorPage() {
       <div className="w-44 border-r border-[#2e2e2e] flex flex-col shrink-0">
         <div className="flex items-center justify-between px-3 h-10 border-b border-[#2e2e2e] shrink-0">
           <span className="text-xs text-neutral-500 uppercase tracking-widest">Plays</span>
-          <button className="text-[#646cff] text-xl leading-none pb-0.5">+</button>
+          <button onClick={addPlay} className="text-[#646cff] text-xl leading-none pb-0.5">+</button>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {plays.map((play) => (
-            <button key={play.id}
-              onClick={() => { setSelectedPlayId(play.id); setSelectedCueId(null); }}
-              className={
-                'w-full text-left px-3 py-2.5 text-sm border-b border-[#2e2e2e] transition-colors ' +
-                (selectedPlayId === play.id ? 'bg-[#646cff]/20 text-[#646cff]' : 'text-neutral-300 hover:bg-[#2e2e2e]')
-              }
-            >{play.title}</button>
-          ))}
+          {plays.map((play) => {
+            const isPendingDelete = pendingDeletePlayId === play.id;
+            return (
+              <div
+                key={play.id}
+                className={
+                  'group flex items-center border-b border-[#2e2e2e] transition-colors ' +
+                  (selectedPlayId === play.id ? 'bg-[#646cff]/20' : 'hover:bg-[#2e2e2e]')
+                }
+              >
+                <button
+                  onClick={() => { setSelectedPlayId(play.id); setSelectedCueId(null); setPendingDeletePlayId(null); }}
+                  className={
+                    'flex-1 text-left px-3 py-2.5 text-sm truncate ' +
+                    (selectedPlayId === play.id ? 'text-[#646cff]' : 'text-neutral-300')
+                  }
+                >
+                  {play.title}
+                </button>
+                {plays.length > 1 && (
+                  isPendingDelete ? (
+                    <div className="flex items-center gap-1 pr-1.5 shrink-0">
+                      <button
+                        onClick={() => deletePlay(play.id)}
+                        className="text-[10px] px-1.5 py-0.5 rounded bg-red-900/60 text-red-300 hover:bg-red-800 transition-colors font-semibold"
+                      >
+                        Delete?
+                      </button>
+                      <button
+                        onClick={() => setPendingDeletePlayId(null)}
+                        className="text-[10px] px-1 py-0.5 rounded text-neutral-500 hover:text-neutral-300 transition-colors"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setPendingDeletePlayId(play.id); }}
+                      className="opacity-0 group-hover:opacity-100 pr-2.5 text-neutral-600 hover:text-red-400 transition-all text-sm shrink-0"
+                      title="Delete show"
+                    >
+                      ×
+                    </button>
+                  )
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="px-4 pt-3 pb-0 border-b border-[#2e2e2e] shrink-0">
-          <p className="text-base font-semibold mb-3">{selectedPlay.title}</p>
+          <input
+            key={selectedPlay.id}
+            defaultValue={selectedPlay.title}
+            onBlur={(e) => {
+              const title = e.target.value.trim();
+              if (title && title !== selectedPlay.title) updatePlay({ title });
+              else e.target.value = selectedPlay.title;
+            }}
+            onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+            className="text-base font-semibold mb-3 bg-transparent outline-none w-full text-neutral-100 border-b border-transparent focus:border-[#646cff] transition-colors"
+          />
           <div className="flex gap-1">
             {(['regions', 'cues'] as Tab[]).map((t) => (
               <button key={t} onClick={() => setTab(t)}

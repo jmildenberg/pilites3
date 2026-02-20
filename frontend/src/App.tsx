@@ -5,9 +5,11 @@ import { PreviewPage } from './pages/PreviewPage';
 import { EditorPage } from './pages/EditorPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PlaysProvider } from './context/PlaysContext';
+import { ChannelConfigProvider } from './context/ChannelConfigContext';
 
 export default function App() {
   return (
+    <ChannelConfigProvider>
     <PlaysProvider>
       <BrowserRouter>
         <Routes>
@@ -20,5 +22,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </PlaysProvider>
+    </ChannelConfigProvider>
   );
 }

@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import type { Region, ChannelId, Play } from '../../types';
 import { ChannelStrip, SWATCH_COLORS } from './ChannelStrip';
-
-const CHANNEL_CONFIGS: Array<{ id: ChannelId; label: string; ledCount: number }> = [
-  { id: 0, label: 'Channel 0', ledCount: 500 },
-  { id: 1, label: 'Channel 1', ledCount: 500 },
-];
+import { useChannelConfig } from '../../context/ChannelConfigContext';
 
 interface Props {
   play: Play;
@@ -13,7 +9,7 @@ interface Props {
 }
 
 function makeId() {
-  return Math.random().toString(36).slice(2, 9);
+  return crypto.randomUUID();
 }
 
 interface EditingState {
@@ -25,6 +21,7 @@ interface EditingState {
 }
 
 export function RegionManager({ play, onUpdateRegions }: Props) {
+  const { channels } = useChannelConfig();
   const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null);
   const [editing, setEditing] = useState<EditingState | null>(null);
 
@@ -86,7 +83,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
       <div>
         <h3 className="text-xs text-neutral-500 uppercase tracking-widest mb-4">LED Regions</h3>
         <div className="flex flex-col gap-5">
-          {CHANNEL_CONFIGS.map((ch) => (
+          {channels.map((ch) => (
             <ChannelStrip
               key={ch.id}
               channelId={ch.id}
@@ -181,7 +178,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
                 <input
                   type="number"
                   min={editing.startIndex}
-                  max={499}
+                  max={(channels.find((ch) => ch.id === selectedRegion.channelId)?.ledCount ?? 500) - 1}
                   value={editing.endIndex}
                   onChange={(e) => setEditing({ ...editing, endIndex: Number(e.target.value) })}
                   onBlur={() => commitEdit()}

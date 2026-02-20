@@ -197,6 +197,4 @@ export interface PlaybackState {
   playId: string | null;
   currentCueIndex: number | null;
   status: PlaybackStatus;
-  /** Representative brightness per region (for UI preview — backend runs real effects) */
-  regionLevels: Record<string, number>;
 }

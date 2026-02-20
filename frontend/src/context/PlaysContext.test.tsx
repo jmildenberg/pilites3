@@ -1,6 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { PlaysProvider, usePlays, useSelectedPlay } from './PlaysContext';
+
+beforeEach(() => { localStorage.clear(); });
 
 // ─── Helper: component that exposes context values ───────────────────────────
 

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import type { Effect, Region, Play, Cue } from '../../types';
 import { colorToHex, effectPeakBrightness } from '../../types';
 import { resolveRegionLevels } from '../../lib/stageState';
+import { useChannelConfig } from '../../context/ChannelConfigContext';
 
 // ─── Effect → CSS style ───────────────────────────────────────────────────────
 
@@ -137,12 +138,11 @@ function UnallocatedSegment({ startIdx, endIdx, ledCount, compact }: {
 
 // ─── ChannelStrip ─────────────────────────────────────────────────────────────
 
-const CHANNEL_LED_COUNT = 500;
-
 function ChannelStrip({
-  channelId, regions, resolvedEffects, compact,
+  channelId, ledCount, regions, resolvedEffects, compact,
 }: {
   channelId: 0 | 1;
+  ledCount: number;
   regions: Region[];
   resolvedEffects: Record<string, Effect>;
   compact: boolean;
@@ -160,16 +160,17 @@ function ChannelStrip({
     segments.push({ kind: 'region', region: r });
     cursor = r.endIndex + 1;
   }
-  if (cursor < CHANNEL_LED_COUNT) segments.push({ kind: 'gap', start: cursor, end: CHANNEL_LED_COUNT - 1 });
+  if (cursor < ledCount) segments.push({ kind: 'gap', start: cursor, end: ledCount - 1 });
 
   const label = `Channel ${channelId}`;
+  const quarter = Math.round(ledCount / 4);
 
   return (
     <div className="flex flex-col gap-1">
       {!compact && (
         <div className="flex items-center justify-between px-0.5">
           <span className="text-xs font-semibold text-neutral-400">{label}</span>
-          <span className="text-xs text-neutral-600 font-mono">{CHANNEL_LED_COUNT} LEDs</span>
+          <span className="text-xs text-neutral-600 font-mono">{ledCount} LEDs</span>
         </div>
       )}
 
@@ -181,7 +182,7 @@ function ChannelStrip({
               key={seg.region.id}
               region={seg.region}
               effect={resolvedEffects[seg.region.id] ?? { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 }}
-              ledCount={CHANNEL_LED_COUNT}
+              ledCount={ledCount}
               compact={compact}
             />
           ) : (
@@ -189,7 +190,7 @@ function ChannelStrip({
               key={`gap-${i}`}
               startIdx={seg.start}
               endIdx={seg.end}
-              ledCount={CHANNEL_LED_COUNT}
+              ledCount={ledCount}
               compact={compact}
             />
           )
@@ -199,7 +200,7 @@ function ChannelStrip({
       {/* LED index ruler (full mode only) */}
       {!compact && (
         <div className="flex justify-between text-[10px] text-neutral-700 font-mono px-0.5">
-          {[0, 125, 250, 375, 499].map((n) => <span key={n}>{n}</span>)}
+          {[0, quarter, quarter * 2, quarter * 3, ledCount - 1].map((n) => <span key={n}>{n}</span>)}
         </div>
       )}
     </div>
@@ -257,6 +258,7 @@ export interface LivePreviewProps {
 
 export function LivePreview({ play, currentCue, cueIndex, compact = false }: LivePreviewProps) {
   const { regions, cues } = play;
+  const { channels } = useChannelConfig();
 
   // Resolve effects for all regions at the current cue
   const resolvedEffects: Record<string, Effect> = {};
@@ -269,8 +271,16 @@ export function LivePreview({ play, currentCue, cueIndex, compact = false }: Liv
 
   return (
     <div className={`flex flex-col gap-${compact ? '2' : '5'}`}>
-      <ChannelStrip channelId={0} regions={regions} resolvedEffects={resolvedEffects} compact={compact} />
-      <ChannelStrip channelId={1} regions={regions} resolvedEffects={resolvedEffects} compact={compact} />
+      {channels.map((ch) => (
+        <ChannelStrip
+          key={ch.id}
+          channelId={ch.id}
+          ledCount={ch.ledCount}
+          regions={regions}
+          resolvedEffects={resolvedEffects}
+          compact={compact}
+        />
+      ))}
 
       {!compact && currentCue && (
         <div className="flex flex-col mt-1">

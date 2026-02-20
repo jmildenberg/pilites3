@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import type { Cue, PlaybackState, Region } from '../types';
+import type { Cue, Region } from '../types';
 import { colorToHex, effectPeakBrightness } from '../types';
-import { resolveRegionLevels } from '../lib/stageState';
 import { LivePreview } from '../components/preview/LivePreview';
 import { useSelectedPlay } from '../context/PlaysContext';
+import { usePlayback } from '../hooks/usePlayback';
 
 // ─── CueRow ───────────────────────────────────────────────────────────────────
 
@@ -52,7 +51,6 @@ function CueRow({
             </div>
           );
         })}
-        {/* Effect type badges for non-solid */}
         {[...new Set(cue.regionStates.map((rs) => rs.effect.type))].filter((t) => t !== 'solid').map((t) => (
           <span key={t} className="text-[10px] px-1 rounded bg-[#2e2e2e] text-neutral-500 font-mono">{t}</span>
         ))}
@@ -70,42 +68,8 @@ function CueRow({
 export function ShowPage() {
   const play = useSelectedPlay();
   const { cues, regions } = play;
+  const { playback, currentIndex, nextIndex, currentCue, nextCue, applyCue, go, back } = usePlayback(play);
 
-  const [playback, setPlayback] = useState<PlaybackState>({
-    playId: play.id,
-    currentCueIndex: null,
-    status: 'idle',
-    regionLevels: {},
-  });
-
-  const currentIndex = playback.currentCueIndex;
-  const nextIndex = currentIndex === null ? 0 : currentIndex + 1;
-  const currentCue = currentIndex !== null ? cues[currentIndex] : null;
-  const nextCue = nextIndex < cues.length ? cues[nextIndex] : null;
-
-  function applyCue(index: number) {
-    const resolved = resolveRegionLevels(cues, regions, index);
-    const levels: Record<string, number> = {};
-    for (const [regionId, { brightness }] of Object.entries(resolved)) {
-      levels[regionId] = brightness;
-    }
-    setPlayback({ ...playback, currentCueIndex: index, status: 'running', regionLevels: levels });
-  }
-
-  function go() {
-    const target = currentIndex === null ? 0 : currentIndex + 1;
-    if (target < cues.length) applyCue(target);
-  }
-
-  function back() {
-    if (currentIndex === null || currentIndex === 0) {
-      setPlayback({ playId: play.id, currentCueIndex: null, status: 'idle', regionLevels: {} });
-      return;
-    }
-    applyCue(currentIndex - 1);
-  }
-
-  // Collect effect types active in current cue for status display
   const activeEffects = currentCue
     ? [...new Set(currentCue.regionStates.map((rs) => rs.effect.type))]
     : [];

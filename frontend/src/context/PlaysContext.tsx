@@ -1,5 +1,14 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode, Dispatch, SetStateAction } from 'react';
+
+function loadStorage<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 import type { Play } from '../types';
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
@@ -64,8 +73,20 @@ interface PlaysContextValue {
 const PlaysContext = createContext<PlaysContextValue | null>(null);
 
 export function PlaysProvider({ children }: { children: ReactNode }) {
-  const [plays, setPlays] = useState<Play[]>(INITIAL_PLAYS);
-  const [selectedPlayId, setSelectedPlayId] = useState<string>(INITIAL_PLAYS[0].id);
+  const [plays, setPlays] = useState<Play[]>(() =>
+    loadStorage('pilites.plays', INITIAL_PLAYS)
+  );
+  const [selectedPlayId, setSelectedPlayId] = useState<string>(() =>
+    loadStorage('pilites.selectedPlayId', INITIAL_PLAYS[0].id)
+  );
+
+  useEffect(() => {
+    localStorage.setItem('pilites.plays', JSON.stringify(plays));
+  }, [plays]);
+
+  useEffect(() => {
+    localStorage.setItem('pilites.selectedPlayId', selectedPlayId);
+  }, [selectedPlayId]);
 
   return (
     <PlaysContext.Provider value={{ plays, setPlays, selectedPlayId, setSelectedPlayId }}>
@@ -83,5 +104,7 @@ export function usePlays(): PlaysContextValue {
 /** Returns the currently-selected play (falls back to first if id not found). */
 export function useSelectedPlay(): Play {
   const { plays, selectedPlayId } = usePlays();
-  return plays.find((p) => p.id === selectedPlayId) ?? plays[0];
+  const play = plays.find((p) => p.id === selectedPlayId) ?? plays[0];
+  if (!play) throw new Error('useSelectedPlay: no plays available');
+  return play;
 }

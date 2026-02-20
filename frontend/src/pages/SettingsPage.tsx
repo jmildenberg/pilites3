@@ -1,9 +1,13 @@
-const DEFAULT_CHANNELS = [
-  { id: 0, label: 'Channel 0', ledCount: 300, gpioPin: 18 },
-  { id: 1, label: 'Channel 1', ledCount: 300, gpioPin: 13 },
-];
+import type { ChannelId } from '../types';
+import { useChannelConfig } from '../context/ChannelConfigContext';
 
 export function SettingsPage() {
+  const { channels, setChannels } = useChannelConfig();
+
+  function updateChannel(id: ChannelId, patch: Partial<{ label: string; ledCount: number; gpioPin: number }>) {
+    setChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...patch } : ch)));
+  }
+
   return (
     <div className="max-w-xl mx-auto p-6 flex flex-col gap-8">
       <div>
@@ -16,7 +20,7 @@ export function SettingsPage() {
         <h3 className="text-xs text-neutral-500 uppercase tracking-widest border-b border-[#2e2e2e] pb-2">
           LED Channels
         </h3>
-        {DEFAULT_CHANNELS.map((ch) => (
+        {channels.map((ch) => (
           <div key={ch.id} className="bg-[#1a1a1a] rounded-lg p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold">Channel {ch.id}</span>
@@ -27,21 +31,24 @@ export function SettingsPage() {
               <div>
                 <label className="text-xs text-neutral-500 block mb-1">Label</label>
                 <input
-                  defaultValue={ch.label}
+                  value={ch.label}
+                  onChange={(e) => updateChannel(ch.id, { label: e.target.value })}
                   className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
                 />
               </div>
               <div>
                 <label className="text-xs text-neutral-500 block mb-1">LED Count</label>
                 <input
-                  type="number" defaultValue={ch.ledCount} min={1} max={500}
+                  type="number" value={ch.ledCount} min={1} max={1200}
+                  onChange={(e) => updateChannel(ch.id, { ledCount: Number(e.target.value) })}
                   className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
                 />
               </div>
               <div>
                 <label className="text-xs text-neutral-500 block mb-1">GPIO Pin</label>
                 <input
-                  type="number" defaultValue={ch.gpioPin}
+                  type="number" value={ch.gpioPin}
+                  onChange={(e) => updateChannel(ch.id, { gpioPin: Number(e.target.value) })}
                   className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
                 />
               </div>

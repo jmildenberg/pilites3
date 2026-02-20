@@ -3,6 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RegionManager } from './RegionManager';
 import type { Play, Region } from '../../types';
+import { ChannelConfigProvider } from '../../context/ChannelConfigContext';
+
+function Wrapper({ children }: { children: React.ReactNode }) {
+  return <ChannelConfigProvider>{children}</ChannelConfigProvider>;
+}
 
 // ─── Fixture helpers ──────────────────────────────────────────────────────────
 
@@ -35,24 +40,24 @@ function getListButton(name: string) {
 describe('RegionManager', () => {
   describe('initial render', () => {
     it('shows "No regions defined" when the play has no regions', () => {
-      render(<RegionManager play={makePlay()} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay()} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       expect(screen.getByText('No regions defined.')).toBeInTheDocument();
     });
 
     it('renders a list entry for each region', () => {
-      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       // Each region appears in the list with its channel badge
       expect(getListButton('Stage Left')).toBeInTheDocument();
       expect(getListButton('Backdrop')).toBeInTheDocument();
     });
 
     it('does not show the edit panel before selecting a region', () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       expect(screen.queryByText('Edit Region')).not.toBeInTheDocument();
     });
 
     it('shows channel labels for each region', () => {
-      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       expect(screen.getByText('CH0')).toBeInTheDocument();
       expect(screen.getByText('CH1')).toBeInTheDocument();
     });
@@ -60,33 +65,33 @@ describe('RegionManager', () => {
 
   describe('selecting a region', () => {
     it('opens the edit panel when a region is clicked', async () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       expect(screen.getByText('Edit Region')).toBeInTheDocument();
     });
 
     it('pre-fills label input with the region label', async () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       expect(screen.getByDisplayValue('Stage Left')).toBeInTheDocument();
     });
 
     it('pre-fills start LED input', async () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       const [startInput] = screen.getAllByRole('spinbutton');
       expect(startInput).toHaveValue(0);
     });
 
     it('pre-fills end LED input', async () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       const [, endInput] = screen.getAllByRole('spinbutton');
       expect(endInput).toHaveValue(149);
     });
 
     it('shows the LED range summary', async () => {
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       expect(screen.getByText(/LEDs 0–149/)).toBeInTheDocument();
     });
@@ -95,7 +100,7 @@ describe('RegionManager', () => {
   describe('editing a region', () => {
     it('calls onUpdateRegions with new label on blur', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
 
       const labelInput = screen.getByDisplayValue('Stage Left');
@@ -110,7 +115,7 @@ describe('RegionManager', () => {
 
     it('panel stays open after editing label', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
 
       const labelInput = screen.getByDisplayValue('Stage Left');
@@ -123,7 +128,7 @@ describe('RegionManager', () => {
 
     it('calls onUpdateRegions with new startIndex on blur', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
 
       const [startInput] = screen.getAllByRole('spinbutton');
@@ -138,7 +143,7 @@ describe('RegionManager', () => {
 
     it('calls onUpdateRegions with new endIndex on blur', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
 
       const [, endInput] = screen.getAllByRole('spinbutton');
@@ -153,7 +158,7 @@ describe('RegionManager', () => {
 
     it('calls onUpdateRegions immediately when a color swatch is clicked', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
 
       // The blue swatch (#3b82f6) is a different color from r1's current uiColor (#a855f7)
@@ -177,7 +182,7 @@ describe('RegionManager', () => {
   describe('deleting a region', () => {
     it('calls onUpdateRegions without the deleted region', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1, r2])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       await userEvent.click(screen.getByText('Delete'));
 
@@ -186,10 +191,10 @@ describe('RegionManager', () => {
       expect(updatedRegions.some((r) => r.id === 'r1')).toBe(false);
       expect(updatedRegions.some((r) => r.id === 'r2')).toBe(true);
     });
-        // Removed unused variable declaration
+
     it('closes the edit panel after deletion', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay([r1])} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
       await userEvent.click(screen.getByText('Delete'));
       expect(screen.queryByText('Edit Region')).not.toBeInTheDocument();
@@ -198,14 +203,14 @@ describe('RegionManager', () => {
 
   describe('adding a region via the strip gap', () => {
     it('shows a + button for unallocated spans', () => {
-      render(<RegionManager play={makePlay()} onUpdateRegions={vi.fn()} />);
+      render(<RegionManager play={makePlay()} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       const addButtons = screen.getAllByTitle(/Add region/);
       expect(addButtons.length).toBeGreaterThan(0);
     });
 
     it('calls onUpdateRegions with a new region when + is clicked', async () => {
       const onUpdate = vi.fn();
-      render(<RegionManager play={makePlay()} onUpdateRegions={onUpdate} />);
+      render(<RegionManager play={makePlay()} onUpdateRegions={onUpdate} />, { wrapper: Wrapper });
       const [firstAddButton] = screen.getAllByTitle(/Add region/);
       await userEvent.click(firstAddButton);
       expect(onUpdate).toHaveBeenCalled();
@@ -219,7 +224,8 @@ describe('RegionManager', () => {
         <RegionManager
           play={makePlay(currentRegions)}
           onUpdateRegions={(r) => { currentRegions = r; }}
-        />
+        />,
+        { wrapper: Wrapper }
       );
 
       const [firstAddButton] = screen.getAllByTitle(/Add region/);
