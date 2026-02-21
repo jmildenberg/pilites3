@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Play, Cue, Region, RegionCueState, Effect } from '../types';
 import { EFFECT_DEFAULTS } from '../types';
 import { RegionManager } from '../components/regions/RegionManager';
@@ -232,6 +232,8 @@ function CueDetailPanel({
 
 type Tab = 'regions' | 'cues';
 
+const DEBOUNCE_MS = 600;
+
 export function EditorPage() {
   const {
     plays, loading, error,
@@ -245,26 +247,75 @@ export function EditorPage() {
   const [pendingDeletePlayId, setPendingDeletePlayId] = useState<string | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
 
+  // Local editing state — updated immediately on every change for a responsive UI.
+  // API saves are debounced so rapid keystrokes/slider drags don't hammer the backend.
+  const [localPlay, setLocalPlay] = useState<Play | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingPlayRef = useRef<Play | null>(null);
+  const prevPlayIdRef = useRef<string | undefined>(undefined);
+
   const selectedPlay = plays.find((p) => p.id === selectedPlayId) ?? plays[0];
-  const selectedCueIndex = selectedPlay?.cues.findIndex((c) => c.id === selectedCueId) ?? -1;
-  const selectedCue = selectedCueIndex >= 0 ? selectedPlay.cues[selectedCueIndex] : null;
 
-  async function updatePlay(patch: Partial<Play>) {
+  // When the active play changes (different ID or first load), sync localPlay from server state.
+  // Any in-flight debounce for the previous play is left to fire naturally — its timer captures
+  // the correct data and will save to the old play ID without affecting the new selection.
+  useEffect(() => {
     if (!selectedPlay) return;
-    await apiUpdatePlay(selectedPlay.id, { ...selectedPlay, ...patch });
+    if (selectedPlay.id === prevPlayIdRef.current) return;
+    prevPlayIdRef.current = selectedPlay.id;
+    setLocalPlay(selectedPlay);
+  }, [selectedPlay]); // runs when selectedPlay reference changes (new ID or first load)
+
+  // displayPlay is the source of truth for the edit UI; localPlay leads, server state fallbacks.
+  const displayPlay = localPlay ?? selectedPlay;
+
+  const selectedCueIndex = displayPlay?.cues.findIndex((c) => c.id === selectedCueId) ?? -1;
+  const selectedCue = (displayPlay && selectedCueIndex >= 0) ? displayPlay.cues[selectedCueIndex] : null;
+
+  // ── Edit helpers ────────────────────────────────────────────────────────────
+
+  /** Apply a patch to the local play state and schedule (or immediately fire) an API save. */
+  function editPlay(patch: Partial<Play>, immediate = false) {
+    const base = displayPlay;
+    if (!base) return;
+    const updated: Play = { ...base, ...patch };
+    setLocalPlay(updated);
+
+    if (immediate) {
+      if (debounceRef.current) { clearTimeout(debounceRef.current); debounceRef.current = null; }
+      pendingPlayRef.current = null;
+      void apiUpdatePlay(updated.id, updated);
+    } else {
+      pendingPlayRef.current = updated;
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        debounceRef.current = null;
+        const toSave = pendingPlayRef.current;
+        pendingPlayRef.current = null;
+        if (toSave) void apiUpdatePlay(toSave.id, toSave);
+      }, DEBOUNCE_MS);
+    }
   }
 
-  async function updateCue(updated: Cue) {
-    await updatePlay({ cues: selectedPlay.cues.map((c) => (c.id === updated.id ? updated : c)) });
+  function updateCue(updated: Cue) {
+    if (!displayPlay) return;
+    editPlay({ cues: displayPlay.cues.map((c) => (c.id === updated.id ? updated : c)) });
   }
 
-  async function deleteCue(id: string) {
-    await updatePlay({ cues: selectedPlay.cues.filter((c) => c.id !== id) });
+  function deleteCue(id: string) {
+    if (!displayPlay) return;
+    editPlay({ cues: displayPlay.cues.filter((c) => c.id !== id) }, true);
     setSelectedCueId(null);
   }
 
   async function handleDeletePlay(id: string) {
     if (plays.length <= 1) return;
+    // Cancel any pending debounced save for the play being deleted.
+    if (debounceRef.current && pendingPlayRef.current?.id === id) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+      pendingPlayRef.current = null;
+    }
     const remaining = plays.filter((p) => p.id !== id);
     await apiDeletePlay(id);
     if (selectedPlayId === id) {
@@ -295,8 +346,9 @@ export function EditorPage() {
     }
   }
 
-  async function addCue() {
-    const nums = selectedPlay.cues.map((c) => parseFloat(c.number)).filter(isFinite);
+  function addCue() {
+    if (!displayPlay) return;
+    const nums = displayPlay.cues.map((c) => parseFloat(c.number)).filter(isFinite);
     const nextNum = nums.length ? Math.max(...nums) + 1 : 1;
     const newCue: Cue = {
       id: crypto.randomUUID(),
@@ -305,7 +357,7 @@ export function EditorPage() {
       notes: '',
       regionStates: [],
     };
-    await updatePlay({ cues: [...selectedPlay.cues, newCue] });
+    editPlay({ cues: [...displayPlay.cues, newCue] }, true);
     setSelectedCueId(newCue.id);
     setTab('cues');
   }
@@ -384,7 +436,7 @@ export function EditorPage() {
       </div>
 
       {/* Main area */}
-      {!selectedPlay ? (
+      {!displayPlay ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-3 text-neutral-600 text-sm">
           <span>No shows yet.</span>
           <button
@@ -398,12 +450,12 @@ export function EditorPage() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="px-4 pt-3 pb-0 border-b border-[#2e2e2e] shrink-0">
           <input
-            key={selectedPlay.id}
-            defaultValue={selectedPlay.title}
+            key={displayPlay.id}
+            defaultValue={displayPlay.title}
             onBlur={(e) => {
               const title = e.target.value.trim();
-              if (title && title !== selectedPlay.title) updatePlay({ title });
-              else e.target.value = selectedPlay.title;
+              if (title && title !== displayPlay.title) editPlay({ title });
+              else e.target.value = displayPlay.title;
             }}
             onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
             className="text-base font-semibold mb-3 bg-transparent outline-none w-full text-neutral-100 border-b border-transparent focus:border-[#646cff] transition-colors"
@@ -422,7 +474,7 @@ export function EditorPage() {
 
         {tab === 'regions' && (
           <div className="flex-1 overflow-y-auto p-4">
-            <RegionManager play={selectedPlay} onUpdateRegions={(regions) => updatePlay({ regions })} />
+            <RegionManager play={displayPlay} onUpdateRegions={(regions) => editPlay({ regions })} />
           </div>
         )}
 
@@ -434,9 +486,9 @@ export function EditorPage() {
                 <button onClick={addCue} className="text-[#646cff] text-xl leading-none pb-0.5">+</button>
               </div>
               <div className="flex-1 overflow-y-auto">
-                {selectedPlay.cues.map((cue) => {
+                {displayPlay.cues.map((cue) => {
                   const ownCount = cue.regionStates.length;
-                  const trackCount = selectedPlay.regions.length - ownCount;
+                  const trackCount = displayPlay.regions.length - ownCount;
                   // Collect unique effect types this cue owns
                   const effectTypes = [...new Set(cue.regionStates.map((rs) => rs.effect.type))];
                   return (
@@ -471,7 +523,7 @@ export function EditorPage() {
               {selectedCue && selectedCueIndex >= 0 ? (
                 <CueDetailPanel
                   cue={selectedCue} cueIndex={selectedCueIndex}
-                  allCues={selectedPlay.cues} regions={selectedPlay.regions}
+                  allCues={displayPlay.cues} regions={displayPlay.regions}
                   onChange={updateCue}
                   onDelete={() => deleteCue(selectedCue.id)}
                 />
