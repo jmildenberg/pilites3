@@ -25,6 +25,8 @@ dist-ssr
 
 # Python
 __pycache__/
+.venv/
+venv/
 
 # Claude
 .claude
