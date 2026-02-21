@@ -1,57 +1,74 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { PlaysProvider, usePlays, useSelectedPlay } from './PlaysContext';
+import type { Play } from '../types';
 
-beforeEach(() => { localStorage.clear(); });
+// ─── Seed play (matches INITIAL_PLAYS shape) ──────────────────────────────────
 
-// ─── Helper: component that exposes context values ───────────────────────────
+const SEED_PLAY: Play = {
+  id: 'p1',
+  title: 'Sample Show',
+  description: '',
+  regions: [],
+  cues: [],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+const SECOND_PLAY: Play = {
+  id: 'p2',
+  title: 'Second Show',
+  description: '',
+  regions: [],
+  cues: [],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
+// ─── Mock fetch ───────────────────────────────────────────────────────────────
+
+function mockFetch(plays: Play[]) {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+    ok: true,
+    status: 200,
+    json: () => Promise.resolve(plays),
+  }));
+}
+
+beforeEach(() => {
+  localStorage.clear();
+  mockFetch([SEED_PLAY]);
+});
+
+// ─── Helper components ────────────────────────────────────────────────────────
 
 function Inspector() {
-  const { plays, selectedPlayId } = usePlays();
-  const selected = useSelectedPlay();
+  const { plays, selectedPlayId, loading } = usePlays();
+  const selected = plays.length > 0 ? useSelectedPlay() : null;
   return (
     <div>
       <span data-testid="play-count">{plays.length}</span>
-      <span data-testid="selected-id">{selectedPlayId}</span>
-      <span data-testid="selected-title">{selected.title}</span>
+      <span data-testid="selected-id">{selectedPlayId ?? ''}</span>
+      <span data-testid="selected-title">{selected?.title ?? ''}</span>
+      <span data-testid="loading">{loading ? 'loading' : 'done'}</span>
     </div>
   );
 }
 
 function Mutator() {
-  const { setPlays, setSelectedPlayId, plays } = usePlays();
+  const { createPlay, updatePlay, deletePlay, setSelectedPlayId, plays } = usePlays();
   return (
     <>
-      <button
-        onClick={() =>
-          setPlays((prev) => [
-            ...prev,
-            {
-              id: 'p2',
-              title: 'Second Show',
-              description: '',
-              regions: [],
-              cues: [],
-              createdAt: '',
-              updatedAt: '',
-            },
-          ])
-        }
-      >
-        Add Play
-      </button>
+      <button onClick={() => createPlay(SECOND_PLAY)}>Add Play</button>
       <button onClick={() => setSelectedPlayId('p2')}>Select p2</button>
       <button
         onClick={() =>
-          setPlays((prev) =>
-            prev.map((p) =>
-              p.id === plays[0].id ? { ...p, title: 'Renamed Show' } : p
-            )
-          )
+          plays[0] && updatePlay(plays[0].id, { ...plays[0], title: 'Renamed Show' })
         }
       >
         Rename First
       </button>
+      <button onClick={() => plays[0] && deletePlay(plays[0].id)}>Delete First</button>
     </>
   );
 }
@@ -59,32 +76,44 @@ function Mutator() {
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe('PlaysProvider / usePlays / useSelectedPlay', () => {
-  it('provides the seed play by default', () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-      </PlaysProvider>
-    );
+  it('loads plays from the API on mount', async () => {
+    await act(async () => {
+      render(
+        <PlaysProvider>
+          <Inspector />
+        </PlaysProvider>
+      );
+    });
     expect(screen.getByTestId('play-count').textContent).toBe('1');
     expect(screen.getByTestId('selected-title').textContent).toBe('Sample Show');
   });
 
-  it('selectedPlayId matches the first play id', () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-      </PlaysProvider>
-    );
+  it('selectedPlayId matches the first play id after load', async () => {
+    await act(async () => {
+      render(
+        <PlaysProvider>
+          <Inspector />
+        </PlaysProvider>
+      );
+    });
     expect(screen.getByTestId('selected-id').textContent).toBe('p1');
   });
 
-  it('setPlays adds a new play', async () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-        <Mutator />
-      </PlaysProvider>
+  it('createPlay adds a new play', async () => {
+    // First call (GET /api/plays) → seed; second call (POST) → SECOND_PLAY
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve([SEED_PLAY]) })
+      .mockResolvedValueOnce({ ok: true, status: 201, json: () => Promise.resolve(SECOND_PLAY) })
     );
+
+    await act(async () => {
+      render(
+        <PlaysProvider>
+          <Inspector />
+          <Mutator />
+        </PlaysProvider>
+      );
+    });
     await act(async () => {
       screen.getByText('Add Play').click();
     });
@@ -92,29 +121,38 @@ describe('PlaysProvider / usePlays / useSelectedPlay', () => {
   });
 
   it('setSelectedPlayId changes the active play', async () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-        <Mutator />
-      </PlaysProvider>
-    );
+    mockFetch([SEED_PLAY, SECOND_PLAY]);
+
     await act(async () => {
-      screen.getByText('Add Play').click();
+      render(
+        <PlaysProvider>
+          <Inspector />
+          <Mutator />
+        </PlaysProvider>
+      );
     });
     await act(async () => {
       screen.getByText('Select p2').click();
     });
-    expect(screen.getByTestId('selected-title').textContent).toBe('Second Show');
     expect(screen.getByTestId('selected-id').textContent).toBe('p2');
+    expect(screen.getByTestId('selected-title').textContent).toBe('Second Show');
   });
 
-  it('useSelectedPlay reflects play title mutations', async () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-        <Mutator />
-      </PlaysProvider>
+  it('updatePlay reflects title mutations', async () => {
+    const renamed = { ...SEED_PLAY, title: 'Renamed Show' };
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve([SEED_PLAY]) })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve(renamed) })
     );
+
+    await act(async () => {
+      render(
+        <PlaysProvider>
+          <Inspector />
+          <Mutator />
+        </PlaysProvider>
+      );
+    });
     await act(async () => {
       screen.getByText('Rename First').click();
     });
@@ -122,15 +160,17 @@ describe('PlaysProvider / usePlays / useSelectedPlay', () => {
   });
 
   it('useSelectedPlay falls back to first play when selectedPlayId is unknown', async () => {
-    render(
-      <PlaysProvider>
-        <Inspector />
-        <Mutator />
-      </PlaysProvider>
-    );
-    // Select an id that does not exist
     await act(async () => {
-      screen.getByText('Select p2').click(); // p2 not added yet → fallback
+      render(
+        <PlaysProvider>
+          <Inspector />
+          <Mutator />
+        </PlaysProvider>
+      );
+    });
+    // p2 is not in the plays list — should fall back to first play
+    await act(async () => {
+      screen.getByText('Select p2').click();
     });
     expect(screen.getByTestId('selected-title').textContent).toBe('Sample Show');
   });

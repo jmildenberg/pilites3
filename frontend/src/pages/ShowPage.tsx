@@ -1,7 +1,7 @@
 import type { Cue, Region } from '../types';
 import { colorToHex, effectPeakBrightness } from '../types';
 import { LivePreview } from '../components/preview/LivePreview';
-import { useSelectedPlay } from '../context/PlaysContext';
+import { usePlays, useSelectedPlay } from '../context/PlaysContext';
 import { usePlayback } from '../hooks/usePlayback';
 
 // ─── CueRow ───────────────────────────────────────────────────────────────────
@@ -66,6 +66,17 @@ function CueRow({
 // ─── ShowPage ─────────────────────────────────────────────────────────────────
 
 export function ShowPage() {
+  const { loading, plays } = usePlays();
+  if (loading) return (
+    <div className="flex items-center justify-center h-full text-neutral-600 text-sm">Loading shows…</div>
+  );
+  if (!plays.length) return (
+    <div className="flex items-center justify-center h-full text-neutral-600 text-sm">No shows yet — create one in the Editor.</div>
+  );
+  return <ShowPageContent />;
+}
+
+function ShowPageContent() {
   const play = useSelectedPlay();
   const { cues, regions } = play;
   const { playback, currentIndex, nextIndex, currentCue, nextCue, applyCue, go, back } = usePlayback(play);

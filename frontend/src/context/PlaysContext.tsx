@@ -1,99 +1,95 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode, Dispatch, SetStateAction } from 'react';
-
-function loadStorage<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
-}
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
 import type { Play } from '../types';
-
-// ─── Seed data ────────────────────────────────────────────────────────────────
-
-const INITIAL_PLAYS: Play[] = [
-  {
-    id: 'p1',
-    title: 'Sample Show',
-    description: 'Development placeholder',
-    regions: [
-      { id: 'r1', label: 'Stage Left',  channelId: 0, startIndex: 0,   endIndex: 149, uiColor: '#a855f7' },
-      { id: 'r2', label: 'Stage Right', channelId: 0, startIndex: 150, endIndex: 299, uiColor: '#3b82f6' },
-      { id: 'r3', label: 'Backdrop',    channelId: 1, startIndex: 0,   endIndex: 249, uiColor: '#22c55e' },
-    ],
-    cues: [
-      {
-        id: 'c1', number: '1', label: 'House Full', notes: 'Pre-show house lights',
-        regionStates: [
-          { regionId: 'r1', fadeTime: 3, effect: { type: 'solid', color: { r: 255, g: 220, b: 180, w: 0 }, brightness: 1 } },
-          { regionId: 'r2', fadeTime: 3, effect: { type: 'solid', color: { r: 255, g: 220, b: 180, w: 0 }, brightness: 1 } },
-          { regionId: 'r3', fadeTime: 3, effect: { type: 'solid', color: { r: 255, g: 220, b: 180, w: 0 }, brightness: 0.5 } },
-        ],
-      },
-      {
-        id: 'c2', number: '2', label: 'Scene 1 – Stage', notes: 'Warm stage wash, backdrop tracks',
-        regionStates: [
-          { regionId: 'r1', fadeTime: 4, effect: { type: 'solid', color: { r: 255, g: 140, b: 60, w: 0 }, brightness: 0.85 } },
-          { regionId: 'r2', fadeTime: 4, effect: { type: 'solid', color: { r: 255, g: 160, b: 80, w: 0 }, brightness: 0.75 } },
-        ],
-      },
-      {
-        id: 'c3', number: '3', label: 'Chase + Pulse', notes: 'Dynamic scene',
-        regionStates: [
-          { regionId: 'r1', fadeTime: 2, effect: { type: 'chase', color: { r: 255, g: 200, b: 50, w: 0 }, backgroundColor: { r: 20, g: 0, b: 40, w: 0 }, pixelCount: 15, speed: 80, direction: 'bounce' } },
-          { regionId: 'r2', fadeTime: 2, effect: { type: 'pulse', color: { r: 200, g: 80, b: 255, w: 0 }, minBrightness: 0.1, maxBrightness: 0.9, period: 2.5 } },
-          { regionId: 'r3', fadeTime: 2, effect: { type: 'fire',  brightness: 0.8, cooling: 55, sparking: 120 } },
-        ],
-      },
-      {
-        id: 'c4', number: '4', label: 'Blackout', notes: '',
-        regionStates: [
-          { regionId: 'r1', fadeTime: 2, effect: { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 } },
-          { regionId: 'r2', fadeTime: 2, effect: { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 } },
-          { regionId: 'r3', fadeTime: 2, effect: { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 } },
-        ],
-      },
-    ],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
+import { api } from '../lib/api';
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
 interface PlaysContextValue {
   plays: Play[];
-  setPlays: Dispatch<SetStateAction<Play[]>>;
-  selectedPlayId: string;
+  loading: boolean;
+  error: string | null;
+  selectedPlayId: string | null;
   setSelectedPlayId: (id: string) => void;
+  createPlay: (play: Play) => Promise<Play>;
+  updatePlay: (id: string, play: Play) => Promise<Play>;
+  deletePlay: (id: string) => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 const PlaysContext = createContext<PlaysContextValue | null>(null);
 
+// ─── Provider ─────────────────────────────────────────────────────────────────
+
 export function PlaysProvider({ children }: { children: ReactNode }) {
-  const [plays, setPlays] = useState<Play[]>(() =>
-    loadStorage('pilites.plays', INITIAL_PLAYS)
-  );
-  const [selectedPlayId, setSelectedPlayId] = useState<string>(() =>
-    loadStorage('pilites.selectedPlayId', INITIAL_PLAYS[0].id)
-  );
+  const [plays, setPlays]         = useState<Play[]>([]);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState<string | null>(null);
+  const [selectedPlayId, _setSelectedPlayId] = useState<string | null>(() => {
+    try { return localStorage.getItem('pilites.selectedPlayId'); } catch { return null; }
+  });
 
-  useEffect(() => {
-    localStorage.setItem('pilites.plays', JSON.stringify(plays));
-  }, [plays]);
+  function setSelectedPlayId(id: string) {
+    _setSelectedPlayId(id);
+    try { localStorage.setItem('pilites.selectedPlayId', id); } catch {}
+  }
 
+  const refresh = useCallback(async () => {
+    try {
+      const fetched = await api.plays.list();
+      setPlays(fetched);
+      setError(null);
+      // If the currently-selected play no longer exists, fall back to first
+      if (fetched.length > 0) {
+        _setSelectedPlayId((prev) =>
+          fetched.find((p) => p.id === prev) ? prev : fetched[0].id
+        );
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Initial load
+  useEffect(() => { refresh(); }, [refresh]);
+
+  // Poll every 10 s so a second browser tab / machine stays in sync
   useEffect(() => {
-    localStorage.setItem('pilites.selectedPlayId', selectedPlayId);
-  }, [selectedPlayId]);
+    const id = setInterval(refresh, 10_000);
+    return () => clearInterval(id);
+  }, [refresh]);
+
+  async function createPlay(play: Play): Promise<Play> {
+    const created = await api.plays.create(play);
+    setPlays((prev) => [...prev, created]);
+    return created;
+  }
+
+  async function updatePlay(id: string, play: Play): Promise<Play> {
+    const updated = await api.plays.update(id, play);
+    setPlays((prev) => prev.map((p) => (p.id === id ? updated : p)));
+    return updated;
+  }
+
+  async function deletePlay(id: string): Promise<void> {
+    await api.plays.delete(id);
+    setPlays((prev) => prev.filter((p) => p.id !== id));
+  }
 
   return (
-    <PlaysContext.Provider value={{ plays, setPlays, selectedPlayId, setSelectedPlayId }}>
+    <PlaysContext.Provider value={{
+      plays, loading, error,
+      selectedPlayId, setSelectedPlayId,
+      createPlay, updatePlay, deletePlay, refresh,
+    }}>
       {children}
     </PlaysContext.Provider>
   );
 }
+
+// ─── Hooks ────────────────────────────────────────────────────────────────────
 
 export function usePlays(): PlaysContextValue {
   const ctx = useContext(PlaysContext);
@@ -101,7 +97,7 @@ export function usePlays(): PlaysContextValue {
   return ctx;
 }
 
-/** Returns the currently-selected play (falls back to first if id not found). */
+/** Returns the currently-selected play, falling back to the first available. */
 export function useSelectedPlay(): Play {
   const { plays, selectedPlayId } = usePlays();
   const play = plays.find((p) => p.id === selectedPlayId) ?? plays[0];

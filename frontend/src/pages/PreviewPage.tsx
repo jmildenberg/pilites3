@@ -1,10 +1,21 @@
 import { LivePreview } from '../components/preview/LivePreview';
-import { useSelectedPlay } from '../context/PlaysContext';
+import { usePlays, useSelectedPlay } from '../context/PlaysContext';
 import { usePlayback } from '../hooks/usePlayback';
 
 // ─── PreviewPage ──────────────────────────────────────────────────────────────
 
 export function PreviewPage() {
+  const { loading, plays } = usePlays();
+  if (loading) return (
+    <div className="flex items-center justify-center h-full text-neutral-600 text-sm">Loading shows…</div>
+  );
+  if (!plays.length) return (
+    <div className="flex items-center justify-center h-full text-neutral-600 text-sm">No shows yet — create one in the Editor.</div>
+  );
+  return <PreviewPageContent />;
+}
+
+function PreviewPageContent() {
   const play = useSelectedPlay();
   const { cues } = play;
   const { playback, currentIndex, nextIndex, currentCue, nextCue, applyCue, go, back } = usePlayback(play);

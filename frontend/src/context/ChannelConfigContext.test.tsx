@@ -1,8 +1,23 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { ChannelConfigProvider, useChannelConfig, DEFAULT_CHANNELS } from './ChannelConfigContext';
+import type { ChannelConfig } from '../types';
 
-// ─── Helper: component that exposes context values ────────────────────────────
+// ─── Mock fetch ───────────────────────────────────────────────────────────────
+
+function mockFetch(response: unknown) {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+    ok: true,
+    status: 200,
+    json: () => Promise.resolve(response),
+  }));
+}
+
+beforeEach(() => {
+  mockFetch(DEFAULT_CHANNELS);
+});
+
+// ─── Helper components ────────────────────────────────────────────────────────
 
 function Inspector() {
   const { channels } = useChannelConfig();
@@ -21,23 +36,19 @@ function Inspector() {
 }
 
 function Mutator() {
-  const { setChannels } = useChannelConfig();
+  const { channels, saveChannels } = useChannelConfig();
   return (
     <>
       <button
         onClick={() =>
-          setChannels((prev) =>
-            prev.map((ch) => (ch.id === 0 ? { ...ch, ledCount: 300 } : ch))
-          )
+          saveChannels(channels.map((ch) => ch.id === 0 ? { ...ch, ledCount: 300 } : ch))
         }
       >
         Set CH0 to 300
       </button>
       <button
         onClick={() =>
-          setChannels((prev) =>
-            prev.map((ch) => (ch.id === 0 ? { ...ch, label: 'Main Stage' } : ch))
-          )
+          saveChannels(channels.map((ch) => ch.id === 0 ? { ...ch, label: 'Main Stage' } : ch))
         }
       >
         Rename CH0
@@ -49,56 +60,86 @@ function Mutator() {
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe('ChannelConfigProvider / useChannelConfig', () => {
-  it('provides two channels by default', () => {
-    render(
-      <ChannelConfigProvider>
-        <Inspector />
-      </ChannelConfigProvider>
-    );
+  it('provides two channels by default', async () => {
+    await act(async () => {
+      render(
+        <ChannelConfigProvider>
+          <Inspector />
+        </ChannelConfigProvider>
+      );
+    });
     expect(screen.getByTestId('count').textContent).toBe('2');
   });
 
-  it('defaults to 500 LEDs per channel', () => {
-    render(
-      <ChannelConfigProvider>
-        <Inspector />
-      </ChannelConfigProvider>
-    );
+  it('defaults to 500 LEDs per channel', async () => {
+    await act(async () => {
+      render(
+        <ChannelConfigProvider>
+          <Inspector />
+        </ChannelConfigProvider>
+      );
+    });
     expect(screen.getByTestId('leds-0').textContent).toBe('500');
     expect(screen.getByTestId('leds-1').textContent).toBe('500');
   });
 
-  it('sets correct GPIO pins (18 and 13)', () => {
-    render(
-      <ChannelConfigProvider>
-        <Inspector />
-      </ChannelConfigProvider>
-    );
+  it('sets correct GPIO pins (18 and 13)', async () => {
+    await act(async () => {
+      render(
+        <ChannelConfigProvider>
+          <Inspector />
+        </ChannelConfigProvider>
+      );
+    });
     expect(screen.getByTestId('gpio-0').textContent).toBe('18');
     expect(screen.getByTestId('gpio-1').textContent).toBe('13');
   });
 
-  it('setChannels updates LED count', async () => {
-    render(
-      <ChannelConfigProvider>
-        <Inspector />
-        <Mutator />
-      </ChannelConfigProvider>
+  it('saveChannels updates LED count', async () => {
+    const updated: ChannelConfig[] = DEFAULT_CHANNELS.map((ch) =>
+      ch.id === 0 ? { ...ch, ledCount: 300 } : ch
     );
+    mockFetch(updated); // PUT /api/channels returns updated list
+
+    await act(async () => {
+      render(
+        <ChannelConfigProvider>
+          <Inspector />
+          <Mutator />
+        </ChannelConfigProvider>
+      );
+    });
+
+    // Second fetch call (the PUT) returns updated channels
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true, status: 200, json: () => Promise.resolve(updated),
+    }));
+
     await act(async () => {
       screen.getByText('Set CH0 to 300').click();
     });
     expect(screen.getByTestId('leds-0').textContent).toBe('300');
-    expect(screen.getByTestId('leds-1').textContent).toBe('500'); // ch1 unchanged
+    expect(screen.getByTestId('leds-1').textContent).toBe('500');
   });
 
-  it('setChannels updates label', async () => {
-    render(
-      <ChannelConfigProvider>
-        <Inspector />
-        <Mutator />
-      </ChannelConfigProvider>
+  it('saveChannels updates label', async () => {
+    const updated: ChannelConfig[] = DEFAULT_CHANNELS.map((ch) =>
+      ch.id === 0 ? { ...ch, label: 'Main Stage' } : ch
     );
+
+    await act(async () => {
+      render(
+        <ChannelConfigProvider>
+          <Inspector />
+          <Mutator />
+        </ChannelConfigProvider>
+      );
+    });
+
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true, status: 200, json: () => Promise.resolve(updated),
+    }));
+
     await act(async () => {
       screen.getByText('Rename CH0').click();
     });

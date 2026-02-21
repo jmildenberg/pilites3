@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { usePlays } from '../../context/PlaysContext';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Show', icon: '▶' },
@@ -8,6 +9,9 @@ const NAV_ITEMS = [
 ];
 
 export function Sidebar() {
+  const { loading, error } = usePlays();
+  const dot = loading ? 'bg-yellow-500' : error ? 'bg-red-500' : 'bg-green-500';
+
   return (
     <aside className="flex flex-col w-16 bg-[#1a1a1a] border-r border-[#2e2e2e] shrink-0">
       <div className="flex items-center justify-center h-14 border-b border-[#2e2e2e]">
@@ -32,6 +36,11 @@ export function Sidebar() {
           </NavLink>
         ))}
       </nav>
+
+      {/* Backend connection indicator */}
+      <div className="flex justify-center pb-3" title={error ?? 'Connected'}>
+        <div className={`w-2 h-2 rounded-full ${dot}`} />
+      </div>
     </aside>
   );
 }

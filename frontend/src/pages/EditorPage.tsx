@@ -233,32 +233,40 @@ function CueDetailPanel({
 type Tab = 'regions' | 'cues';
 
 export function EditorPage() {
-  const { plays, setPlays, selectedPlayId, setSelectedPlayId } = usePlays();
+  const {
+    plays, loading, error,
+    selectedPlayId, setSelectedPlayId,
+    createPlay: apiCreatePlay,
+    updatePlay: apiUpdatePlay,
+    deletePlay: apiDeletePlay,
+  } = usePlays();
   const [selectedCueId, setSelectedCueId] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>('regions');
   const [pendingDeletePlayId, setPendingDeletePlayId] = useState<string | null>(null);
+  const [mutationError, setMutationError] = useState<string | null>(null);
 
   const selectedPlay = plays.find((p) => p.id === selectedPlayId) ?? plays[0];
-  const selectedCueIndex = selectedPlay.cues.findIndex((c) => c.id === selectedCueId);
+  const selectedCueIndex = selectedPlay?.cues.findIndex((c) => c.id === selectedCueId) ?? -1;
   const selectedCue = selectedCueIndex >= 0 ? selectedPlay.cues[selectedCueIndex] : null;
 
-  function updatePlay(patch: Partial<Play>) {
-    setPlays((prev) => prev.map((p) => (p.id === selectedPlayId ? { ...p, ...patch } : p)));
+  async function updatePlay(patch: Partial<Play>) {
+    if (!selectedPlay) return;
+    await apiUpdatePlay(selectedPlay.id, { ...selectedPlay, ...patch });
   }
 
-  function updateCue(updated: Cue) {
-    updatePlay({ cues: selectedPlay.cues.map((c) => (c.id === updated.id ? updated : c)) });
+  async function updateCue(updated: Cue) {
+    await updatePlay({ cues: selectedPlay.cues.map((c) => (c.id === updated.id ? updated : c)) });
   }
 
-  function deleteCue(id: string) {
-    updatePlay({ cues: selectedPlay.cues.filter((c) => c.id !== id) });
+  async function deleteCue(id: string) {
+    await updatePlay({ cues: selectedPlay.cues.filter((c) => c.id !== id) });
     setSelectedCueId(null);
   }
 
-  function deletePlay(id: string) {
+  async function handleDeletePlay(id: string) {
     if (plays.length <= 1) return;
     const remaining = plays.filter((p) => p.id !== id);
-    setPlays(remaining);
+    await apiDeletePlay(id);
     if (selectedPlayId === id) {
       setSelectedPlayId(remaining[0].id);
       setSelectedCueId(null);
@@ -266,23 +274,28 @@ export function EditorPage() {
     setPendingDeletePlayId(null);
   }
 
-  function addPlay() {
-    const newPlay: Play = {
-      id: crypto.randomUUID(),
-      title: 'New Show',
-      description: '',
-      regions: [],
-      cues: [],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    setPlays((prev) => [...prev, newPlay]);
-    setSelectedPlayId(newPlay.id);
-    setSelectedCueId(null);
-    setTab('regions');
+  async function addPlay() {
+    setMutationError(null);
+    try {
+      const newPlay: Play = {
+        id: crypto.randomUUID(),
+        title: 'New Show',
+        description: '',
+        regions: [],
+        cues: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      const created = await apiCreatePlay(newPlay);
+      setSelectedPlayId(created.id);
+      setSelectedCueId(null);
+      setTab('regions');
+    } catch (e) {
+      setMutationError(e instanceof Error ? e.message : 'Failed to create show');
+    }
   }
 
-  function addCue() {
+  async function addCue() {
     const nums = selectedPlay.cues.map((c) => parseFloat(c.number)).filter(isFinite);
     const nextNum = nums.length ? Math.max(...nums) + 1 : 1;
     const newCue: Cue = {
@@ -292,11 +305,19 @@ export function EditorPage() {
       notes: '',
       regionStates: [],
     };
-    updatePlay({ cues: [...selectedPlay.cues, newCue] });
+    await updatePlay({ cues: [...selectedPlay.cues, newCue] });
     setSelectedCueId(newCue.id);
     setTab('cues');
   }
 
+  if (loading) return (
+    <div className="flex items-center justify-center h-full text-neutral-600 text-sm">Loading shows…</div>
+  );
+  if (error && plays.length === 0) return (
+    <div className="flex items-center justify-center h-full text-red-500 text-sm">
+      Cannot reach backend: {error}
+    </div>
+  );
   return (
     <div className="flex h-full">
       {/* Play list */}
@@ -305,6 +326,11 @@ export function EditorPage() {
           <span className="text-xs text-neutral-500 uppercase tracking-widest">Plays</span>
           <button onClick={addPlay} className="text-[#646cff] text-xl leading-none pb-0.5">+</button>
         </div>
+        {mutationError && (
+          <div className="px-2 py-1.5 text-[11px] text-red-400 bg-red-950/40 border-b border-red-900/40 leading-snug">
+            {mutationError}
+          </div>
+        )}
         <div className="flex-1 overflow-y-auto">
           {plays.map((play) => {
             const isPendingDelete = pendingDeletePlayId === play.id;
@@ -329,7 +355,7 @@ export function EditorPage() {
                   isPendingDelete ? (
                     <div className="flex items-center gap-1 pr-1.5 shrink-0">
                       <button
-                        onClick={() => deletePlay(play.id)}
+                        onClick={() => handleDeletePlay(play.id)}
                         className="text-[10px] px-1.5 py-0.5 rounded bg-red-900/60 text-red-300 hover:bg-red-800 transition-colors font-semibold"
                       >
                         Delete?
@@ -358,6 +384,17 @@ export function EditorPage() {
       </div>
 
       {/* Main area */}
+      {!selectedPlay ? (
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 text-neutral-600 text-sm">
+          <span>No shows yet.</span>
+          <button
+            onClick={addPlay}
+            className="px-4 py-2 rounded bg-[#646cff] text-white text-sm font-medium hover:bg-[#535bdd] transition-colors"
+          >
+            + Create Show
+          </button>
+        </div>
+      ) : (
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="px-4 pt-3 pb-0 border-b border-[#2e2e2e] shrink-0">
           <input
@@ -447,6 +484,7 @@ export function EditorPage() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

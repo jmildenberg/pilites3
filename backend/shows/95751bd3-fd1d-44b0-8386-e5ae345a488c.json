@@ -1,0 +1,59 @@
+{
+  "id": "95751bd3-fd1d-44b0-8386-e5ae345a488c",
+  "title": "Donny Show",
+  "description": "",
+  "regions": [
+    {
+      "id": "d64194cd-9b45-4dc3-955a-0e84bce7ba23",
+      "label": "Stage Left",
+      "channelId": 0,
+      "startIndex": 0,
+      "endIndex": 149,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "9a131080-e464-4186-913a-9d8a191a2785",
+      "label": "Stage Center",
+      "channelId": 0,
+      "startIndex": 150,
+      "endIndex": 349,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "0ab1acda-a64c-495b-951d-24b722163d7b",
+      "label": "Stage Right",
+      "channelId": 0,
+      "startIndex": 350,
+      "endIndex": 499,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "5476dc52-b6cb-4cd3-b165-f94efd3e3d57",
+      "label": "Front",
+      "channelId": 1,
+      "startIndex": 0,
+      "endIndex": 249,
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "cd9d7eff-3a42-476e-a18d-42dbf90b2e04",
+      "label": "Rear",
+      "channelId": 1,
+      "startIndex": 250,
+      "endIndex": 499,
+      "uiColor": "#ef4444"
+    }
+  ],
+  "cues": [
+    {
+      "id": "aa8948e0-3607-44ea-ad0e-8c81fd0702ed",
+      "number": "1",
+      "label": "Show Open",
+      "notes": "Tis is ",
+      "regionStates": [],
+      "followTime": null
+    }
+  ],
+  "createdAt": "2026-02-21T01:26:15.111255+00:00",
+  "updatedAt": "2026-02-21T01:28:09.367287+00:00"
+}
