@@ -19,6 +19,9 @@ from effects import render_effect
 
 logger = logging.getLogger(__name__)
 
+# One pixel frame: (channel_id, pixel_list)
+PixelFrame = tuple[int, list[tuple[int, int, int, int]]]
+
 
 # ─── Per-region state ─────────────────────────────────────────────────────────
 
@@ -45,6 +48,7 @@ class ChannelRenderer:
         self._lock = asyncio.Lock()
         self._active_regions: dict[str, ActiveRegionState] = {}
         self._task: asyncio.Task | None = None  # type: ignore[type-arg]
+        self._preview_queues: set[asyncio.Queue[PixelFrame]] = set()
 
     # ── Public API ────────────────────────────────────────────────────────────
 
@@ -94,6 +98,14 @@ class ChannelRenderer:
             self._active_regions.clear()
         self._write_blackout()
 
+    def add_preview_subscriber(self, q: asyncio.Queue[PixelFrame]) -> None:
+        """Register a queue to receive a copy of every rendered pixel frame."""
+        self._preview_queues.add(q)
+
+    def remove_preview_subscriber(self, q: asyncio.Queue[PixelFrame]) -> None:
+        """Deregister a preview queue."""
+        self._preview_queues.discard(q)
+
     # ── Internal ──────────────────────────────────────────────────────────────
 
     async def _render_loop(self) -> None:
@@ -136,6 +148,14 @@ class ChannelRenderer:
 
         self._write_pixels(pixels)
         self._strip.show()
+
+        # Broadcast to any connected preview subscribers.
+        # Drop the frame (put_nowait) if a subscriber is falling behind.
+        for q in self._preview_queues:
+            try:
+                q.put_nowait((self._config.id, pixels))
+            except asyncio.QueueFull:
+                pass
 
     def _make_color(self, r: int, g: int, b: int, w: int) -> Any:
         try:
@@ -198,6 +218,17 @@ class RendererManager:
     async def blackout(self) -> None:
         for renderer in self._renderers.values():
             await renderer.blackout()
+
+    def channel_ids(self) -> list[int]:
+        return list(self._renderers.keys())
+
+    def subscribe_preview(self, channel_id: int, q: asyncio.Queue[PixelFrame]) -> None:
+        if channel_id in self._renderers:
+            self._renderers[channel_id].add_preview_subscriber(q)
+
+    def unsubscribe_preview(self, channel_id: int, q: asyncio.Queue[PixelFrame]) -> None:
+        if channel_id in self._renderers:
+            self._renderers[channel_id].remove_preview_subscriber(q)
 
     async def reload_channels(self, new_configs: list[ChannelConfig]) -> None:
         """

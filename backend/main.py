@@ -6,8 +6,10 @@ PiLites3 FastAPI backend.
 - Serves built React frontend as static files  (/)
 """
 from __future__ import annotations
+import asyncio
 import json
 import logging
+import struct
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -21,7 +23,7 @@ from pydantic import ValidationError
 
 from config import SHOWS_DIR, FRONTEND_DIST, FPS, DEFAULT_CHANNELS
 from models import Play, ChannelConfig, SetRegionsMessage, BlackoutMessage
-from renderer import RendererManager
+from renderer import RendererManager, PixelFrame
 
 logging.basicConfig(
     level=logging.INFO,
@@ -217,6 +219,44 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
     except WebSocketDisconnect:
         # Renderer loop keeps running — LEDs hold their last frame.
         logger.info("WebSocket disconnected: %s", websocket.client)
+
+
+@app.websocket("/ws/preview")
+async def websocket_preview(websocket: WebSocket) -> None:
+    """
+    Read-only pixel stream for the browser preview.
+
+    Binary frame format per message:
+        [channel_id: uint8][led_count: uint16 LE][r0,g0,b0, r1,g1,b1, ...]
+
+    One message is sent per rendered frame per channel (~30 Hz).
+    Frames are dropped (not queued) when the client falls behind.
+    """
+    await websocket.accept()
+    logger.info("Preview WebSocket connected: %s", websocket.client)
+    rm = _rm()
+
+    # Single shared queue for all channels — bounded so slow clients drop frames
+    shared_q: asyncio.Queue[PixelFrame] = asyncio.Queue(maxsize=4)
+    channel_ids = rm.channel_ids()
+    for ch_id in channel_ids:
+        rm.subscribe_preview(ch_id, shared_q)
+
+    try:
+        while True:
+            ch_id, pixels = await shared_q.get()
+            # Pack header: channel_id (1 B) + led_count (2 B LE)
+            header = struct.pack("<BH", ch_id, len(pixels))
+            # RGB bytes only — W channel omitted (browser has no white LED)
+            rgb = bytes(val for r, g, b, _w in pixels for val in (r, g, b))
+            await websocket.send_bytes(header + rgb)
+    except WebSocketDisconnect:
+        logger.info("Preview WebSocket disconnected: %s", websocket.client)
+    except Exception as exc:
+        logger.debug("Preview WebSocket error: %s", exc)
+    finally:
+        for ch_id in channel_ids:
+            rm.unsubscribe_preview(ch_id, shared_q)
 
 
 # ── Static file serving — MUST be mounted last ───────────────────────────────

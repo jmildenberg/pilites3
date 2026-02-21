@@ -25,6 +25,15 @@ export function wsUrl(): string {
   return `${proto}//${window.location.host}/ws`;
 }
 
+export function previewWsUrl(): string {
+  const base = getApiBase();
+  if (base) {
+    return base.replace(/^http/, 'ws') + '/ws/preview';
+  }
+  const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${proto}//${window.location.host}/ws/preview`;
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${getApiBase()}${path}`, {
     headers: { 'Content-Type': 'application/json' },

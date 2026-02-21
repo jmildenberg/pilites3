@@ -1,10 +1,13 @@
 import type { CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import type { Effect, Region, Play, Cue } from '../../types';
 import { colorToHex, effectPeakBrightness } from '../../types';
 import { resolveRegionLevels } from '../../lib/stageState';
 import { useChannelConfig } from '../../context/ChannelConfigContext';
+import { usePixelStream } from '../../hooks/usePixelStream';
+import type { PixelGetter } from '../../hooks/usePixelStream';
 
-// ─── Effect → CSS style ───────────────────────────────────────────────────────
+// ─── Effect → CSS style (used when pixel stream is not connected) ─────────────
 
 const EFFECT_BADGES: Partial<Record<Effect['type'], string>> = {
   chase:   'CHASE',
@@ -139,19 +142,57 @@ function UnallocatedSegment({ startIdx, endIdx, ledCount, compact }: {
 // ─── ChannelStrip ─────────────────────────────────────────────────────────────
 
 function ChannelStrip({
-  channelId, ledCount, regions, resolvedEffects, compact,
+  channelId, ledCount, regions, resolvedEffects, compact, pixelStream,
 }: {
   channelId: 0 | 1;
   ledCount: number;
   regions: Region[];
   resolvedEffects: Record<string, Effect>;
   compact: boolean;
+  pixelStream: PixelGetter | null;
 }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imgDataRef = useRef<ImageData | null>(null);
+
+  // Run a requestAnimationFrame loop that paints the latest pixel frame onto
+  // the canvas. No React state is involved — this runs entirely outside the
+  // render cycle for maximum efficiency.
+  useEffect(() => {
+    if (!pixelStream) return;
+
+    let rafId: number;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    function paint() {
+      const pixels = pixelStream!(channelId);
+      if (pixels) {
+        // Reuse ImageData allocation across frames
+        if (!imgDataRef.current || imgDataRef.current.width !== ledCount) {
+          imgDataRef.current = ctx!.createImageData(ledCount, 1);
+        }
+        const data = imgDataRef.current.data;
+        for (let i = 0; i < ledCount; i++) {
+          const dst = i * 4;
+          data[dst]     = pixels[i * 3];
+          data[dst + 1] = pixels[i * 3 + 1];
+          data[dst + 2] = pixels[i * 3 + 2];
+          data[dst + 3] = 255;
+        }
+        ctx!.putImageData(imgDataRef.current, 0, 0);
+      }
+      rafId = requestAnimationFrame(paint);
+    }
+
+    rafId = requestAnimationFrame(paint);
+    return () => cancelAnimationFrame(rafId);
+  }, [pixelStream, channelId, ledCount]);
+
   const chRegions = regions
     .filter((r) => r.channelId === channelId)
     .sort((a, b) => a.startIndex - b.startIndex);
 
-  // Build ordered list of region/gap segments
   type Seg = { kind: 'region'; region: Region } | { kind: 'gap'; start: number; end: number };
   const segments: Seg[] = [];
   let cursor = 0;
@@ -164,36 +205,64 @@ function ChannelStrip({
 
   const label = `Channel ${channelId}`;
   const quarter = Math.round(ledCount / 4);
+  const stripHeight = compact ? 28 : 56;
 
   return (
     <div className="flex flex-col gap-1">
       {!compact && (
         <div className="flex items-center justify-between px-0.5">
           <span className="text-xs font-semibold text-neutral-400">{label}</span>
-          <span className="text-xs text-neutral-600 font-mono">{ledCount} LEDs</span>
+          <div className="flex items-center gap-2">
+            {pixelStream && (
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-400">
+                LIVE
+              </span>
+            )}
+            <span className="text-xs text-neutral-600 font-mono">{ledCount} LEDs</span>
+          </div>
         </div>
       )}
 
-      {/* Strip */}
-      <div className={`flex overflow-hidden rounded border border-[#2e2e2e] bg-[#0a0a0a] ${compact ? '' : 'shadow-inner'}`}>
-        {segments.map((seg, i) =>
-          seg.kind === 'region' ? (
-            <RegionSegment
-              key={seg.region.id}
-              region={seg.region}
-              effect={resolvedEffects[seg.region.id] ?? { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 }}
-              ledCount={ledCount}
-              compact={compact}
-            />
-          ) : (
-            <UnallocatedSegment
-              key={`gap-${i}`}
-              startIdx={seg.start}
-              endIdx={seg.end}
-              ledCount={ledCount}
-              compact={compact}
-            />
-          )
+      {/* Strip — canvas when pixel stream is active, CSS segments as fallback */}
+      <div
+        className={`relative overflow-hidden rounded border border-[#2e2e2e] bg-[#0a0a0a] ${compact ? '' : 'shadow-inner'}`}
+        style={{ height: stripHeight }}
+      >
+        {pixelStream ? (
+          // 1×N canvas scaled up with nearest-neighbour interpolation to give
+          // each LED a fat-pixel appearance
+          <canvas
+            ref={canvasRef}
+            width={ledCount}
+            height={1}
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              imageRendering: 'pixelated',
+            }}
+          />
+        ) : (
+          <div className="flex h-full">
+            {segments.map((seg, i) =>
+              seg.kind === 'region' ? (
+                <RegionSegment
+                  key={seg.region.id}
+                  region={seg.region}
+                  effect={resolvedEffects[seg.region.id] ?? { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 }}
+                  ledCount={ledCount}
+                  compact={compact}
+                />
+              ) : (
+                <UnallocatedSegment
+                  key={`gap-${i}`}
+                  startIdx={seg.start}
+                  endIdx={seg.end}
+                  ledCount={ledCount}
+                  compact={compact}
+                />
+              )
+            )}
+          </div>
         )}
       </div>
 
@@ -259,8 +328,10 @@ export interface LivePreviewProps {
 export function LivePreview({ play, currentCue, cueIndex, compact = false }: LivePreviewProps) {
   const { regions, cues } = play;
   const { channels } = useChannelConfig();
+  const pixelStream = usePixelStream();
 
-  // Resolve effects for all regions at the current cue
+  // Resolve effects for all regions at the current cue (used by CSS fallback
+  // and the RegionSummary list regardless of pixel stream state)
   const resolvedEffects: Record<string, Effect> = {};
   if (cueIndex !== null) {
     const levels = resolveRegionLevels(cues, regions, cueIndex);
@@ -279,6 +350,7 @@ export function LivePreview({ play, currentCue, cueIndex, compact = false }: Liv
           regions={regions}
           resolvedEffects={resolvedEffects}
           compact={compact}
+          pixelStream={pixelStream}
         />
       ))}
 
