@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 SK6812_STRIP_RGBW = 0x00081000
 SK6812_STRIP_RBGW = 0x00041000
 WS2811_STRIP_RGB  = 0x00081000
-WS2812_STRIP      = 0x00081000
+WS2811_STRIP_GRB  = 0x00080800
+WS2812_STRIP      = 0x00080800
 
 
 class Color(int):
@@ -63,3 +64,6 @@ class PixelStrip:
 
     def getBrightness(self) -> int:
         return 255
+
+    def _cleanup(self) -> None:
+        pass

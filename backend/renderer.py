@@ -188,14 +188,15 @@ class RendererManager:
 
     def _build(self, channel_configs: list[ChannelConfig]) -> None:
         try:
-            from rpi_ws281x import PixelStrip  # type: ignore[import]
+            from rpi_ws281x import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB  # type: ignore[import]
             logger.info("rpi_ws281x loaded — running on Pi hardware")
         except (ImportError, RuntimeError):
-            from led_stub import PixelStrip  # type: ignore[import, no-redef]
+            from led_stub import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB  # type: ignore[import, no-redef]
             logger.info("rpi_ws281x unavailable — using LED stub (dev mode)")
 
         for cfg in channel_configs:
-            strip = PixelStrip(num=cfg.ledCount, pin=cfg.gpioPin, channel=cfg.id)
+            strip_type = WS2811_STRIP_GRB if cfg.colorOrder == "GRB" else WS2811_STRIP_RGB
+            strip = PixelStrip(num=cfg.ledCount, pin=cfg.gpioPin, channel=cfg.id, dma=10, strip_type=strip_type)
             self._renderers[cfg.id] = ChannelRenderer(cfg, strip, self._fps)
 
     async def start_all(self) -> None:
@@ -236,6 +237,14 @@ class RendererManager:
         restarts. Active region state is lost (channels may have resized).
         """
         await self.stop_all()
+        # Explicitly call ws2811_fini on each strip so DMA/PWM hardware is
+        # fully released before ws2811_init is called again. Without this the
+        # second init lands on top of still-live hardware and the two PWM
+        # channels can end up crossed.
+        for renderer in self._renderers.values():
+            cleanup = getattr(renderer._strip, '_cleanup', None)
+            if callable(cleanup):
+                cleanup()
         self._renderers.clear()
         self._build(new_configs)
         await self.start_all()

@@ -15,6 +15,7 @@ class ChannelConfig(BaseModel):
     label: str
     ledCount: int = Field(gt=0, le=1200)
     gpioPin: int
+    colorOrder: Literal["RGB", "GRB"] = "RGB"
 
 
 # ── Color ─────────────────────────────────────────────────────────────────────

@@ -1,21 +1,31 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { ChannelId } from '../types';
 import { useChannelConfig } from '../context/ChannelConfigContext';
 import { usePlays } from '../context/PlaysContext';
 
 export function SettingsPage() {
-  const { channels, saveChannels } = useChannelConfig();
+  const { channels, loading: channelsLoading, saveChannels } = useChannelConfig();
   const { error: playsError, loading: playsLoading } = usePlays();
 
-  // Local copy for editing — committed to the backend on Save
+  // Local copy for editing — committed to the backend on Save.
+  // useState(channels) captures DEFAULT_CHANNELS on first render because the
+  // API fetch runs asynchronously. The effect below syncs localChannels once
+  // the real data arrives, provided the user has not already started editing.
   const [localChannels, setLocalChannels] = useState(channels);
+  const didInitRef = useRef(false);
+  useEffect(() => {
+    if (!channelsLoading && !didInitRef.current) {
+      didInitRef.current = true;
+      setLocalChannels(channels);
+    }
+  }, [channelsLoading, channels]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
   const apiUrlRef = useRef<HTMLInputElement>(null);
 
-  function updateChannel(id: ChannelId, patch: Partial<{ label: string; ledCount: number; gpioPin: number }>) {
+  function updateChannel(id: ChannelId, patch: Partial<{ label: string; ledCount: number; gpioPin: number; colorOrder: 'RGB' | 'GRB' }>) {
     setLocalChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...patch } : ch)));
   }
 
@@ -85,10 +95,14 @@ export function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="text-xs text-neutral-500 block mb-1">Strip Type</label>
-                <select className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]">
-                  <option value="WS2812">WS2812 (RGB)</option>
-                  <option value="SK6812">SK6812 (RGBW)</option>
+                <label className="text-xs text-neutral-500 block mb-1">Color Order</label>
+                <select
+                  value={ch.colorOrder}
+                  onChange={(e) => updateChannel(ch.id, { colorOrder: e.target.value as 'RGB' | 'GRB' })}
+                  className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
+                >
+                  <option value="RGB">RGB (WS2811)</option>
+                  <option value="GRB">GRB (WS2812 / WS2815)</option>
                 </select>
               </div>
             </div>

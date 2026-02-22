@@ -152,41 +152,69 @@ function ChannelStrip({
   pixelStream: PixelGetter | null;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imgDataRef = useRef<ImageData | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Run a requestAnimationFrame loop that paints the latest pixel frame onto
-  // the canvas. No React state is involved — this runs entirely outside the
-  // render cycle for maximum efficiency.
+  // Draw each LED as a circular bulb. Two passes per frame:
+  //   1. Glow pass — same circles drawn with a blur filter, creating a soft halo
+  //   2. Bulb pass — sharp circles on top (the actual LED colour)
+  // No React state is touched inside the loop; all work stays on the GPU.
   useEffect(() => {
     if (!pixelStream) return;
 
     let rafId: number;
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (!canvas || !ctx) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext('2d')!;
+
+    function resize() {
+      canvas!.width  = container!.clientWidth;
+      canvas!.height = container!.clientHeight;
+    }
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(container);
 
     function paint() {
       const pixels = pixelStream!(channelId);
       if (pixels) {
-        // Reuse ImageData allocation across frames
-        if (!imgDataRef.current || imgDataRef.current.width !== ledCount) {
-          imgDataRef.current = ctx!.createImageData(ledCount, 1);
+        const W = canvas!.width;
+        const H = canvas!.height;
+        const spacing = W / ledCount;
+        const radius  = Math.min(spacing * 0.46, H * 0.38);
+        const cy      = H / 2;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // ── Glow pass (blurred) ──────────────────────────────────────────────
+        if (radius >= 1.5) {
+          ctx.filter = `blur(${Math.max(1, radius * 0.9).toFixed(1)}px)`;
+          for (let i = 0; i < ledCount; i++) {
+            const r = pixels[i * 3], g = pixels[i * 3 + 1], b = pixels[i * 3 + 2];
+            const lum = (r + g + b) / 765;
+            if (lum < 0.02) continue;
+            ctx.beginPath();
+            ctx.arc((i + 0.5) * spacing, cy, radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(1, lum * 1.4).toFixed(3)})`;
+            ctx.fill();
+          }
+          ctx.filter = 'none';
         }
-        const data = imgDataRef.current.data;
+
+        // ── Bulb pass (sharp) ────────────────────────────────────────────────
         for (let i = 0; i < ledCount; i++) {
-          const dst = i * 4;
-          data[dst]     = pixels[i * 3];
-          data[dst + 1] = pixels[i * 3 + 1];
-          data[dst + 2] = pixels[i * 3 + 2];
-          data[dst + 3] = 255;
+          const r = pixels[i * 3], g = pixels[i * 3 + 1], b = pixels[i * 3 + 2];
+          ctx.beginPath();
+          ctx.arc((i + 0.5) * spacing, cy, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.fill();
         }
-        ctx!.putImageData(imgDataRef.current, 0, 0);
       }
       rafId = requestAnimationFrame(paint);
     }
 
     rafId = requestAnimationFrame(paint);
-    return () => cancelAnimationFrame(rafId);
+    return () => { cancelAnimationFrame(rafId); ro.disconnect(); };
   }, [pixelStream, channelId, ledCount]);
 
   const chRegions = regions
@@ -205,7 +233,7 @@ function ChannelStrip({
 
   const label = `Channel ${channelId}`;
   const quarter = Math.round(ledCount / 4);
-  const stripHeight = compact ? 28 : 56;
+  const stripHeight = compact ? 36 : 72;
 
   return (
     <div className="flex flex-col gap-1">
@@ -225,21 +253,14 @@ function ChannelStrip({
 
       {/* Strip — canvas when pixel stream is active, CSS segments as fallback */}
       <div
+        ref={containerRef}
         className={`relative overflow-hidden rounded border border-[#2e2e2e] bg-[#0a0a0a] ${compact ? '' : 'shadow-inner'}`}
         style={{ height: stripHeight }}
       >
         {pixelStream ? (
-          // 1×N canvas scaled up with nearest-neighbour interpolation to give
-          // each LED a fat-pixel appearance
           <canvas
             ref={canvasRef}
-            width={ledCount}
-            height={1}
-            style={{
-              position: 'absolute', inset: 0,
-              width: '100%', height: '100%',
-              imageRendering: 'pixelated',
-            }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
           />
         ) : (
           <div className="flex h-full">

@@ -6,8 +6,8 @@ import { api } from '../lib/api';
 // ─── Defaults (used as fallback while loading / backend offline) ──────────────
 
 export const DEFAULT_CHANNELS: ChannelConfig[] = [
-  { id: 0, label: 'Channel 0', ledCount: 500, gpioPin: 18 },
-  { id: 1, label: 'Channel 1', ledCount: 500, gpioPin: 13 },
+  { id: 0, label: 'Channel 0', ledCount: 500, gpioPin: 18, colorOrder: 'RGB' },
+  { id: 1, label: 'Channel 1', ledCount: 500, gpioPin: 13, colorOrder: 'RGB' },
 ];
 
 // ─── Context ──────────────────────────────────────────────────────────────────

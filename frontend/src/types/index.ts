@@ -7,6 +7,7 @@ export interface ChannelConfig {
   label: string;
   ledCount: number;
   gpioPin: number;
+  colorOrder: 'RGB' | 'GRB';
 }
 
 // ─── Colour ───────────────────────────────────────────────────────────────────

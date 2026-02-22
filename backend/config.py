@@ -15,8 +15,8 @@ FPS: int = int(os.environ.get("PILITES_FPS", "30"))
 
 # ── Default hardware config (written to channels.json on first run) ───────────
 DEFAULT_CHANNELS = [
-    {"id": 0, "label": "Channel 0", "ledCount": 500, "gpioPin": 18},
-    {"id": 1, "label": "Channel 1", "ledCount": 500, "gpioPin": 13},
+    {"id": 0, "label": "Channel 0", "ledCount": 500, "gpioPin": 18, "colorOrder": "RGB"},
+    {"id": 1, "label": "Channel 1", "ledCount": 500, "gpioPin": 13, "colorOrder": "RGB"},
 ]
 
 # ── Ensure shows directory exists ─────────────────────────────────────────────
