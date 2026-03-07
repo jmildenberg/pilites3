@@ -10,6 +10,8 @@ their last rendered frame.
 from __future__ import annotations
 import asyncio
 import logging
+import socket
+import struct
 import time
 from dataclasses import dataclass, field
 from typing import Any
@@ -35,6 +37,65 @@ class ActiveRegionState:
     # Mutable dict that persists across frames for stateful effects
     # (Fire heat array, Twinkle levels, Chase position/direction, etc.)
     per_effect_state: dict[str, Any] = field(default_factory=dict)
+
+
+# ─── WLED DDP strip adapter ───────────────────────────────────────────────────
+
+_DDP_PORT = 4048
+_DDP_MAX_PIXELS_PER_PACKET = 480  # 480 * 3 = 1440 bytes data, safely under 1500-byte MTU
+
+
+class WledStrip:
+    """
+    Drop-in replacement for rpi_ws281x.PixelStrip that streams pixel frames
+    to a WLED ESP32 controller via DDP (Distributed Display Protocol) over UDP.
+    """
+
+    def __init__(self, num: int, host: str, port: int = _DDP_PORT) -> None:
+        self._num = num
+        self._host = host
+        self._port = port
+        self._pixels: list[int] = [0] * num  # packed WRGB ints
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    def begin(self) -> None:
+        logger.info("WledStrip (DDP): %s:%d, %d LEDs", self._host, self._port, self._num)
+
+    def setPixelColor(self, n: int, color: int) -> None:
+        if 0 <= n < self._num:
+            self._pixels[n] = int(color)
+
+    def show(self) -> None:
+        # Unpack WRGB packed ints into a flat RGB byte buffer (W channel unused by DDP RGB type)
+        rgb_data = bytearray(self._num * 3)
+        for i, c in enumerate(self._pixels):
+            rgb_data[i * 3]     = (c >> 16) & 0xFF  # R
+            rgb_data[i * 3 + 1] = (c >> 8)  & 0xFF  # G
+            rgb_data[i * 3 + 2] =  c        & 0xFF  # B
+
+        # Send in DDP chunks; set push flag only on the last packet so WLED
+        # displays the complete frame atomically.
+        chunk_bytes = _DDP_MAX_PIXELS_PER_PACKET * 3
+        offset = 0
+        total = len(rgb_data)
+        while offset < total:
+            chunk = rgb_data[offset : offset + chunk_bytes]
+            is_last = (offset + len(chunk)) >= total
+            flags = 0x50 if is_last else 0x40  # version=1; 0x50 adds push bit
+            header = struct.pack(
+                ">BBBBIH",
+                flags,       # flags
+                0,           # sequence number (0 = disabled)
+                0x01,        # data type: RGB
+                0x01,        # destination: default
+                offset,      # byte offset into LED buffer (big-endian uint32)
+                len(chunk),  # data length in bytes (big-endian uint16)
+            )
+            self._sock.sendto(header + bytes(chunk), (self._host, self._port))
+            offset += len(chunk)
+
+    def _cleanup(self) -> None:
+        self._sock.close()
 
 
 # ─── Single-channel renderer ──────────────────────────────────────────────────
@@ -110,10 +171,7 @@ class ChannelRenderer:
 
     async def _render_loop(self) -> None:
         self._strip.begin()
-        logger.info(
-            "Channel %d strip begin(), %d LEDs on GPIO %d",
-            self._config.id, self._config.ledCount, self._config.gpioPin,
-        )
+        logger.info("Channel %d strip begin(), %d LEDs", self._config.id, self._config.ledCount)
         while True:
             frame_start = time.monotonic()
             try:
@@ -195,8 +253,14 @@ class RendererManager:
             logger.info("rpi_ws281x unavailable — using LED stub (dev mode)")
 
         for cfg in channel_configs:
-            strip_type = WS2811_STRIP_GRB if cfg.colorOrder == "GRB" else WS2811_STRIP_RGB
-            strip = PixelStrip(num=cfg.ledCount, pin=cfg.gpioPin, channel=cfg.id, dma=10, strip_type=strip_type)
+            if cfg.type == "wled":
+                if not cfg.wledHost:
+                    logger.error("Channel %d is type 'wled' but wledHost is not set — skipping", cfg.id)
+                    continue
+                strip: Any = WledStrip(num=cfg.ledCount, host=cfg.wledHost, port=cfg.wledPort)
+            else:
+                strip_type = WS2811_STRIP_GRB if cfg.colorOrder == "GRB" else WS2811_STRIP_RGB
+                strip = PixelStrip(num=cfg.ledCount, pin=cfg.gpioPin, channel=cfg.id, dma=10, strip_type=strip_type)
             self._renderers[cfg.id] = ChannelRenderer(cfg, strip, self._fps)
 
     async def start_all(self) -> None:

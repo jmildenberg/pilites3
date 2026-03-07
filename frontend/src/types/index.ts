@@ -6,8 +6,13 @@ export interface ChannelConfig {
   id: ChannelId;
   label: string;
   ledCount: number;
+  type: 'rpi' | 'wled';
+  // rpi-only
   gpioPin: number;
   colorOrder: 'RGB' | 'GRB';
+  // wled-only
+  wledHost?: string;
+  wledPort?: number;
 }
 
 // ─── Colour ───────────────────────────────────────────────────────────────────

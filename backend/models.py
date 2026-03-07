@@ -14,8 +14,13 @@ class ChannelConfig(BaseModel):
     id: Literal[0, 1]
     label: str
     ledCount: int = Field(gt=0, le=1200)
-    gpioPin: int
+    type: Literal["rpi", "wled"] = "rpi"
+    # rpi-only
+    gpioPin: int = 18
     colorOrder: Literal["RGB", "GRB"] = "RGB"
+    # wled-only
+    wledHost: str | None = None
+    wledPort: int = 4048
 
 
 # ── Color ─────────────────────────────────────────────────────────────────────
