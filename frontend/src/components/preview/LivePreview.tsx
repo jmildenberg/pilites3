@@ -2,8 +2,7 @@ import type { CSSProperties } from 'react';
 import { useEffect, useRef } from 'react';
 import type { Effect, Region, Play, Cue } from '../../types';
 import { colorToHex, effectPeakBrightness } from '../../types';
-import { resolveRegionLevels } from '../../lib/stageState';
-import { useChannelConfig } from '../../context/ChannelConfigContext';
+import { resolveRegionLevels, DARK_EFFECT } from '../../lib/stageState';
 import { usePixelStream } from '../../hooks/usePixelStream';
 import type { PixelGetter } from '../../hooks/usePixelStream';
 
@@ -50,7 +49,6 @@ function effectStyle(effect: Effect): CSSProperties {
         animation: `pilites-strobe ${duration}s steps(1, end) infinite`,
       };
     }
-    // Complex effects — show base color at reduced opacity with a badge overlay
     case 'chase': {
       return { backgroundColor: colorToHex(effect.color), opacity: effectPeakBrightness(effect) * 0.6 };
     }
@@ -66,98 +64,25 @@ function effectStyle(effect: Effect): CSSProperties {
   }
 }
 
-// ─── RegionSegment ────────────────────────────────────────────────────────────
+// ─── RegionBulbCanvas ─────────────────────────────────────────────────────────
 
-function RegionSegment({
-  region, effect, ledCount, compact,
+function RegionBulbCanvas({
+  region, effect, pixelStream, compact,
 }: {
   region: Region;
   effect: Effect;
-  ledCount: number;
-  compact: boolean;
-}) {
-  const regionLeds = region.endIndex - region.startIndex + 1;
-  const widthPct = (regionLeds / ledCount) * 100;
-  const badge = EFFECT_BADGES[effect.type];
-  const height = compact ? 28 : 56;
-
-  return (
-    <div
-      className="relative overflow-hidden shrink-0"
-      style={{ width: `${widthPct}%`, height }}
-    >
-      {/* Effect background */}
-      <div className="absolute inset-0 transition-all duration-500" style={effectStyle(effect)} />
-
-      {/* Region label + effect badge */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5 px-1">
-        {!compact && (
-          <span
-            className="text-xs font-semibold truncate w-full text-center"
-            style={{ color: 'rgba(255,255,255,0.8)', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
-          >
-            {region.label}
-          </span>
-        )}
-        {badge && (
-          <span
-            className="text-[9px] font-bold px-1 rounded"
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              color: 'rgba(255,255,255,0.9)',
-              fontFamily: 'monospace',
-            }}
-          >
-            {badge}
-          </span>
-        )}
-      </div>
-
-      {/* Right border between segments */}
-      <div className="absolute inset-y-0 right-0 w-px bg-black/40" />
-    </div>
-  );
-}
-
-// ─── UnallocatedSegment ───────────────────────────────────────────────────────
-
-function UnallocatedSegment({ startIdx, endIdx, ledCount, compact }: {
-  startIdx: number; endIdx: number; ledCount: number; compact: boolean;
-}) {
-  const widthPct = ((endIdx - startIdx + 1) / ledCount) * 100;
-  return (
-    <div
-      className="relative shrink-0 bg-[#111] border-r border-black/40"
-      style={{ width: `${widthPct}%`, height: compact ? 28 : 56 }}
-    >
-      {!compact && (
-        <div className="absolute inset-0 flex items-center justify-center text-[10px] text-neutral-700 font-mono">
-          {startIdx}–{endIdx}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── ChannelStrip ─────────────────────────────────────────────────────────────
-
-function ChannelStrip({
-  channelId, ledCount, regions, resolvedEffects, compact, pixelStream,
-}: {
-  channelId: 0 | 1;
-  ledCount: number;
-  regions: Region[];
-  resolvedEffects: Record<string, Effect>;
-  compact: boolean;
   pixelStream: PixelGetter | null;
+  compact: boolean;
 }) {
+  const regionLedCount = region.endIndex - region.startIndex + 1;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const badge = EFFECT_BADGES[effect.type];
+  const height = compact ? 36 : 72;
 
-  // Draw each LED as a circular bulb. Two passes per frame:
-  //   1. Glow pass — same circles drawn with a blur filter, creating a soft halo
+  // Draw each LED in the region as a circular bulb. Two passes per frame:
+  //   1. Glow pass — blurred circles for a soft halo
   //   2. Bulb pass — sharp circles on top (the actual LED colour)
-  // No React state is touched inside the loop; all work stays on the GPU.
   useEffect(() => {
     if (!pixelStream) return;
 
@@ -176,21 +101,24 @@ function ChannelStrip({
     ro.observe(container);
 
     function paint() {
-      const pixels = pixelStream!(channelId);
-      if (pixels) {
+      const channelPixels = pixelStream!(region.channelId);
+      if (channelPixels) {
         const W = canvas!.width;
         const H = canvas!.height;
-        const spacing = W / ledCount;
+        const spacing = W / regionLedCount;
         const radius  = Math.min(spacing * 0.46, H * 0.38);
         const cy      = H / 2;
+        const byteOffset = region.startIndex * 3;
 
         ctx.clearRect(0, 0, W, H);
 
         // ── Glow pass (blurred) ──────────────────────────────────────────────
         if (radius >= 1.5) {
           ctx.filter = `blur(${Math.max(1, radius * 0.9).toFixed(1)}px)`;
-          for (let i = 0; i < ledCount; i++) {
-            const r = pixels[i * 3], g = pixels[i * 3 + 1], b = pixels[i * 3 + 2];
+          for (let i = 0; i < regionLedCount; i++) {
+            const r = channelPixels[byteOffset + i * 3];
+            const g = channelPixels[byteOffset + i * 3 + 1];
+            const b = channelPixels[byteOffset + i * 3 + 2];
             const lum = (r + g + b) / 765;
             if (lum < 0.02) continue;
             ctx.beginPath();
@@ -202,8 +130,10 @@ function ChannelStrip({
         }
 
         // ── Bulb pass (sharp) ────────────────────────────────────────────────
-        for (let i = 0; i < ledCount; i++) {
-          const r = pixels[i * 3], g = pixels[i * 3 + 1], b = pixels[i * 3 + 2];
+        for (let i = 0; i < regionLedCount; i++) {
+          const r = channelPixels[byteOffset + i * 3];
+          const g = channelPixels[byteOffset + i * 3 + 1];
+          const b = channelPixels[byteOffset + i * 3 + 2];
           ctx.beginPath();
           ctx.arc((i + 0.5) * spacing, cy, radius, 0, Math.PI * 2);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
@@ -215,93 +145,43 @@ function ChannelStrip({
 
     rafId = requestAnimationFrame(paint);
     return () => { cancelAnimationFrame(rafId); ro.disconnect(); };
-  }, [pixelStream, channelId, ledCount]);
-
-  const chRegions = regions
-    .filter((r) => r.channelId === channelId)
-    .sort((a, b) => a.startIndex - b.startIndex);
-
-  type Seg = { kind: 'region'; region: Region } | { kind: 'gap'; start: number; end: number };
-  const segments: Seg[] = [];
-  let cursor = 0;
-  for (const r of chRegions) {
-    if (r.startIndex > cursor) segments.push({ kind: 'gap', start: cursor, end: r.startIndex - 1 });
-    segments.push({ kind: 'region', region: r });
-    cursor = r.endIndex + 1;
-  }
-  if (cursor < ledCount) segments.push({ kind: 'gap', start: cursor, end: ledCount - 1 });
-
-  const label = `Channel ${channelId}`;
-  const quarter = Math.round(ledCount / 4);
-  const stripHeight = compact ? 36 : 72;
+  }, [pixelStream, region, regionLedCount]);
 
   return (
-    <div className="flex flex-col gap-1">
-      {!compact && (
-        <div className="flex items-center justify-between px-0.5">
-          <span className="text-xs font-semibold text-neutral-400">{label}</span>
-          <div className="flex items-center gap-2">
-            {pixelStream && (
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-400">
-                LIVE
-              </span>
-            )}
-            <span className="text-xs text-neutral-600 font-mono">{ledCount} LEDs</span>
-          </div>
-        </div>
-      )}
-
-      {/* Strip — canvas when pixel stream is active, CSS segments as fallback */}
-      <div
-        ref={containerRef}
-        className={`relative overflow-hidden rounded border border-[#2e2e2e] bg-[#0a0a0a] ${compact ? '' : 'shadow-inner'}`}
-        style={{ height: stripHeight }}
-      >
-        {pixelStream ? (
-          <canvas
-            ref={canvasRef}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-          />
-        ) : (
-          <div className="flex h-full">
-            {segments.map((seg, i) =>
-              seg.kind === 'region' ? (
-                <RegionSegment
-                  key={seg.region.id}
-                  region={seg.region}
-                  effect={resolvedEffects[seg.region.id] ?? { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 }}
-                  ledCount={ledCount}
-                  compact={compact}
-                />
-              ) : (
-                <UnallocatedSegment
-                  key={`gap-${i}`}
-                  startIdx={seg.start}
-                  endIdx={seg.end}
-                  ledCount={ledCount}
-                  compact={compact}
-                />
-              )
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* LED index ruler (full mode only) */}
-      {!compact && (
-        <div className="flex justify-between text-[10px] text-neutral-700 font-mono px-0.5">
-          {[0, quarter, quarter * 2, quarter * 3, ledCount - 1].map((n) => <span key={n}>{n}</span>)}
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden bg-[#0a0a0a]"
+      style={{ height }}
+    >
+      {pixelStream ? (
+        <canvas
+          ref={canvasRef}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center" style={effectStyle(effect)}>
+          {badge && (
+            <span
+              className="text-[9px] font-bold px-1 rounded"
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                color: 'rgba(255,255,255,0.9)',
+                fontFamily: 'monospace',
+              }}
+            >
+              {badge}
+            </span>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-// ─── Region summary list (full mode) ─────────────────────────────────────────
+// ─── RegionCardFooter ─────────────────────────────────────────────────────────
 
-function RegionSummary({ region, effect }: { region: Region; effect: Effect }) {
+function RegionCardFooter({ effect }: { effect: Effect }) {
   const brightness = effectPeakBrightness(effect);
-  const isAnimated = !['solid', 'gradient'].includes(effect.type);
 
   function detail() {
     switch (effect.type) {
@@ -317,15 +197,7 @@ function RegionSummary({ region, effect }: { region: Region; effect: Effect }) {
   }
 
   return (
-    <div className="flex items-center gap-3 py-1.5 border-b border-[#1e1e1e] last:border-0">
-      <div
-        className="w-3 h-3 rounded-sm shrink-0"
-        style={{ backgroundColor: region.uiColor }}
-      />
-      <span className="text-sm text-neutral-300 w-28 shrink-0 truncate">{region.label}</span>
-      <span className={`text-xs font-mono px-1.5 py-0.5 rounded shrink-0 ${isAnimated ? 'bg-[#646cff]/20 text-[#646cff]' : 'bg-[#2e2e2e] text-neutral-400'}`}>
-        {effect.type}
-      </span>
+    <div className="flex items-center gap-3 px-3 py-1.5 border-t border-[#2e2e2e]">
       <span className="text-xs text-neutral-500 flex-1">{detail()}</span>
       <div className="flex items-center gap-1 shrink-0">
         <div className="w-16 h-1.5 rounded-full bg-[#2e2e2e] overflow-hidden">
@@ -333,6 +205,45 @@ function RegionSummary({ region, effect }: { region: Region; effect: Effect }) {
         </div>
         <span className="text-xs text-neutral-600 font-mono w-8 text-right">{(brightness * 100).toFixed(0)}%</span>
       </div>
+    </div>
+  );
+}
+
+// ─── RegionCard ───────────────────────────────────────────────────────────────
+
+function RegionCard({
+  region, effect, pixelStream, compact,
+}: {
+  region: Region;
+  effect: Effect;
+  pixelStream: PixelGetter | null;
+  compact: boolean;
+}) {
+  const isAnimated = !['solid', 'gradient'].includes(effect.type);
+
+  return (
+    <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#2e2e2e]">
+      <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#2e2e2e]">
+        <div className="flex items-center gap-2">
+          <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: region.uiColor }} />
+          <span className="text-xs font-semibold text-neutral-300">{region.label}</span>
+          <span className="text-[10px] font-mono text-neutral-600">Ch{region.channelId}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {pixelStream && (
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-400">
+              LIVE
+            </span>
+          )}
+          <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${isAnimated ? 'bg-[#646cff]/20 text-[#646cff]' : 'bg-[#2e2e2e] text-neutral-400'}`}>
+            {effect.type}
+          </span>
+        </div>
+      </div>
+
+      <RegionBulbCanvas region={region} effect={effect} pixelStream={pixelStream} compact={compact} />
+
+      {!compact && <RegionCardFooter effect={effect} />}
     </div>
   );
 }
@@ -346,13 +257,10 @@ export interface LivePreviewProps {
   compact?: boolean;
 }
 
-export function LivePreview({ play, currentCue, cueIndex, compact = false }: LivePreviewProps) {
+export function LivePreview({ play, cueIndex, compact = false }: LivePreviewProps) {
   const { regions, cues } = play;
-  const { channels } = useChannelConfig();
   const pixelStream = usePixelStream();
 
-  // Resolve effects for all regions at the current cue (used by CSS fallback
-  // and the RegionSummary list regardless of pixel stream state)
   const resolvedEffects: Record<string, Effect> = {};
   if (cueIndex !== null) {
     const levels = resolveRegionLevels(cues, regions, cueIndex);
@@ -361,35 +269,28 @@ export function LivePreview({ play, currentCue, cueIndex, compact = false }: Liv
     }
   }
 
-  return (
-    <div className={`flex flex-col gap-${compact ? '2' : '5'}`}>
-      {channels.map((ch) => (
-        <ChannelStrip
-          key={ch.id}
-          channelId={ch.id}
-          ledCount={ch.ledCount}
-          regions={regions}
-          resolvedEffects={resolvedEffects}
-          compact={compact}
-          pixelStream={pixelStream}
-        />
-      ))}
+  if (!regions.length) {
+    return (
+      <div className="flex items-center justify-center py-12 text-neutral-600 text-sm">
+        No regions defined — add regions in the Editor.
+      </div>
+    );
+  }
 
-      {!compact && currentCue && (
-        <div className="flex flex-col mt-1">
-          <p className="text-xs text-neutral-500 uppercase tracking-widest mb-2">Region States</p>
-          {regions
-            .slice()
-            .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
-            .map((r) => (
-              <RegionSummary
-                key={r.id}
-                region={r}
-                effect={resolvedEffects[r.id] ?? { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 }}
-              />
-            ))}
-        </div>
-      )}
+  return (
+    <div className={`flex flex-col gap-${compact ? '2' : '3'}`}>
+      {regions
+        .slice()
+        .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
+        .map((r) => (
+          <RegionCard
+            key={r.id}
+            region={r}
+            effect={resolvedEffects[r.id] ?? DARK_EFFECT}
+            pixelStream={pixelStream}
+            compact={compact}
+          />
+        ))}
     </div>
   );
 }

@@ -17,7 +17,7 @@ class ChannelConfig(BaseModel):
     type: Literal["rpi", "wled"] = "rpi"
     # rpi-only
     gpioPin: int = 18
-    colorOrder: Literal["RGB", "GRB"] = "RGB"
+    colorOrder: Literal["RGB", "GRB", "BGR"] = "RGB"
     # wled-only
     wledHost: str | None = None
     wledPort: int = 4048

@@ -42,7 +42,6 @@ class ActiveRegionState:
 # ─── WLED DDP strip adapter ───────────────────────────────────────────────────
 
 _DDP_PORT = 4048
-_DDP_MAX_PIXELS_PER_PACKET = 480  # 480 * 3 = 1440 bytes data, safely under 1500-byte MTU
 
 
 class WledStrip:
@@ -51,10 +50,11 @@ class WledStrip:
     to a WLED ESP32 controller via DDP (Distributed Display Protocol) over UDP.
     """
 
-    def __init__(self, num: int, host: str, port: int = _DDP_PORT) -> None:
+    def __init__(self, num: int, host: str, port: int = _DDP_PORT, color_order: str = "RGB") -> None:
         self._num = num
         self._host = host
         self._port = port
+        self._color_order = color_order
         self._pixels: list[int] = [0] * num  # packed WRGB ints
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -66,33 +66,42 @@ class WledStrip:
             self._pixels[n] = int(color)
 
     def show(self) -> None:
-        # Unpack WRGB packed ints into a flat RGB byte buffer (W channel unused by DDP RGB type)
+        # Unpack WRGB packed ints into a flat byte buffer reordered per color_order.
+        # DDP always sends raw bytes; WLED is configured as RGB so we pre-swap here.
         rgb_data = bytearray(self._num * 3)
+        co = self._color_order
         for i, c in enumerate(self._pixels):
-            rgb_data[i * 3]     = (c >> 16) & 0xFF  # R
-            rgb_data[i * 3 + 1] = (c >> 8)  & 0xFF  # G
-            rgb_data[i * 3 + 2] =  c        & 0xFF  # B
+            r = (c >> 16) & 0xFF
+            g = (c >> 8)  & 0xFF
+            b =  c        & 0xFF
+            if co == "GRB":
+                rgb_data[i * 3], rgb_data[i * 3 + 1], rgb_data[i * 3 + 2] = g, r, b
+            elif co == "BGR":
+                rgb_data[i * 3], rgb_data[i * 3 + 1], rgb_data[i * 3 + 2] = b, g, r
+            else:  # RGB (default)
+                rgb_data[i * 3], rgb_data[i * 3 + 1], rgb_data[i * 3 + 2] = r, g, b
 
-        # Send in DDP chunks; set push flag only on the last packet so WLED
-        # displays the complete frame atomically.
-        chunk_bytes = _DDP_MAX_PIXELS_PER_PACKET * 3
-        offset = 0
+        # Send in chunks that fit within the Ethernet MTU.
+        # DDP offset is a byte offset; WLED divides it by 3 internally to get
+        # the LED index (e.g. offset=1440 → LED 480).
+        chunk_size = 1440  # 480 pixels × 3 bytes — fits in a 1500-byte Ethernet frame
+        byte_offset = 0
         total = len(rgb_data)
-        while offset < total:
-            chunk = rgb_data[offset : offset + chunk_bytes]
-            is_last = (offset + len(chunk)) >= total
-            flags = 0x50 if is_last else 0x40  # version=1; 0x50 adds push bit
+        while byte_offset < total:
+            chunk = rgb_data[byte_offset : byte_offset + chunk_size]
+            is_last = (byte_offset + len(chunk)) >= total
+            flags = 0x41 if is_last else 0x40  # push on last chunk only
             header = struct.pack(
                 ">BBBBIH",
-                flags,       # flags
-                0,           # sequence number (0 = disabled)
-                0x01,        # data type: RGB
-                0x01,        # destination: default
-                offset,      # byte offset into LED buffer (big-endian uint32)
-                len(chunk),  # data length in bytes (big-endian uint16)
+                flags,
+                0,            # sequence number (0 = disabled)
+                0x01,         # data type: RGB
+                0x01,         # destination: default
+                byte_offset,  # byte offset; WLED converts to pixel via offset/3
+                len(chunk),
             )
             self._sock.sendto(header + bytes(chunk), (self._host, self._port))
-            offset += len(chunk)
+            byte_offset += len(chunk)
 
     def _cleanup(self) -> None:
         self._sock.close()
@@ -131,10 +140,13 @@ class ChannelRenderer:
 
     async def set_regions(self, entries: list[ActiveRegionEntry]) -> None:
         """
-        Apply effect definitions for the given regions on this channel.
-        Preserves per-effect state when the same effect type is re-applied
+        Replace the active region map for this channel.
+        Preserves per-effect state when the same region+effect type is re-applied
         (e.g. tweaking Fire brightness shouldn't reset the heat array).
+        Any regions not present in `entries` are dropped, preventing stale effects
+        from persisting across cue changes or play switches.
         """
+        new_regions: dict[str, ActiveRegionState] = {}
         async with self._lock:
             for entry in entries:
                 existing = self._active_regions.get(entry.regionId)
@@ -144,7 +156,7 @@ class ChannelRenderer:
                 else:
                     per_state = {}
                     started_at = time.monotonic()
-                self._active_regions[entry.regionId] = ActiveRegionState(
+                new_regions[entry.regionId] = ActiveRegionState(
                     region_id=entry.regionId,
                     start_index=entry.startIndex,
                     end_index=entry.endIndex,
@@ -152,6 +164,7 @@ class ChannelRenderer:
                     started_at=started_at,
                     per_effect_state=per_state,
                 )
+            self._active_regions = new_regions
 
     async def blackout(self) -> None:
         """Clear all regions and immediately push zeros to hardware."""
@@ -246,20 +259,26 @@ class RendererManager:
 
     def _build(self, channel_configs: list[ChannelConfig]) -> None:
         try:
-            from rpi_ws281x import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB  # type: ignore[import]
+            from rpi_ws281x import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB, WS2811_STRIP_BGR  # type: ignore[import]
             logger.info("rpi_ws281x loaded — running on Pi hardware")
         except (ImportError, RuntimeError):
-            from led_stub import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB  # type: ignore[import, no-redef]
+            from led_stub import PixelStrip, WS2811_STRIP_RGB, WS2811_STRIP_GRB, WS2811_STRIP_BGR  # type: ignore[import, no-redef]
             logger.info("rpi_ws281x unavailable — using LED stub (dev mode)")
+
+        _color_order_map = {
+            "RGB": WS2811_STRIP_RGB,
+            "GRB": WS2811_STRIP_GRB,
+            "BGR": WS2811_STRIP_BGR,
+        }
 
         for cfg in channel_configs:
             if cfg.type == "wled":
                 if not cfg.wledHost:
                     logger.error("Channel %d is type 'wled' but wledHost is not set — skipping", cfg.id)
                     continue
-                strip: Any = WledStrip(num=cfg.ledCount, host=cfg.wledHost, port=cfg.wledPort)
+                strip: Any = WledStrip(num=cfg.ledCount, host=cfg.wledHost, port=cfg.wledPort, color_order=cfg.colorOrder)
             else:
-                strip_type = WS2811_STRIP_GRB if cfg.colorOrder == "GRB" else WS2811_STRIP_RGB
+                strip_type = _color_order_map.get(cfg.colorOrder, WS2811_STRIP_RGB)
                 strip = PixelStrip(num=cfg.ledCount, pin=cfg.gpioPin, channel=cfg.id, dma=10, strip_type=strip_type)
             self._renderers[cfg.id] = ChannelRenderer(cfg, strip, self._fps)
 

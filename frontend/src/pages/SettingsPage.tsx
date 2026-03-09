@@ -25,7 +25,7 @@ export function SettingsPage() {
 
   const apiUrlRef = useRef<HTMLInputElement>(null);
 
-  function updateChannel(id: ChannelId, patch: Partial<{ label: string; ledCount: number; type: 'rpi' | 'wled'; gpioPin: number; colorOrder: 'RGB' | 'GRB'; wledHost: string; wledPort: number }>) {
+  function updateChannel(id: ChannelId, patch: Partial<{ label: string; ledCount: number; type: 'rpi' | 'wled'; gpioPin: number; colorOrder: 'RGB' | 'GRB' | 'BGR'; wledHost: string; wledPort: number }>) {
     setLocalChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...patch } : ch)));
   }
 
@@ -100,28 +100,28 @@ export function SettingsPage() {
                 </select>
               </div>
 
+              <div className="col-span-2">
+                <label className="text-xs text-neutral-500 block mb-1">Color Order</label>
+                <select
+                  value={ch.colorOrder}
+                  onChange={(e) => updateChannel(ch.id, { colorOrder: e.target.value as 'RGB' | 'GRB' | 'BGR' })}
+                  className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
+                >
+                  <option value="RGB">RGB (WS2811)</option>
+                  <option value="GRB">GRB (WS2812 / WS2815)</option>
+                  <option value="BGR">BGR (WS2811 — red shows as blue)</option>
+                </select>
+              </div>
+
               {ch.type === 'rpi' ? (
-                <>
-                  <div>
-                    <label className="text-xs text-neutral-500 block mb-1">GPIO Pin</label>
-                    <input
-                      type="number" value={ch.gpioPin}
-                      onChange={(e) => updateChannel(ch.id, { gpioPin: Number(e.target.value) })}
-                      className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs text-neutral-500 block mb-1">Color Order</label>
-                    <select
-                      value={ch.colorOrder}
-                      onChange={(e) => updateChannel(ch.id, { colorOrder: e.target.value as 'RGB' | 'GRB' })}
-                      className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
-                    >
-                      <option value="RGB">RGB (WS2811)</option>
-                      <option value="GRB">GRB (WS2812 / WS2815)</option>
-                    </select>
-                  </div>
-                </>
+                <div className="col-span-2">
+                  <label className="text-xs text-neutral-500 block mb-1">GPIO Pin</label>
+                  <input
+                    type="number" value={ch.gpioPin}
+                    onChange={(e) => updateChannel(ch.id, { gpioPin: Number(e.target.value) })}
+                    className="w-full bg-[#2e2e2e] rounded px-3 py-2 text-sm text-neutral-300 outline-none focus:ring-1 ring-[#646cff]"
+                  />
+                </div>
               ) : (
                 <>
                   <div>
