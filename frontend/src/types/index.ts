@@ -154,15 +154,22 @@ export interface Region {
   uiColor: string;    // hex e.g. "#a855f7"
 }
 
+/** A named set of regions that share the same effect in a cue. */
+export interface RegionGroup {
+  id: string;
+  label: string;
+  regionIds: string[];
+}
+
 // ─── Cue ──────────────────────────────────────────────────────────────────────
 
 export interface RegionCueState {
-  regionId: string;
+  /** Set for individual region ownership. */
+  regionId?: string;
+  /** Set for group ownership — expanded to all group members at render time. */
+  groupId?: string;
   fadeTime: number; // seconds to crossfade INTO this state
   effect: Effect;
-  // Absence of a regionId in cue.regionStates[] means the region TRACKS
-  // (inherits from the most recent cue that owned it). Explicit ownership
-  // is indicated simply by presence in this array.
 }
 
 export interface Cue {
@@ -190,6 +197,7 @@ export interface Play {
   title: string;
   description: string;
   regions: Region[];
+  regionGroups?: RegionGroup[]; // optional; defaults to [] for shows without groups
   cues: Cue[];
   createdAt: string;
   updatedAt: string;

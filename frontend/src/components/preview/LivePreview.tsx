@@ -263,7 +263,7 @@ export function LivePreview({ play, cueIndex, compact = false }: LivePreviewProp
 
   const resolvedEffects: Record<string, Effect> = {};
   if (cueIndex !== null) {
-    const levels = resolveRegionLevels(cues, regions, cueIndex);
+    const levels = resolveRegionLevels(cues, regions, cueIndex, play.regionGroups ?? []);
     for (const [regionId, { effect }] of Object.entries(levels)) {
       resolvedEffects[regionId] = effect;
     }

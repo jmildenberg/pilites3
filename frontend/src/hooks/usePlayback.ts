@@ -57,7 +57,7 @@ export function usePlayback(play: Play) {
   const applyCue = useCallback((index: number) => {
     setPlayback((prev) => ({ ...prev, currentCueIndex: index, status: 'running' }));
 
-    const stageState = resolveStageState(cues, regions, index);
+    const stageState = resolveStageState(cues, regions, index, play.regionGroups ?? []);
     const regionEntries = regions.map((region) => {
       const entry = stageState.get(region.id);
       const effect = entry?.state.effect ?? DARK_EFFECT;
@@ -71,7 +71,7 @@ export function usePlayback(play: Play) {
     });
 
     send({ type: 'set_regions', regions: regionEntries });
-  }, [cues, regions]);
+  }, [cues, regions, play.regionGroups]);
 
   function go() {
     const target = currentIndex === null ? 0 : currentIndex + 1;

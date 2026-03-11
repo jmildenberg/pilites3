@@ -119,11 +119,18 @@ class Region(BaseModel):
     uiColor: str  # hex e.g. "#a855f7"
 
 
+class RegionGroup(BaseModel):
+    id: str
+    label: str
+    regionIds: list[str]
+
+
 # ── Cue ───────────────────────────────────────────────────────────────────────
 
 class RegionCueState(BaseModel):
-    regionId: str
-    fadeTime: float = Field(ge=0)  # seconds
+    regionId: Optional[str] = None  # set for individual region ownership
+    groupId: Optional[str] = None   # set for group ownership (mutually exclusive)
+    fadeTime: float = Field(ge=0)   # seconds
     effect: Effect
 
 
@@ -143,6 +150,7 @@ class Play(BaseModel):
     title: str
     description: str
     regions: list[Region]
+    regionGroups: list[RegionGroup] = []
     cues: list[Cue]
     createdAt: str
     updatedAt: str

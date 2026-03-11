@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import type { Play, Cue, Region, RegionCueState, Effect } from '../types';
+import type { Play, Cue, Region, RegionCueState, RegionGroup, Effect } from '../types';
 import { EFFECT_DEFAULTS } from '../types';
 import { RegionManager } from '../components/regions/RegionManager';
+import { GroupManager } from '../components/regions/GroupManager';
 import { EffectEditor } from '../components/effects/EffectEditor';
 import { resolveStageState, ownedRegionIds } from '../lib/stageState';
 import { usePlays } from '../context/PlaysContext';
@@ -101,21 +102,155 @@ function RegionRow({
   );
 }
 
+// ─── GroupRow ─────────────────────────────────────────────────────────────────
+
+function GroupRow({
+  group, memberCount, ownedState, trackedState, onCapture, onRelease, onOff, onChange, conflictWith,
+}: {
+  group: RegionGroup;
+  memberCount: number;
+  ownedState: RegionCueState | null;
+  trackedState: RegionCueState;
+  onCapture: () => void;
+  onRelease: () => void;
+  onOff: () => void;
+  onChange: (patch: Partial<RegionCueState>) => void;
+  conflictWith?: string; // label of the group that conflicts
+}) {
+  const isOwned = ownedState !== null;
+  const displayState = ownedState ?? trackedState;
+  const isExplicitlyOff =
+    isOwned &&
+    displayState.effect.type === 'solid' &&
+    (displayState.effect as { brightness: number }).brightness === 0;
+
+  return (
+    <div className={
+      'border rounded-lg p-3 flex flex-col gap-2 mb-2 ' +
+      (conflictWith && !isOwned ? 'border-amber-900/40 opacity-60' : 'border-[#646cff]/20')
+    }>
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-neutral-200 font-medium flex-1 truncate">{group.label}</span>
+        <span className="text-xs text-neutral-600 shrink-0">{memberCount} regions</span>
+        {conflictWith && !isOwned ? (
+          <span
+            className="text-xs px-1.5 py-0.5 rounded bg-amber-900/30 text-amber-500 font-mono shrink-0"
+            title={`Shares regions with active group "${conflictWith}"`}
+          >
+            CONFLICT
+          </span>
+        ) : (
+          <>
+            <button
+              onClick={onOff}
+              className={
+                'text-xs px-1.5 py-0.5 rounded font-mono transition-colors ' +
+                (isExplicitlyOff
+                  ? 'bg-red-900/40 text-red-400'
+                  : 'bg-[#2e2e2e] text-neutral-600 hover:bg-red-900/30 hover:text-red-400')
+              }
+            >
+              OFF
+            </button>
+            {isOwned ? (
+              <button
+                onClick={onRelease}
+                className="text-xs px-1.5 py-0.5 rounded bg-[#646cff]/20 text-[#646cff] hover:bg-red-900/30 hover:text-red-400 transition-colors font-mono"
+              >
+                GRP
+              </button>
+            ) : (
+              <button
+                onClick={onCapture}
+                className="text-xs px-1.5 py-0.5 rounded bg-[#2e2e2e] text-neutral-500 hover:bg-[#646cff]/20 hover:text-[#646cff] transition-colors font-mono"
+              >
+                T
+              </button>
+            )}
+          </>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2">
+        <label className="text-xs text-neutral-600 w-20 shrink-0">Fade in (s)</label>
+        <input
+          type="number" min={0} step={0.5} value={displayState.fadeTime}
+          onChange={(e) => onChange({ fadeTime: Number(e.target.value) })}
+          disabled={!isOwned}
+          className="w-20 bg-[#0f0f0f] rounded px-2 py-1 text-sm font-mono text-neutral-300 outline-none focus:ring-1 ring-[#646cff] disabled:text-neutral-600"
+        />
+        {!isOwned && <span className="text-xs text-neutral-700 italic">tracking</span>}
+      </div>
+
+      <EffectEditor
+        effect={displayState.effect}
+        onChange={(effect) => onChange({ effect })}
+        disabled={!isOwned}
+      />
+    </div>
+  );
+}
+
+
 // ─── CueDetailPanel ───────────────────────────────────────────────────────────
 
 function CueDetailPanel({
-  cue, cueIndex, allCues, regions, onChange, onDelete,
+  cue, cueIndex, allCues, regions, regionGroups, onChange, onDelete,
 }: {
-  cue: Cue; cueIndex: number; allCues: Cue[]; regions: Region[];
+  cue: Cue; cueIndex: number; allCues: Cue[]; regions: Region[]; regionGroups: RegionGroup[];
   onChange: (updated: Cue) => void;
   onDelete: () => void;
 }) {
-  const owned = ownedRegionIds(cue);
-  const resolved = resolveStageState(allCues, regions, cueIndex);
+  const owned = ownedRegionIds(cue, regionGroups);
+  const resolved = resolveStageState(allCues, regions, cueIndex, regionGroups);
+
+  // Map of regionId → groupId for regions currently owned via a group entry in this cue
+  const groupedRegionIds = new Map<string, string>();
+  for (const rs of cue.regionStates) {
+    if (rs.groupId) {
+      const group = regionGroups.find((g) => g.id === rs.groupId);
+      group?.regionIds.forEach((rid) => groupedRegionIds.set(rid, rs.groupId!));
+    }
+  }
 
   function updateField(field: 'label' | 'number' | 'notes', value: string) {
     onChange({ ...cue, [field]: value });
   }
+
+  // ── Group helpers ────────────────────────────────────────────────────────────
+
+  function captureGroup(groupId: string) {
+    const group = regionGroups.find((g) => g.id === groupId);
+    const firstMemberId = group?.regionIds[0];
+    const inherited = firstMemberId ? resolved.get(firstMemberId)?.state : undefined;
+    const newState: RegionCueState = inherited
+      ? { groupId, fadeTime: inherited.fadeTime, effect: inherited.effect }
+      : { groupId, fadeTime: 3, effect: { ...EFFECT_DEFAULTS.solid } };
+    onChange({ ...cue, regionStates: [...cue.regionStates, newState] });
+  }
+
+  function releaseGroup(groupId: string) {
+    onChange({ ...cue, regionStates: cue.regionStates.filter((rs) => rs.groupId !== groupId) });
+  }
+
+  function offGroup(groupId: string) {
+    const offEffect: Effect = { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 };
+    const existing = cue.regionStates.find((rs) => rs.groupId === groupId);
+    if (existing) {
+      onChange({ ...cue, regionStates: cue.regionStates.map((rs) => rs.groupId === groupId ? { ...rs, effect: offEffect } : rs) });
+    } else {
+      const group = regionGroups.find((g) => g.id === groupId);
+      const firstMemberId = group?.regionIds[0];
+      const inherited = firstMemberId ? resolved.get(firstMemberId)?.state : undefined;
+      onChange({ ...cue, regionStates: [...cue.regionStates, { groupId, fadeTime: inherited?.fadeTime ?? 3, effect: offEffect }] });
+    }
+  }
+
+  function patchGroupState(groupId: string, patch: Partial<RegionCueState>) {
+    onChange({ ...cue, regionStates: cue.regionStates.map((rs) => rs.groupId === groupId ? { ...rs, ...patch } : rs) });
+  }
+
+  // ── Region helpers ────────────────────────────────────────────────────────────
 
   function captureRegion(regionId: string) {
     const inherited = resolved.get(regionId)?.state;
@@ -131,7 +266,7 @@ function CueDetailPanel({
 
   function offRegion(regionId: string) {
     const offEffect: Effect = { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 };
-    if (owned.has(regionId)) {
+    if (owned.has(regionId) && !groupedRegionIds.has(regionId)) {
       onChange({
         ...cue,
         regionStates: cue.regionStates.map((rs) =>
@@ -163,10 +298,7 @@ function CueDetailPanel({
     <div className="flex flex-col gap-4 p-4 overflow-y-auto h-full">
       <div className="flex items-center justify-between">
         <span className="text-xs text-neutral-500 uppercase tracking-widest">Cue {cue.number}</span>
-        <button
-          onClick={onDelete}
-          className="text-xs text-red-500 hover:text-red-400 transition-colors"
-        >
+        <button onClick={onDelete} className="text-xs text-red-500 hover:text-red-400 transition-colors">
           Delete
         </button>
       </div>
@@ -189,6 +321,49 @@ function CueDetailPanel({
           className="w-full bg-[#2e2e2e] rounded px-2 py-1.5 text-sm text-neutral-200 outline-none focus:ring-1 ring-[#646cff] resize-none" />
       </div>
 
+      {/* Groups section */}
+      {regionGroups.length > 0 && (
+        <div>
+          <p className="text-xs text-neutral-500 uppercase tracking-widest mb-3">Groups</p>
+          {regionGroups.map((group) => {
+            const ownedState = cue.regionStates.find((rs) => rs.groupId === group.id) ?? null;
+            const firstMemberId = group.regionIds[0];
+            const trackedState = firstMemberId
+              ? (resolved.get(firstMemberId)?.state ?? { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } })
+              : { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } };
+            const memberCount = group.regionIds.filter((id) => regions.some((r) => r.id === id)).length;
+
+            // Detect if any member region is already owned by a different active group
+            let conflictWith: string | undefined;
+            if (!ownedState) {
+              for (const rid of group.regionIds) {
+                const owningGroupId = groupedRegionIds.get(rid);
+                if (owningGroupId && owningGroupId !== group.id) {
+                  conflictWith = regionGroups.find((g) => g.id === owningGroupId)?.label;
+                  break;
+                }
+              }
+            }
+
+            return (
+              <GroupRow
+                key={group.id}
+                group={group}
+                memberCount={memberCount}
+                ownedState={ownedState}
+                trackedState={trackedState}
+                conflictWith={conflictWith}
+                onCapture={() => captureGroup(group.id)}
+                onRelease={() => releaseGroup(group.id)}
+                onOff={() => offGroup(group.id)}
+                onChange={(patch) => patchGroupState(group.id, patch)}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Regions section */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs text-neutral-500 uppercase tracking-widest">Regions</p>
@@ -205,6 +380,24 @@ function CueDetailPanel({
           .slice()
           .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
           .map((region) => {
+            // If this region is owned via a group entry, show a read-only badge row
+            const owningGroupId = groupedRegionIds.get(region.id);
+            if (owningGroupId) {
+              const owningGroup = regionGroups.find((g) => g.id === owningGroupId);
+              return (
+                <div
+                  key={region.id}
+                  className="flex items-center gap-2 px-3 py-2 mb-1 rounded border border-[#2e2e2e]/50 opacity-50"
+                >
+                  <span className="text-sm text-neutral-400 flex-1 truncate">{region.label}</span>
+                  <span className="text-xs text-neutral-600 shrink-0">CH{region.channelId}</span>
+                  <span className="text-xs px-1.5 py-0.5 rounded bg-[#646cff]/10 text-[#646cff]/70 font-mono shrink-0">
+                    {owningGroup?.label ?? 'group'}
+                  </span>
+                </div>
+              );
+            }
+
             const ownedState = cue.regionStates.find((rs) => rs.regionId === region.id) ?? null;
             const resolvedEntry = resolved.get(region.id);
             const trackedState = resolvedEntry?.state
@@ -230,7 +423,7 @@ function CueDetailPanel({
 
 // ─── EditorPage ───────────────────────────────────────────────────────────────
 
-type Tab = 'regions' | 'cues';
+type Tab = 'regions' | 'groups' | 'cues';
 
 const DEBOUNCE_MS = 600;
 
@@ -461,7 +654,7 @@ export function EditorPage() {
             className="text-base font-semibold mb-3 bg-transparent outline-none w-full text-neutral-100 border-b border-transparent focus:border-[#646cff] transition-colors"
           />
           <div className="flex gap-1">
-            {(['regions', 'cues'] as Tab[]).map((t) => (
+            {(['regions', 'groups', 'cues'] as Tab[]).map((t) => (
               <button key={t} onClick={() => setTab(t)}
                 className={
                   'px-4 py-1.5 text-xs font-semibold uppercase tracking-widest rounded-t transition-colors ' +
@@ -475,6 +668,12 @@ export function EditorPage() {
         {tab === 'regions' && (
           <div className="flex-1 overflow-y-auto p-4">
             <RegionManager play={displayPlay} onUpdateRegions={(regions) => editPlay({ regions })} />
+          </div>
+        )}
+
+        {tab === 'groups' && (
+          <div className="flex-1 overflow-y-auto p-4">
+            <GroupManager play={displayPlay} onUpdateGroups={(regionGroups) => editPlay({ regionGroups })} />
           </div>
         )}
 
@@ -524,6 +723,7 @@ export function EditorPage() {
                 <CueDetailPanel
                   cue={selectedCue} cueIndex={selectedCueIndex}
                   allCues={displayPlay.cues} regions={displayPlay.regions}
+                  regionGroups={displayPlay.regionGroups ?? []}
                   onChange={updateCue}
                   onDelete={() => deleteCue(selectedCue.id)}
                 />

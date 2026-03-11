@@ -1,4 +1,4 @@
-import type { Cue, Region, RegionCueState, Effect } from '../types';
+import type { Cue, Region, RegionCueState, RegionGroup, Effect } from '../types';
 import { effectPeakBrightness } from '../types';
 
 export const DARK_EFFECT: Effect = { type: 'solid', color: { r: 0, g: 0, b: 0, w: 0 }, brightness: 0 };
@@ -14,21 +14,37 @@ export const DARK_STATE = (regionId: string): RegionCueState => ({
  * RegionCueState per region, filling in tracked values by walking backward
  * through prior cues.
  *
+ * Group states are expanded: if a cue owns a region via a groupId, that group's
+ * effect is applied to all regions in the group.
+ *
  * Regions that have never been set by any prior cue resolve to DARK (off).
  */
 export function resolveStageState(
   cues: Cue[],
   regions: Region[],
   cueIndex: number,
+  regionGroups: RegionGroup[] = [],
 ): Map<string, { state: RegionCueState; ownedByCueIndex: number | null }> {
+  const groupById = new Map(regionGroups.map((g) => [g.id, g]));
   const result = new Map<string, { state: RegionCueState; ownedByCueIndex: number | null }>();
 
   for (const region of regions) {
     let found: { state: RegionCueState; ownedByCueIndex: number } | null = null;
     for (let i = cueIndex; i >= 0; i--) {
-      const state = cues[i].regionStates.find((rs) => rs.regionId === region.id);
-      if (state) {
-        found = { state, ownedByCueIndex: i };
+      const match = cues[i].regionStates.find((rs) => {
+        if (rs.regionId === region.id) return true;
+        if (rs.groupId) {
+          const group = groupById.get(rs.groupId);
+          return group?.regionIds.includes(region.id) ?? false;
+        }
+        return false;
+      });
+      if (match) {
+        // Normalise to a regionId-specific state so callers don't need to handle groupId
+        const resolved: RegionCueState = match.groupId
+          ? { regionId: region.id, fadeTime: match.fadeTime, effect: match.effect }
+          : match;
+        found = { state: resolved, ownedByCueIndex: i };
         break;
       }
     }
@@ -40,9 +56,18 @@ export function resolveStageState(
 
 /**
  * Which regions does this specific cue own (has explicit state for)?
+ * Includes regions owned via a group.
  */
-export function ownedRegionIds(cue: Cue): Set<string> {
-  return new Set(cue.regionStates.map((rs) => rs.regionId));
+export function ownedRegionIds(cue: Cue, regionGroups: RegionGroup[] = []): Set<string> {
+  const ids = new Set<string>();
+  for (const rs of cue.regionStates) {
+    if (rs.regionId) ids.add(rs.regionId);
+    if (rs.groupId) {
+      const group = regionGroups.find((g) => g.id === rs.groupId);
+      group?.regionIds.forEach((id) => ids.add(id));
+    }
+  }
+  return ids;
 }
 
 /**
@@ -54,8 +79,9 @@ export function resolveRegionLevels(
   cues: Cue[],
   regions: Region[],
   cueIndex: number,
+  regionGroups: RegionGroup[] = [],
 ): Record<string, { effect: Effect; brightness: number }> {
-  const stageState = resolveStageState(cues, regions, cueIndex);
+  const stageState = resolveStageState(cues, regions, cueIndex, regionGroups);
   const out: Record<string, { effect: Effect; brightness: number }> = {};
   for (const region of regions) {
     const entry = stageState.get(region.id);
