@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { Cue, Region } from '../types';
 import { colorToHex, effectPeakBrightness } from '../types';
 import { LivePreview } from '../components/preview/LivePreview';
@@ -82,9 +82,29 @@ function ShowPageContent() {
   const { cues, regions } = play;
   const { playback, currentIndex, nextIndex, currentCue, nextCue, applyCue, go, back } = usePlayback(play);
 
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(); }
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); back(); }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [go, back]);
+
   const [leftWidth, setLeftWidth] = useState(288); // default w-72 = 288px
   const containerRef = useRef<HTMLDivElement>(null);
+  const cueListRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+
+  useEffect(() => {
+    if (currentIndex === null) return;
+    const list = cueListRef.current;
+    if (!list) return;
+    const peekIndex = Math.min(currentIndex + 1, list.children.length - 1);
+    const row = list.children[peekIndex] as HTMLElement | undefined;
+    row?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [currentIndex]);
 
   const onDividerMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -126,7 +146,7 @@ function ShowPageContent() {
         </div>
 
         {/* Scrollable cue list */}
-        <div className="flex-1 overflow-y-auto">
+        <div ref={cueListRef} className="flex-1 overflow-y-auto">
           {cues.map((cue, i) => (
             <CueRow
               key={cue.id} cue={cue} index={i}
