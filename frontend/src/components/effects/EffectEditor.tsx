@@ -113,8 +113,8 @@ function PulseParams({ e, patch }: { e: PulseEffect; patch: (p: Partial<PulseEff
   return (
     <div className="flex flex-col gap-3">
       <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} />
-      <Slider label="Min brightness" value={e.minBrightness} min={0} max={e.maxBrightness} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(minBrightness) => patch({ minBrightness })} />
-      <Slider label="Max brightness" value={e.maxBrightness} min={e.minBrightness} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(maxBrightness) => patch({ maxBrightness })} />
+      <Slider label="Min brightness" value={e.minBrightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(v) => patch({ minBrightness: Math.min(v, e.maxBrightness) })} />
+      <Slider label="Max brightness" value={e.maxBrightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(v) => patch({ maxBrightness: Math.max(v, e.minBrightness) })} />
       <Slider label="Period" value={e.period} min={0.1} max={30} step={0.1} unit="s" format={(v) => `${v.toFixed(1)}s`} onChange={(period) => patch({ period })} />
     </div>
   );

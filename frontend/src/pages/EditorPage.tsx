@@ -439,6 +439,8 @@ export function EditorPage() {
   const [tab, setTab] = useState<Tab>('regions');
   const [pendingDeletePlayId, setPendingDeletePlayId] = useState<string | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const dragIndexRef = useRef<number | null>(null);
 
   // Local editing state — updated immediately on every change for a responsive UI.
   // API saves are debounced so rapid keystrokes/slider drags don't hammer the backend.
@@ -539,10 +541,21 @@ export function EditorPage() {
     }
   }
 
-  function addCue() {
+  function addCue(afterIndex?: number) {
     if (!displayPlay) return;
-    const nums = displayPlay.cues.map((c) => parseFloat(c.number)).filter(isFinite);
-    const nextNum = nums.length ? Math.max(...nums) + 1 : 1;
+    const insertAfter = afterIndex ?? (selectedCueIndex >= 0 ? selectedCueIndex : displayPlay.cues.length - 1);
+    const cues = displayPlay.cues;
+    let nextNum: number;
+    if (cues.length === 0) {
+      nextNum = 1;
+    } else if (insertAfter >= cues.length - 1) {
+      const nums = cues.map((c) => parseFloat(c.number)).filter(isFinite);
+      nextNum = nums.length ? Math.max(...nums) + 1 : 1;
+    } else {
+      const a = parseFloat(cues[insertAfter]?.number ?? '0');
+      const b = parseFloat(cues[insertAfter + 1]?.number ?? '0');
+      nextNum = isFinite(a) && isFinite(b) ? (a + b) / 2 : Math.max(...cues.map((c) => parseFloat(c.number)).filter(isFinite)) + 1;
+    }
     const newCue: Cue = {
       id: crypto.randomUUID(),
       number: String(nextNum),
@@ -550,9 +563,19 @@ export function EditorPage() {
       notes: '',
       regionStates: [],
     };
-    editPlay({ cues: [...displayPlay.cues, newCue] }, true);
+    const newCues = [...cues];
+    newCues.splice(insertAfter + 1, 0, newCue);
+    editPlay({ cues: newCues }, true);
     setSelectedCueId(newCue.id);
     setTab('cues');
+  }
+
+  function moveCue(fromIndex: number, toIndex: number) {
+    if (!displayPlay || fromIndex === toIndex) return;
+    const cues = [...displayPlay.cues];
+    const [moved] = cues.splice(fromIndex, 1);
+    cues.splice(toIndex, 0, moved);
+    editPlay({ cues }, true);
   }
 
   if (loading) return (
@@ -682,37 +705,80 @@ export function EditorPage() {
             <div className="w-52 border-r border-[#2e2e2e] flex flex-col shrink-0">
               <div className="flex items-center justify-between px-3 h-9 border-b border-[#2e2e2e] shrink-0">
                 <span className="text-xs text-neutral-500 uppercase tracking-widest">Cues</span>
-                <button onClick={addCue} className="text-[#646cff] text-xl leading-none pb-0.5">+</button>
+                <button
+                  onClick={() => addCue()}
+                  title={selectedCueIndex >= 0 ? 'Insert cue after selected' : 'Add cue at end'}
+                  className="text-[#646cff] text-xl leading-none pb-0.5"
+                >+</button>
               </div>
-              <div className="flex-1 overflow-y-auto">
-                {displayPlay.cues.map((cue) => {
+              <div
+                className="flex-1 overflow-y-auto"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (dragIndexRef.current !== null) {
+                    moveCue(dragIndexRef.current, displayPlay.cues.length - 1);
+                    dragIndexRef.current = null;
+                  }
+                  setDragOverIndex(null);
+                }}
+              >
+                {displayPlay.cues.map((cue, i) => {
                   const ownCount = cue.regionStates.length;
                   const trackCount = displayPlay.regions.length - ownCount;
-                  // Collect unique effect types this cue owns
                   const effectTypes = [...new Set(cue.regionStates.map((rs) => rs.effect.type))];
+                  const isSelected = selectedCueId === cue.id;
+                  const isDragTarget = dragOverIndex === i && dragIndexRef.current !== null && dragIndexRef.current !== i;
                   return (
-                    <button key={cue.id} onClick={() => setSelectedCueId(cue.id)}
-                      className={
-                        'w-full text-left px-3 py-2.5 border-b border-[#2e2e2e] flex flex-col gap-0.5 transition-colors ' +
-                        (selectedCueId === cue.id ? 'bg-[#646cff]/20' : 'hover:bg-[#2e2e2e]')
-                      }
+                    <div
+                      key={cue.id}
+                      className="relative group/cuerow"
+                      draggable
+                      onDragStart={(e) => { e.dataTransfer.effectAllowed = 'move'; dragIndexRef.current = i; }}
+                      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setDragOverIndex(i); }}
+                      onDragLeave={() => setDragOverIndex(null)}
+                      onDrop={(e) => {
+                        e.preventDefault(); e.stopPropagation();
+                        if (dragIndexRef.current !== null) moveCue(dragIndexRef.current, i);
+                        dragIndexRef.current = null;
+                        setDragOverIndex(null);
+                      }}
+                      onDragEnd={() => { dragIndexRef.current = null; setDragOverIndex(null); }}
                     >
-                      <div className="flex gap-3 items-baseline">
-                        <span className={`font-mono text-xs shrink-0 w-6 ${selectedCueId === cue.id ? 'text-[#646cff]' : 'text-neutral-500'}`}>{cue.number}</span>
-                        <span className={`text-sm truncate ${selectedCueId === cue.id ? 'text-[#646cff]' : 'text-neutral-300'}`}>{cue.label}</span>
-                      </div>
-                      <div className="flex items-center gap-2 pl-9">
-                        <span className="text-xs text-neutral-600">
-                          {ownCount > 0 && `${ownCount} owned`}
-                          {trackCount > 0 && <span className="italic text-neutral-700"> · {trackCount} T</span>}
-                        </span>
-                        <div className="flex gap-1">
-                          {effectTypes.map((t) => (
-                            <span key={t} className="text-[10px] px-1 rounded bg-[#2e2e2e] text-neutral-500 font-mono">{t}</span>
-                          ))}
+                      {isDragTarget && (
+                        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#646cff] z-10 pointer-events-none" />
+                      )}
+                      <button
+                        onClick={() => setSelectedCueId(cue.id)}
+                        className={
+                          'w-full text-left px-3 py-2.5 border-b border-[#2e2e2e] flex flex-col gap-0.5 transition-colors ' +
+                          (isSelected ? 'bg-[#646cff]/20' : 'hover:bg-[#2e2e2e]')
+                        }
+                      >
+                        <div className="flex gap-2 items-baseline">
+                          <span className="text-neutral-700 cursor-grab text-xs shrink-0" title="Drag to reorder">⠿</span>
+                          <span className={`font-mono text-xs shrink-0 w-6 ${isSelected ? 'text-[#646cff]' : 'text-neutral-500'}`}>{cue.number}</span>
+                          <span className={`text-sm truncate ${isSelected ? 'text-[#646cff]' : 'text-neutral-300'}`}>{cue.label}</span>
                         </div>
-                      </div>
-                    </button>
+                        <div className="flex items-center gap-2 pl-9">
+                          <span className="text-xs text-neutral-600">
+                            {ownCount > 0 && `${ownCount} owned`}
+                            {trackCount > 0 && <span className="italic text-neutral-700"> · {trackCount} T</span>}
+                          </span>
+                          <div className="flex gap-1">
+                            {effectTypes.map((t) => (
+                              <span key={t} className="text-[10px] px-1 rounded bg-[#2e2e2e] text-neutral-500 font-mono">{t}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </button>
+                      {/* Insert-after button */}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); addCue(i); }}
+                        title={`Insert cue after ${cue.number}`}
+                        className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 z-20 opacity-0 group-hover/cuerow:opacity-100 transition-opacity w-5 h-5 rounded-full bg-[#646cff] text-white text-xs font-bold leading-none flex items-center justify-center shadow-lg"
+                      >+</button>
+                    </div>
                   );
                 })}
               </div>
