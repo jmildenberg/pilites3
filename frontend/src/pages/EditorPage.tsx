@@ -291,8 +291,49 @@ function CueDetailPanel({
     });
   }
 
+  const [showAvailableGroups, setShowAvailableGroups] = useState(false);
+  const [showTrackingRegions, setShowTrackingRegions] = useState(false);
+
   const ownedCount = owned.size;
-  const trackingCount = regions.length - ownedCount;
+
+  // Split groups into owned-by-this-cue vs available
+  const ownedGroups = regionGroups.filter((g) => cue.regionStates.some((rs) => rs.groupId === g.id));
+  const availableGroups = regionGroups.filter((g) => !cue.regionStates.some((rs) => rs.groupId === g.id));
+
+  function renderGroupRow(group: RegionGroup) {
+    const ownedState = cue.regionStates.find((rs) => rs.groupId === group.id) ?? null;
+    const firstMemberId = group.regionIds[0];
+    const trackedState = firstMemberId
+      ? (resolved.get(firstMemberId)?.state ?? { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } })
+      : { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } };
+    const memberCount = group.regionIds.filter((id) => regions.some((r) => r.id === id)).length;
+
+    let conflictWith: string | undefined;
+    if (!ownedState) {
+      for (const rid of group.regionIds) {
+        const owningGroupId = groupedRegionIds.get(rid);
+        if (owningGroupId && owningGroupId !== group.id) {
+          conflictWith = regionGroups.find((g) => g.id === owningGroupId)?.label;
+          break;
+        }
+      }
+    }
+
+    return (
+      <GroupRow
+        key={group.id}
+        group={group}
+        memberCount={memberCount}
+        ownedState={ownedState}
+        trackedState={trackedState}
+        conflictWith={conflictWith}
+        onCapture={() => captureGroup(group.id)}
+        onRelease={() => releaseGroup(group.id)}
+        onOff={() => offGroup(group.id)}
+        onChange={(patch) => patchGroupState(group.id, patch)}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4 overflow-y-auto h-full">
@@ -324,42 +365,37 @@ function CueDetailPanel({
       {/* Groups section */}
       {regionGroups.length > 0 && (
         <div>
-          <p className="text-xs text-neutral-500 uppercase tracking-widest mb-3">Groups</p>
-          {regionGroups.map((group) => {
-            const ownedState = cue.regionStates.find((rs) => rs.groupId === group.id) ?? null;
-            const firstMemberId = group.regionIds[0];
-            const trackedState = firstMemberId
-              ? (resolved.get(firstMemberId)?.state ?? { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } })
-              : { groupId: group.id, fadeTime: 0, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } };
-            const memberCount = group.regionIds.filter((id) => regions.some((r) => r.id === id)).length;
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs text-neutral-500 uppercase tracking-widest">Groups</p>
+            {ownedGroups.length > 0 && (
+              <span className="text-xs text-neutral-600 font-mono">{ownedGroups.length} active</span>
+            )}
+          </div>
 
-            // Detect if any member region is already owned by a different active group
-            let conflictWith: string | undefined;
-            if (!ownedState) {
-              for (const rid of group.regionIds) {
-                const owningGroupId = groupedRegionIds.get(rid);
-                if (owningGroupId && owningGroupId !== group.id) {
-                  conflictWith = regionGroups.find((g) => g.id === owningGroupId)?.label;
-                  break;
-                }
-              }
-            }
+          {/* Owned groups pinned at top */}
+          {ownedGroups.length === 0 && (
+            <p className="text-xs text-neutral-700 italic mb-2">No groups active in this cue.</p>
+          )}
+          {ownedGroups.map(renderGroupRow)}
 
-            return (
-              <GroupRow
-                key={group.id}
-                group={group}
-                memberCount={memberCount}
-                ownedState={ownedState}
-                trackedState={trackedState}
-                conflictWith={conflictWith}
-                onCapture={() => captureGroup(group.id)}
-                onRelease={() => releaseGroup(group.id)}
-                onOff={() => offGroup(group.id)}
-                onChange={(patch) => patchGroupState(group.id, patch)}
-              />
-            );
-          })}
+          {/* Collapsible available groups */}
+          {availableGroups.length > 0 && (
+            <>
+              {ownedGroups.length > 0 && <div className="border-t border-surface-3 mt-2 mb-1" />}
+              <button
+                onClick={() => setShowAvailableGroups((v) => !v)}
+                className="w-full text-left text-xs text-neutral-600 hover:text-neutral-400 transition-colors py-1 flex items-center gap-1.5"
+              >
+                <span>{showAvailableGroups ? '▾' : '▸'}</span>
+                {showAvailableGroups ? 'Hide' : 'Add'} {availableGroups.length} available group{availableGroups.length !== 1 ? 's' : ''}
+              </button>
+              {showAvailableGroups && (
+                <div className="mt-1">
+                  {availableGroups.map(renderGroupRow)}
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
 
@@ -367,28 +403,26 @@ function CueDetailPanel({
       <div>
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs text-neutral-500 uppercase tracking-widest">Regions</p>
-          <span className="text-xs text-neutral-600 font-mono">
-            {ownedCount} owned · {trackingCount} tracking
-          </span>
+          {ownedCount > 0 && (
+            <span className="text-xs text-neutral-600 font-mono">{ownedCount} active</span>
+          )}
         </div>
 
         {regions.length === 0 && (
           <p className="text-xs text-neutral-600 italic">Define regions in the Regions tab first.</p>
         )}
 
-        {regions
-          .slice()
-          .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
-          .map((region) => {
-            // If this region is owned via a group entry, show a read-only badge row
+        {(() => {
+          const sorted = regions.slice().sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex);
+          const activeRegions = sorted.filter((r) => groupedRegionIds.has(r.id) || cue.regionStates.some((rs) => rs.regionId === r.id));
+          const trackingRegions = sorted.filter((r) => !groupedRegionIds.has(r.id) && !cue.regionStates.some((rs) => rs.regionId === r.id));
+
+          function renderRegionRow(region: Region) {
             const owningGroupId = groupedRegionIds.get(region.id);
             if (owningGroupId) {
               const owningGroup = regionGroups.find((g) => g.id === owningGroupId);
               return (
-                <div
-                  key={region.id}
-                  className="flex items-center gap-2 px-3 py-2 mb-1 rounded border border-[#2e2e2e]/50 opacity-50"
-                >
+                <div key={region.id} className="flex items-center gap-2 px-3 py-2 mb-1 rounded border border-surface-3/50 opacity-50">
                   <span className="text-sm text-neutral-400 flex-1 truncate">{region.label}</span>
                   <span className="text-xs text-neutral-600 shrink-0">CH{region.channelId}</span>
                   <span className="text-xs px-1.5 py-0.5 rounded bg-[#646cff]/10 text-[#646cff]/70 font-mono shrink-0">
@@ -397,12 +431,10 @@ function CueDetailPanel({
                 </div>
               );
             }
-
             const ownedState = cue.regionStates.find((rs) => rs.regionId === region.id) ?? null;
             const resolvedEntry = resolved.get(region.id);
             const trackedState = resolvedEntry?.state
               ?? { regionId: region.id, fadeTime: 3, effect: { ...EFFECT_DEFAULTS.solid, brightness: 0 } };
-
             return (
               <RegionRow
                 key={region.id}
@@ -415,7 +447,31 @@ function CueDetailPanel({
                 onChange={(patch) => patchRegionState(region.id, patch)}
               />
             );
-          })}
+          }
+
+          return (
+            <>
+              {activeRegions.length === 0 && (
+                <p className="text-xs text-neutral-700 italic mb-2">No regions active in this cue.</p>
+              )}
+              {activeRegions.map(renderRegionRow)}
+
+              {trackingRegions.length > 0 && (
+                <>
+                  {activeRegions.length > 0 && <div className="border-t border-surface-3 mt-2 mb-1" />}
+                  <button
+                    onClick={() => setShowTrackingRegions((v) => !v)}
+                    className="w-full text-left text-xs text-neutral-600 hover:text-neutral-400 transition-colors py-1 flex items-center gap-1.5"
+                  >
+                    <span>{showTrackingRegions ? '▾' : '▸'}</span>
+                    {showTrackingRegions ? 'Hide' : 'Add'} {trackingRegions.length} tracking region{trackingRegions.length !== 1 ? 's' : ''}
+                  </button>
+                  {showTrackingRegions && <div className="mt-1">{trackingRegions.map(renderRegionRow)}</div>}
+                </>
+              )}
+            </>
+          );
+        })()}
       </div>
     </div>
   );

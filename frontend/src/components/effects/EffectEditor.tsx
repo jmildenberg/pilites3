@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type {
   Effect, EffectType, Color,
   SolidEffect, GradientEffect, RainbowEffect,
@@ -193,9 +194,32 @@ interface Props {
 }
 
 export function EffectEditor({ effect, onChange, disabled = false }: Props) {
+  // Retain the last known color across effect type switches, including colorless types (rainbow, fire)
+  const lastColorRef = useRef<Color>(
+    'color' in effect ? effect.color
+    : 'colorA' in effect ? (effect as GradientEffect).colorA
+    : (EFFECT_DEFAULTS.solid as SolidEffect).color
+  );
+  const lastColorBRef = useRef<Color>(
+    'colorB' in effect ? (effect as GradientEffect).colorB
+    : (EFFECT_DEFAULTS.gradient as GradientEffect).colorB
+  );
+
+  // Keep refs current as the effect changes (e.g. user picks a new color)
+  if ('color' in effect) lastColorRef.current = effect.color;
+  if ('colorA' in effect) lastColorRef.current = (effect as GradientEffect).colorA;
+  if ('colorB' in effect) lastColorBRef.current = (effect as GradientEffect).colorB;
+
   function switchType(type: EffectType) {
     if (type === effect.type) return;
-    onChange({ ...EFFECT_DEFAULTS[type] });
+    const next = { ...EFFECT_DEFAULTS[type] } as Record<string, unknown>;
+
+    // Restore retained color into the new effect where applicable
+    if ('color' in next) next.color = lastColorRef.current;
+    if ('colorA' in next) next.colorA = lastColorRef.current;
+    if ('colorB' in next) next.colorB = lastColorBRef.current;
+
+    onChange(next as unknown as Effect);
   }
 
   function patch<T extends Effect>(partial: Partial<T>) {
