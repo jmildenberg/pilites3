@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "label": "Stage Left",
+    "ledCount": 250,
+    "type": "wled",
+    "gpioPin": 18,
+    "colorOrder": "RGB",
+    "wledHost": "10.0.16.80",
+    "wledPort": 4048
+  },
+  {
+    "id": 1,
+    "label": "Stage Left",
+    "ledCount": 250,
+    "type": "wled",
+    "gpioPin": 13,
+    "colorOrder": "RGB",
+    "wledHost": "10.0.16.79",
+    "wledPort": 4048
+  }
+]

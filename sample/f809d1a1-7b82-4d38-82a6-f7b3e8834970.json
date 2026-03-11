@@ -1,0 +1,834 @@
+{
+  "id": "f809d1a1-7b82-4d38-82a6-f7b3e8834970",
+  "title": "Godspell",
+  "description": "",
+  "regions": [
+    {
+      "id": "04255258-1819-4407-9c86-99848119761e",
+      "label": "Left",
+      "channelId": 0,
+      "startIndex": 0,
+      "endIndex": 199,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+      "label": "Right",
+      "channelId": 1,
+      "startIndex": 0,
+      "endIndex": 199,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "a938cdea-1994-4add-95dd-c8cf998ead87",
+      "label": "Fence Left",
+      "channelId": 0,
+      "startIndex": 200,
+      "endIndex": 249,
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+      "label": "Fence Right",
+      "channelId": 1,
+      "startIndex": 200,
+      "endIndex": 249,
+      "uiColor": "#22c55e"
+    }
+  ],
+  "cues": [
+    {
+      "id": "5067070e-8bac-4bca-acbe-c2aa5287d85b",
+      "number": "1",
+      "label": "Preshow",
+      "notes": "Before the show.",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 137,
+              "g": 181,
+              "b": 215,
+              "w": 0
+            },
+            "brightness": 0.8,
+            "density": 0.2,
+            "speed": 0.5
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 137,
+              "g": 181,
+              "b": 215,
+              "w": 0
+            },
+            "brightness": 0.8,
+            "density": 0.2,
+            "speed": 0.5
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "8e1eb921-f304-42a7-a8d2-51466610fd22",
+      "number": "2",
+      "label": "Wherefore...",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "0b1fc5cd-c99b-4273-bdd5-a77c12ed38d9",
+      "number": "3",
+      "label": "God is apprehended...",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 15,
+              "g": 204,
+              "b": 201,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 15,
+              "g": 204,
+              "b": 201,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 15,
+              "g": 204,
+              "b": 201,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 15,
+              "g": 204,
+              "b": 201,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "295b3707-d49c-454f-a02e-0eb320262bb4",
+      "number": "4",
+      "label": "God endows us...",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 225,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 225,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 225,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 225,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "aeafc9a4-8fb9-40da-afec-0846290aaffa",
+      "number": "5",
+      "label": "The Rise of the State/The Decline of Rome",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 88,
+              "g": 244,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 88,
+              "g": 244,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 136,
+              "g": 10,
+              "b": 138,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 136,
+              "g": 10,
+              "b": 138,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9bc86dec-2b84-477d-b498-1ddfc1a59144",
+      "number": "6",
+      "label": "Nothing is true...",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 21,
+              "g": 66,
+              "b": 244,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 21,
+              "g": 66,
+              "b": 244,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 21,
+              "g": 66,
+              "b": 244,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 21,
+              "g": 66,
+              "b": 244,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "c6c2d630-b245-4557-90f8-3ea23cbe9d2d",
+      "number": "7",
+      "label": "Atheistic existentialism...",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 21,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 21,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 21,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 244,
+              "g": 21,
+              "b": 21,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "4519808a-6a19-46eb-b2fb-1126b3bddaf2",
+      "number": "8",
+      "label": "The Glory of God ",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.3,
+            "maxBrightness": 1.0,
+            "period": 2.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "5b5abbec-1ffc-41b7-a1cb-4728686048a4",
+      "number": "9",
+      "label": "SO HIGH IN MY",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "strobe",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "rate": 0.5,
+            "dutyCycle": 0.5
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 220,
+              "b": 180,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "strobe",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "rate": 0.5,
+            "dutyCycle": 0.5
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 220,
+              "b": 180,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "8ae3322b-e12b-4b71-af29-caeefe93ede9",
+      "number": "10",
+      "label": "TOWER OF BABBLE????",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "reverse"
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "reverse"
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "reverse"
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "reverse"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "e3835dba-d9a8-42d2-a02f-5c6e18282df2",
+      "number": "11",
+      "label": "OH GOD IT'S EVERYONE",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": "04255258-1819-4407-9c86-99848119761e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 50.0
+          }
+        },
+        {
+          "regionId": "a938cdea-1994-4add-95dd-c8cf998ead87",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 50.0
+          }
+        },
+        {
+          "regionId": "8a1239cc-ac18-4266-9d7a-304ee7fdfe2b",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 50.0
+          }
+        },
+        {
+          "regionId": "3c5b0c3c-d0bc-4d57-996c-b6e8adaeb573",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 50.0
+          }
+        }
+      ],
+      "followTime": null
+    }
+  ],
+  "createdAt": "2026-03-09T20:32:46.220280+00:00",
+  "updatedAt": "2026-03-09T21:59:57.352326+00:00"
+}

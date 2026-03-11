@@ -1,0 +1,1284 @@
+{
+  "id": "042c373c-50a2-4198-a219-6aae9a65dd1a",
+  "title": "New Show",
+  "description": "",
+  "regions": [
+    {
+      "id": "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
+      "label": "Stage Left - Left Run",
+      "channelId": 0,
+      "startIndex": 11,
+      "endIndex": 33,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "99653ffc-f514-4de0-839e-deb2d96917b2",
+      "label": "Stage Right - Start",
+      "channelId": 1,
+      "startIndex": 0,
+      "endIndex": 8,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "01da444f-3e82-4481-aea6-7e365e4254ad",
+      "label": "Stage Right - Fence",
+      "channelId": 1,
+      "startIndex": 200,
+      "endIndex": 249,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
+      "label": "Stage Left - Start",
+      "channelId": 0,
+      "startIndex": 0,
+      "endIndex": 10,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "0a8f49dd-d737-4997-a784-b085695aa627",
+      "label": "Stage Left - Back Wash",
+      "channelId": 0,
+      "startIndex": 34,
+      "endIndex": 45,
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+      "label": "Stage Left - Middle Run 1",
+      "channelId": 0,
+      "startIndex": 46,
+      "endIndex": 55,
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "21a120e3-2985-4b49-a791-5c2143aa3688",
+      "label": "Stage Left - Left Cross 1",
+      "channelId": 0,
+      "startIndex": 56,
+      "endIndex": 69,
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+      "label": "Stage Left - Front Wash 1",
+      "channelId": 0,
+      "startIndex": 70,
+      "endIndex": 79,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "c3a641a5-6e44-4c12-8d90-5b0d4b332bee",
+      "label": "Stage Left - Left Cross 2",
+      "channelId": 0,
+      "startIndex": 80,
+      "endIndex": 93,
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+      "label": "Stage Left - Middle Wash",
+      "channelId": 0,
+      "startIndex": 94,
+      "endIndex": 105,
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "6906cc74-927c-4df3-a682-85509f1d9f41",
+      "label": "Stage Left - Middle Run 2",
+      "channelId": 0,
+      "startIndex": 106,
+      "endIndex": 115,
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
+      "label": "Stage Left - Front Wash 2",
+      "channelId": 0,
+      "startIndex": 116,
+      "endIndex": 124,
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "beee4cde-581a-4edb-98c3-f17c9c136353",
+      "label": "Stage Left - Right Run 1",
+      "channelId": 0,
+      "startIndex": 125,
+      "endIndex": 135,
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
+      "label": "Stage Left - Right Cross 1",
+      "channelId": 0,
+      "startIndex": 136,
+      "endIndex": 148,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "ca16c2b4-d734-4aa3-813e-e94ebd96af3f",
+      "label": "Stage Left - Blank",
+      "channelId": 0,
+      "startIndex": 149,
+      "endIndex": 159,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "3334044d-1f2a-41d6-9106-d03bea4d7c54",
+      "label": "Stage Left - Right Cross 2",
+      "channelId": 0,
+      "startIndex": 160,
+      "endIndex": 172,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "793330eb-2e89-483f-9d11-74458525b322",
+      "label": "Stage Left - Middle Wash 2",
+      "channelId": 0,
+      "startIndex": 173,
+      "endIndex": 182,
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
+      "label": "Stage Left - Right Run 2",
+      "channelId": 0,
+      "startIndex": 183,
+      "endIndex": 195,
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "ce4df159-8ed4-4921-9671-797b416374b1",
+      "label": "Stage Left - Blank 2",
+      "channelId": 0,
+      "startIndex": 196,
+      "endIndex": 199,
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
+      "label": "Stage Left - Fence",
+      "channelId": 0,
+      "startIndex": 200,
+      "endIndex": 249,
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+      "label": "Stage Right - Right Run",
+      "channelId": 1,
+      "startIndex": 9,
+      "endIndex": 29,
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "2549b2ed-8743-4c91-96de-daaadedf1e60",
+      "label": "Stage Right - Back Wash",
+      "channelId": 1,
+      "startIndex": 30,
+      "endIndex": 40,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "74c47f06-0c44-4dc3-9199-56713cd41bde",
+      "label": "Stage Right - Middle Run 1",
+      "channelId": 1,
+      "startIndex": 41,
+      "endIndex": 52,
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+      "label": "Stage Left - Right Cross 1",
+      "channelId": 1,
+      "startIndex": 53,
+      "endIndex": 66,
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+      "label": "Stage Right - Front Wash 1",
+      "channelId": 1,
+      "startIndex": 67,
+      "endIndex": 77,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "fd119253-decc-4966-9c1b-61604668ee73",
+      "label": "Stage Right - Right Cross 2",
+      "channelId": 1,
+      "startIndex": 78,
+      "endIndex": 91,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "dd184819-9f11-46f6-b46b-1f602519290c",
+      "label": "Stage Right - Middle Wash",
+      "channelId": 1,
+      "startIndex": 92,
+      "endIndex": 102,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "30f7bb6c-d628-446a-bfff-721c7d30aece",
+      "label": "Stage Left - Middle Run 2",
+      "channelId": 1,
+      "startIndex": 103,
+      "endIndex": 112,
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+      "label": "Stage Right - Front Wash 2",
+      "channelId": 1,
+      "startIndex": 113,
+      "endIndex": 123,
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "efe66423-18cd-4a76-8182-4f43d7a581a3",
+      "label": "Stage Right - Left Run 1",
+      "channelId": 1,
+      "startIndex": 124,
+      "endIndex": 135,
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+      "label": "Stage Right - Left Cross 1",
+      "channelId": 1,
+      "startIndex": 136,
+      "endIndex": 147,
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "33e6db1e-8d24-407b-bdd3-2ad267bdd4fc",
+      "label": "Stage Right - Blank",
+      "channelId": 1,
+      "startIndex": 148,
+      "endIndex": 156,
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
+      "label": "Stage Right - Left Cross 2",
+      "channelId": 1,
+      "startIndex": 157,
+      "endIndex": 169,
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "16203764-9929-4aee-80e7-ec0b6d0d3a52",
+      "label": "Stage Left - Middle Wash 2",
+      "channelId": 1,
+      "startIndex": 170,
+      "endIndex": 178,
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "93e3bf30-f263-421c-8780-82d9bf4d5640",
+      "label": "Stage Right - Right Run 2",
+      "channelId": 1,
+      "startIndex": 179,
+      "endIndex": 191,
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "0206c975-7b88-4ede-9003-c744732e7dcc",
+      "label": "Stage Right - Blank 2",
+      "channelId": 1,
+      "startIndex": 192,
+      "endIndex": 199,
+      "uiColor": "#f59e0b"
+    }
+  ],
+  "regionGroups": [
+    {
+      "id": "fd97fe4e-313a-41bf-9c5d-87ea8748ca20",
+      "label": "Stage Left - Front Wash",
+      "regionIds": [
+        "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
+        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71"
+      ]
+    },
+    {
+      "id": "01db32af-f207-4c1a-b14f-9422e6f03e64",
+      "label": "Stage Left - Left Run",
+      "regionIds": [
+        "05893987-24cf-4ea7-b001-31bfb3dfb1b6"
+      ]
+    },
+    {
+      "id": "e48e5792-a955-4c8f-acf4-3439d6080ec8",
+      "label": "Stage Left - Middle Run",
+      "regionIds": [
+        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+        "6906cc74-927c-4df3-a682-85509f1d9f41"
+      ]
+    },
+    {
+      "id": "d041146b-4529-4408-982e-62109c8b7b51",
+      "label": "Stage Left - Center Wash",
+      "regionIds": [
+        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+        "793330eb-2e89-483f-9d11-74458525b322"
+      ]
+    },
+    {
+      "id": "dee1b578-f301-4364-b7c5-df30fdce3777",
+      "label": "Stage Left - Right Run",
+      "regionIds": [
+        "beee4cde-581a-4edb-98c3-f17c9c136353",
+        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085"
+      ]
+    },
+    {
+      "id": "d4b65ec6-b3ca-4728-8aaf-e71bbd237358",
+      "label": "Stage Left - Back Wash",
+      "regionIds": [
+        "0a8f49dd-d737-4997-a784-b085695aa627"
+      ]
+    },
+    {
+      "id": "70dcae37-a1c6-46df-9602-efc6b5f73dff",
+      "label": "Stage Left - Left Cross",
+      "regionIds": [
+        "21a120e3-2985-4b49-a791-5c2143aa3688",
+        "c3a641a5-6e44-4c12-8d90-5b0d4b332bee"
+      ]
+    },
+    {
+      "id": "28d4100f-b840-41cf-9b05-efaef3a96b4f",
+      "label": "Stage Left - Right Cross",
+      "regionIds": [
+        "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
+        "3334044d-1f2a-41d6-9106-d03bea4d7c54"
+      ]
+    },
+    {
+      "id": "b4b9116e-fe64-4917-a8d6-b7cc3ff1c670",
+      "label": "Stage Left - Fence",
+      "regionIds": [
+        "20ec142a-6514-44fb-9d4d-e87df66b6b1d"
+      ]
+    },
+    {
+      "id": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
+      "label": "Stage Right - Front Wash",
+      "regionIds": [
+        "99653ffc-f514-4de0-839e-deb2d96917b2",
+        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+        "d8442871-267f-4abb-a6d8-fb80d4e6d84f"
+      ]
+    },
+    {
+      "id": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
+      "label": "Stage Right - Right Run",
+      "regionIds": [
+        "8d730c3f-df17-420d-b45b-f77eb9e6a00c"
+      ]
+    },
+    {
+      "id": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
+      "label": "Stage Right -Middle Run",
+      "regionIds": [
+        "74c47f06-0c44-4dc3-9199-56713cd41bde",
+        "30f7bb6c-d628-446a-bfff-721c7d30aece"
+      ]
+    },
+    {
+      "id": "d4457ba2-6ce6-4a54-b055-a64900c14720",
+      "label": "Stage Right - Center Wash",
+      "regionIds": [
+        "dd184819-9f11-46f6-b46b-1f602519290c",
+        "16203764-9929-4aee-80e7-ec0b6d0d3a52"
+      ]
+    },
+    {
+      "id": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
+      "label": "Stage Right - Left Run",
+      "regionIds": [
+        "efe66423-18cd-4a76-8182-4f43d7a581a3",
+        "93e3bf30-f263-421c-8780-82d9bf4d5640"
+      ]
+    },
+    {
+      "id": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
+      "label": "Stage Right - Back Wash",
+      "regionIds": [
+        "2549b2ed-8743-4c91-96de-daaadedf1e60"
+      ]
+    },
+    {
+      "id": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
+      "label": "Stage Right - Right Cross",
+      "regionIds": [
+        "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+        "fd119253-decc-4966-9c1b-61604668ee73"
+      ]
+    },
+    {
+      "id": "b4577b1d-d310-49de-a9e3-32d33adca25d",
+      "label": "Stage Right - Left Cross",
+      "regionIds": [
+        "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+        "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a"
+      ]
+    },
+    {
+      "id": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
+      "label": "Stage Right - Fence",
+      "regionIds": [
+        "01da444f-3e82-4481-aea6-7e365e4254ad"
+      ]
+    },
+    {
+      "id": "a6f8a99e-a348-46ad-8438-72565391568e",
+      "label": "All Lights",
+      "regionIds": [
+        "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
+        "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
+        "0a8f49dd-d737-4997-a784-b085695aa627",
+        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+        "21a120e3-2985-4b49-a791-5c2143aa3688",
+        "c3a641a5-6e44-4c12-8d90-5b0d4b332bee",
+        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+        "6906cc74-927c-4df3-a682-85509f1d9f41",
+        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
+        "beee4cde-581a-4edb-98c3-f17c9c136353",
+        "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
+        "ca16c2b4-d734-4aa3-813e-e94ebd96af3f",
+        "3334044d-1f2a-41d6-9106-d03bea4d7c54",
+        "793330eb-2e89-483f-9d11-74458525b322",
+        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
+        "ce4df159-8ed4-4921-9671-797b416374b1",
+        "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
+        "99653ffc-f514-4de0-839e-deb2d96917b2",
+        "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+        "2549b2ed-8743-4c91-96de-daaadedf1e60",
+        "74c47f06-0c44-4dc3-9199-56713cd41bde",
+        "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+        "fd119253-decc-4966-9c1b-61604668ee73",
+        "dd184819-9f11-46f6-b46b-1f602519290c",
+        "30f7bb6c-d628-446a-bfff-721c7d30aece",
+        "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+        "efe66423-18cd-4a76-8182-4f43d7a581a3",
+        "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+        "33e6db1e-8d24-407b-bdd3-2ad267bdd4fc",
+        "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
+        "16203764-9929-4aee-80e7-ec0b6d0d3a52",
+        "93e3bf30-f263-421c-8780-82d9bf4d5640",
+        "0206c975-7b88-4ede-9003-c744732e7dcc",
+        "01da444f-3e82-4481-aea6-7e365e4254ad"
+      ]
+    }
+  ],
+  "cues": [
+    {
+      "id": "c710effd-ebab-4ac8-aa63-c1f665ac74e3",
+      "number": "1",
+      "label": "Stage Right Only",
+      "notes": "Testing Stage Right Lights",
+      "regionStates": [
+        {
+          "regionId": "eb9391d8-3ea2-41f0-94d5-903565798c7f",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 187,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "0ffb9af9-afc9-4f20-8e1d-4f4ba4c76882",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 140,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "135c634f-e7fd-418d-842f-37422fb1a55a",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 4,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "92bc6a54-329d-4e3a-8d5d-26948080f0f8",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 157,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "df5cb871-87c9-43e9-8c70-5da787d1a8bc",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 247,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "6a40d4b0-bd9e-4755-9ed1-2c97d8afafc2",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 115,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "ee81b0f9-ecd1-45fa-98db-229aeb1409aa",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "99653ffc-f514-4de0-839e-deb2d96917b2",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "2549b2ed-8743-4c91-96de-daaadedf1e60",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "74c47f06-0c44-4dc3-9199-56713cd41bde",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "fd119253-decc-4966-9c1b-61604668ee73",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "dd184819-9f11-46f6-b46b-1f602519290c",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "30f7bb6c-d628-446a-bfff-721c7d30aece",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "efe66423-18cd-4a76-8182-4f43d7a581a3",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "16203764-9929-4aee-80e7-ec0b6d0d3a52",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "93e3bf30-f263-421c-8780-82d9bf4d5640",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": "01da444f-3e82-4481-aea6-7e365e4254ad",
+          "groupId": null,
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "d4457ba2-6ce6-4a54-b055-a64900c14720",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "b4577b1d-d310-49de-a9e3-32d33adca25d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "2e58d277-32e2-4b02-9608-06f3ce883923",
+      "number": "2",
+      "label": "All Lights",
+      "notes": "Stage Left and Stage Right Test Sequence",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "fd97fe4e-313a-41bf-9c5d-87ea8748ca20",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "01db32af-f207-4c1a-b14f-9422e6f03e64",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "e48e5792-a955-4c8f-acf4-3439d6080ec8",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "d041146b-4529-4408-982e-62109c8b7b51",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "dee1b578-f301-4364-b7c5-df30fdce3777",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "d4b65ec6-b3ca-4728-8aaf-e71bbd237358",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "70dcae37-a1c6-46df-9602-efc6b5f73dff",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "28d4100f-b840-41cf-9b05-efaef3a96b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "b4b9116e-fe64-4917-a8d6-b7cc3ff1c670",
+          "fadeTime": 3.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "2fff64bc-2c52-45d7-a86a-89bd74eb8a76",
+      "number": "3",
+      "label": "Stage Left Only",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "d4457ba2-6ce6-4a54-b055-a64900c14720",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "b4577b1d-d310-49de-a9e3-32d33adca25d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b20c9890-224e-4456-a111-b8cf74ceaebf",
+      "number": "4",
+      "label": "All Off",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    }
+  ],
+  "createdAt": "2026-03-10T19:17:00.818988+00:00",
+  "updatedAt": "2026-03-11T00:26:34.257762+00:00"
+}
