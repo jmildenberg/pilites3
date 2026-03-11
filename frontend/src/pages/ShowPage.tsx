@@ -1,3 +1,4 @@
+import { useState, useRef, useCallback } from 'react';
 import type { Cue, Region } from '../types';
 import { colorToHex, effectPeakBrightness } from '../types';
 import { LivePreview } from '../components/preview/LivePreview';
@@ -81,35 +82,50 @@ function ShowPageContent() {
   const { cues, regions } = play;
   const { playback, currentIndex, nextIndex, currentCue, nextCue, applyCue, go, back } = usePlayback(play);
 
-  const activeEffects = currentCue
-    ? [...new Set(currentCue.regionStates.map((rs) => rs.effect.type))]
-    : [];
+  const [leftWidth, setLeftWidth] = useState(288); // default w-72 = 288px
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+
+  const onDividerMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    dragging.current = true;
+    const startX = e.clientX;
+    const startWidth = leftWidth;
+
+    function onMove(ev: MouseEvent) {
+      if (!dragging.current) return;
+      const container = containerRef.current;
+      const maxWidth = container ? container.clientWidth - 240 : 800;
+      setLeftWidth(Math.max(200, Math.min(maxWidth, startWidth + ev.clientX - startX)));
+    }
+    function onUp() {
+      dragging.current = false;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    }
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }, [leftWidth]);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-5 h-12 border-b border-[#2e2e2e] shrink-0">
-        <div className="flex items-center gap-3">
-          <h1 className="text-sm font-semibold">{play.title}</h1>
-          <span className={
-            'text-xs px-2 py-0.5 rounded-full font-mono ' +
-            (playback.status === 'idle' ? 'bg-neutral-800 text-neutral-500' : 'bg-[#22c55e]/20 text-[#22c55e]')
-          }>
-            {playback.status.toUpperCase()}
-          </span>
-          {activeEffects.length > 0 && (
-            <div className="flex gap-1">
-              {activeEffects.map((t) => (
-                <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-[#2e2e2e] text-neutral-400 font-mono">{t}</span>
-              ))}
-            </div>
-          )}
+    <div ref={containerRef} className="flex h-full overflow-hidden">
+      {/* ── Left: cue list + controls ─────────────────────────────────────── */}
+      <div className="border-r border-[#2e2e2e] flex flex-col shrink-0" style={{ width: leftWidth }}>
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 h-11 border-b border-[#2e2e2e] shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <h1 className="text-sm font-semibold truncate">{play.title}</h1>
+            <span className={
+              'text-xs px-2 py-0.5 rounded-full font-mono shrink-0 ' +
+              (playback.status === 'idle' ? 'bg-neutral-800 text-neutral-500' : 'bg-[#22c55e]/20 text-[#22c55e]')
+            }>
+              {playback.status.toUpperCase()}
+            </span>
+          </div>
+          <span className="text-xs text-neutral-600 shrink-0 ml-2">{cues.length} cues</span>
         </div>
-        <span className="text-xs text-neutral-600">
-          {cues.length} cues · {regions.length} regions
-        </span>
-      </div>
 
-      <div className="flex flex-1 overflow-hidden">
+        {/* Scrollable cue list */}
         <div className="flex-1 overflow-y-auto">
           {cues.map((cue, i) => (
             <CueRow
@@ -122,42 +138,47 @@ function ShowPageContent() {
           ))}
         </div>
 
-        <div className="w-52 border-l border-[#2e2e2e] flex flex-col p-4 gap-5 shrink-0">
-          <div className="flex flex-col gap-2">
-            <p className="text-xs text-neutral-500 uppercase tracking-widest">Live</p>
-            <LivePreview
-              play={play}
-              currentCue={currentCue}
-              cueIndex={currentIndex}
-              compact
-            />
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <div>
+        {/* Controls pinned at bottom */}
+        <div className="shrink-0 border-t border-[#2e2e2e] p-4 flex flex-col gap-3">
+          <div className="flex gap-4">
+            <div className="flex-1 min-w-0">
               <p className="text-xs text-neutral-500 uppercase tracking-widest mb-0.5">Current</p>
               <p className="text-sm font-mono text-[#646cff]">{currentCue ? `Q${currentCue.number}` : '—'}</p>
               <p className="text-xs text-neutral-300 truncate">{currentCue?.label ?? 'No cue'}</p>
               {currentCue?.notes && <p className="text-xs text-neutral-600 italic mt-0.5 truncate">{currentCue.notes}</p>}
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="text-xs text-neutral-500 uppercase tracking-widest mb-0.5">Next</p>
               <p className="text-sm font-mono text-[#22c55e]">{nextCue ? `Q${nextCue.number}` : '—'}</p>
               <p className="text-xs text-neutral-300 truncate">{nextCue?.label ?? 'End of list'}</p>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2 mt-auto">
+          <div className="flex gap-2">
             <button onClick={back}
-              className="w-full py-1.5 rounded text-sm font-semibold bg-[#2e2e2e] hover:bg-[#3e3e3e] text-neutral-300 transition-colors">
+              className="flex-1 py-2 rounded text-sm font-semibold bg-[#2e2e2e] hover:bg-[#3e3e3e] text-neutral-300 transition-colors">
               ← BACK
             </button>
             <button onClick={go} disabled={nextIndex >= cues.length}
-              className="w-full py-6 rounded text-2xl font-black bg-[#22c55e] hover:bg-[#16a34a] disabled:bg-[#2e2e2e] disabled:text-neutral-600 text-black transition-colors">
+              className="flex-[2] py-2 rounded text-xl font-black bg-[#22c55e] hover:bg-[#16a34a] disabled:bg-[#2e2e2e] disabled:text-neutral-600 text-black transition-colors">
               GO
             </button>
           </div>
         </div>
+      </div>
+
+      {/* ── Drag divider ─────────────────────────────────────────────────── */}
+      <div
+        onMouseDown={onDividerMouseDown}
+        className="w-1 shrink-0 cursor-col-resize hover:bg-[#646cff]/50 active:bg-[#646cff] transition-colors"
+      />
+
+      {/* ── Right: live preview ───────────────────────────────────────────── */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <LivePreview
+          play={play}
+          currentCue={currentCue}
+          cueIndex={currentIndex}
+        />
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import { usePlays } from '../../context/PlaysContext';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Show', icon: '▶' },
-  { to: '/preview', label: 'Preview', icon: '◉' },
   { to: '/editor', label: 'Editor', icon: '✏' },
   { to: '/settings', label: 'Settings', icon: '⚙' },
 ];
