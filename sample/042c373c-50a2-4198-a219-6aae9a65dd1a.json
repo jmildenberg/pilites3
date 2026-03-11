@@ -1,6 +1,6 @@
 {
   "id": "042c373c-50a2-4198-a219-6aae9a65dd1a",
-  "title": "New Show",
+  "title": "Godspell",
   "description": "",
   "regions": [
     {
@@ -294,146 +294,6 @@
   ],
   "regionGroups": [
     {
-      "id": "fd97fe4e-313a-41bf-9c5d-87ea8748ca20",
-      "label": "Stage Left - Front Wash",
-      "regionIds": [
-        "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
-        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
-        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71"
-      ]
-    },
-    {
-      "id": "01db32af-f207-4c1a-b14f-9422e6f03e64",
-      "label": "Stage Left - Left Run",
-      "regionIds": [
-        "05893987-24cf-4ea7-b001-31bfb3dfb1b6"
-      ]
-    },
-    {
-      "id": "e48e5792-a955-4c8f-acf4-3439d6080ec8",
-      "label": "Stage Left - Middle Run",
-      "regionIds": [
-        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
-        "6906cc74-927c-4df3-a682-85509f1d9f41"
-      ]
-    },
-    {
-      "id": "d041146b-4529-4408-982e-62109c8b7b51",
-      "label": "Stage Left - Center Wash",
-      "regionIds": [
-        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
-        "793330eb-2e89-483f-9d11-74458525b322"
-      ]
-    },
-    {
-      "id": "dee1b578-f301-4364-b7c5-df30fdce3777",
-      "label": "Stage Left - Right Run",
-      "regionIds": [
-        "beee4cde-581a-4edb-98c3-f17c9c136353",
-        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085"
-      ]
-    },
-    {
-      "id": "d4b65ec6-b3ca-4728-8aaf-e71bbd237358",
-      "label": "Stage Left - Back Wash",
-      "regionIds": [
-        "0a8f49dd-d737-4997-a784-b085695aa627"
-      ]
-    },
-    {
-      "id": "70dcae37-a1c6-46df-9602-efc6b5f73dff",
-      "label": "Stage Left - Left Cross",
-      "regionIds": [
-        "21a120e3-2985-4b49-a791-5c2143aa3688",
-        "c3a641a5-6e44-4c12-8d90-5b0d4b332bee"
-      ]
-    },
-    {
-      "id": "28d4100f-b840-41cf-9b05-efaef3a96b4f",
-      "label": "Stage Left - Right Cross",
-      "regionIds": [
-        "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
-        "3334044d-1f2a-41d6-9106-d03bea4d7c54"
-      ]
-    },
-    {
-      "id": "b4b9116e-fe64-4917-a8d6-b7cc3ff1c670",
-      "label": "Stage Left - Fence",
-      "regionIds": [
-        "20ec142a-6514-44fb-9d4d-e87df66b6b1d"
-      ]
-    },
-    {
-      "id": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
-      "label": "Stage Right - Front Wash",
-      "regionIds": [
-        "99653ffc-f514-4de0-839e-deb2d96917b2",
-        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
-        "d8442871-267f-4abb-a6d8-fb80d4e6d84f"
-      ]
-    },
-    {
-      "id": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
-      "label": "Stage Right - Right Run",
-      "regionIds": [
-        "8d730c3f-df17-420d-b45b-f77eb9e6a00c"
-      ]
-    },
-    {
-      "id": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
-      "label": "Stage Right -Middle Run",
-      "regionIds": [
-        "74c47f06-0c44-4dc3-9199-56713cd41bde",
-        "30f7bb6c-d628-446a-bfff-721c7d30aece"
-      ]
-    },
-    {
-      "id": "d4457ba2-6ce6-4a54-b055-a64900c14720",
-      "label": "Stage Right - Center Wash",
-      "regionIds": [
-        "dd184819-9f11-46f6-b46b-1f602519290c",
-        "16203764-9929-4aee-80e7-ec0b6d0d3a52"
-      ]
-    },
-    {
-      "id": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
-      "label": "Stage Right - Left Run",
-      "regionIds": [
-        "efe66423-18cd-4a76-8182-4f43d7a581a3",
-        "93e3bf30-f263-421c-8780-82d9bf4d5640"
-      ]
-    },
-    {
-      "id": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
-      "label": "Stage Right - Back Wash",
-      "regionIds": [
-        "2549b2ed-8743-4c91-96de-daaadedf1e60"
-      ]
-    },
-    {
-      "id": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
-      "label": "Stage Right - Right Cross",
-      "regionIds": [
-        "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
-        "fd119253-decc-4966-9c1b-61604668ee73"
-      ]
-    },
-    {
-      "id": "b4577b1d-d310-49de-a9e3-32d33adca25d",
-      "label": "Stage Right - Left Cross",
-      "regionIds": [
-        "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
-        "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a"
-      ]
-    },
-    {
-      "id": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
-      "label": "Stage Right - Fence",
-      "regionIds": [
-        "01da444f-3e82-4481-aea6-7e365e4254ad"
-      ]
-    },
-    {
       "id": "a6f8a99e-a348-46ad-8438-72565391568e",
       "label": "All Lights",
       "regionIds": [
@@ -474,790 +334,151 @@
         "0206c975-7b88-4ede-9003-c744732e7dcc",
         "01da444f-3e82-4481-aea6-7e365e4254ad"
       ]
+    },
+    {
+      "id": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+      "label": "Stage Left",
+      "regionIds": [
+        "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
+        "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
+        "0a8f49dd-d737-4997-a784-b085695aa627",
+        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+        "21a120e3-2985-4b49-a791-5c2143aa3688",
+        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+        "c3a641a5-6e44-4c12-8d90-5b0d4b332bee",
+        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+        "6906cc74-927c-4df3-a682-85509f1d9f41",
+        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
+        "beee4cde-581a-4edb-98c3-f17c9c136353",
+        "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
+        "ca16c2b4-d734-4aa3-813e-e94ebd96af3f",
+        "793330eb-2e89-483f-9d11-74458525b322",
+        "3334044d-1f2a-41d6-9106-d03bea4d7c54",
+        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
+        "ce4df159-8ed4-4921-9671-797b416374b1",
+        "20ec142a-6514-44fb-9d4d-e87df66b6b1d"
+      ]
+    },
+    {
+      "id": "88291bb5-7eeb-4569-986f-343658aea7c5",
+      "label": "Stage Right",
+      "regionIds": [
+        "99653ffc-f514-4de0-839e-deb2d96917b2",
+        "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+        "2549b2ed-8743-4c91-96de-daaadedf1e60",
+        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+        "74c47f06-0c44-4dc3-9199-56713cd41bde",
+        "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+        "dd184819-9f11-46f6-b46b-1f602519290c",
+        "fd119253-decc-4966-9c1b-61604668ee73",
+        "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+        "30f7bb6c-d628-446a-bfff-721c7d30aece",
+        "efe66423-18cd-4a76-8182-4f43d7a581a3",
+        "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+        "33e6db1e-8d24-407b-bdd3-2ad267bdd4fc",
+        "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
+        "16203764-9929-4aee-80e7-ec0b6d0d3a52",
+        "93e3bf30-f263-421c-8780-82d9bf4d5640",
+        "0206c975-7b88-4ede-9003-c744732e7dcc",
+        "01da444f-3e82-4481-aea6-7e365e4254ad"
+      ]
+    },
+    {
+      "id": "ba73f475-f266-4e16-a230-0bf9617243bd",
+      "label": "All Wash",
+      "regionIds": [
+        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
+        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+        "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+        "0a8f49dd-d737-4997-a784-b085695aa627",
+        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+        "793330eb-2e89-483f-9d11-74458525b322",
+        "2549b2ed-8743-4c91-96de-daaadedf1e60",
+        "dd184819-9f11-46f6-b46b-1f602519290c",
+        "16203764-9929-4aee-80e7-ec0b6d0d3a52"
+      ]
+    },
+    {
+      "id": "40bdeb8d-dc20-4cdf-84cb-3543970f2e29",
+      "label": "All Runs",
+      "regionIds": [
+        "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
+        "6906cc74-927c-4df3-a682-85509f1d9f41",
+        "beee4cde-581a-4edb-98c3-f17c9c136353",
+        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
+        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+        "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+        "74c47f06-0c44-4dc3-9199-56713cd41bde",
+        "30f7bb6c-d628-446a-bfff-721c7d30aece",
+        "efe66423-18cd-4a76-8182-4f43d7a581a3",
+        "93e3bf30-f263-421c-8780-82d9bf4d5640",
+        "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
+        "99653ffc-f514-4de0-839e-deb2d96917b2"
+      ]
+    },
+    {
+      "id": "85844cb6-f923-46c0-b96c-dbe449665264",
+      "label": "Back",
+      "regionIds": [
+        "0a8f49dd-d737-4997-a784-b085695aa627",
+        "2549b2ed-8743-4c91-96de-daaadedf1e60",
+        "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
+        "01da444f-3e82-4481-aea6-7e365e4254ad"
+      ]
+    },
+    {
+      "id": "6e68c2d9-4c4c-44ea-8ff1-869b4f73c486",
+      "label": "Middle",
+      "regionIds": [
+        "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
+        "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
+        "93e3bf30-f263-421c-8780-82d9bf4d5640",
+        "6906cc74-927c-4df3-a682-85509f1d9f41",
+        "beee4cde-581a-4edb-98c3-f17c9c136353",
+        "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
+        "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
+        "74c47f06-0c44-4dc3-9199-56713cd41bde",
+        "30f7bb6c-d628-446a-bfff-721c7d30aece",
+        "efe66423-18cd-4a76-8182-4f43d7a581a3"
+      ]
+    },
+    {
+      "id": "44e2c223-4aad-4676-8bbd-e46fe62e91d0",
+      "label": "Fronts",
+      "regionIds": [
+        "82994303-7227-467d-b5dc-5bb15dfd3c0a",
+        "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
+        "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
+        "793330eb-2e89-483f-9d11-74458525b322",
+        "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
+        "dd184819-9f11-46f6-b46b-1f602519290c",
+        "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
+        "16203764-9929-4aee-80e7-ec0b6d0d3a52",
+        "21a120e3-2985-4b49-a791-5c2143aa3688",
+        "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
+        "c3a641a5-6e44-4c12-8d90-5b0d4b332bee",
+        "3334044d-1f2a-41d6-9106-d03bea4d7c54",
+        "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
+        "fd119253-decc-4966-9c1b-61604668ee73",
+        "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
+        "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a"
+      ]
+    },
+    {
+      "id": "a23af86a-0df5-4eb8-9cdf-16c4fc2edca5",
+      "label": "Fence",
+      "regionIds": [
+        "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
+        "01da444f-3e82-4481-aea6-7e365e4254ad"
+      ]
     }
   ],
   "cues": [
     {
-      "id": "c710effd-ebab-4ac8-aa63-c1f665ac74e3",
+      "id": "fa1ada2d-12bd-48f4-ab51-ff4f110f2c7d",
       "number": "1",
-      "label": "Stage Right Only",
-      "notes": "Testing Stage Right Lights",
-      "regionStates": [
-        {
-          "regionId": "eb9391d8-3ea2-41f0-94d5-903565798c7f",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 187,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "0ffb9af9-afc9-4f20-8e1d-4f4ba4c76882",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 140,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "135c634f-e7fd-418d-842f-37422fb1a55a",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 4,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "92bc6a54-329d-4e3a-8d5d-26948080f0f8",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 157,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "df5cb871-87c9-43e9-8c70-5da787d1a8bc",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 247,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "6a40d4b0-bd9e-4755-9ed1-2c97d8afafc2",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 115,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "ee81b0f9-ecd1-45fa-98db-229aeb1409aa",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "99653ffc-f514-4de0-839e-deb2d96917b2",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "2549b2ed-8743-4c91-96de-daaadedf1e60",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "74c47f06-0c44-4dc3-9199-56713cd41bde",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "fd119253-decc-4966-9c1b-61604668ee73",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "dd184819-9f11-46f6-b46b-1f602519290c",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "30f7bb6c-d628-446a-bfff-721c7d30aece",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "efe66423-18cd-4a76-8182-4f43d7a581a3",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "16203764-9929-4aee-80e7-ec0b6d0d3a52",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "93e3bf30-f263-421c-8780-82d9bf4d5640",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": "01da444f-3e82-4481-aea6-7e365e4254ad",
-          "groupId": null,
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "d4457ba2-6ce6-4a54-b055-a64900c14720",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "b4577b1d-d310-49de-a9e3-32d33adca25d",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        }
-      ],
-      "followTime": null
-    },
-    {
-      "id": "2e58d277-32e2-4b02-9608-06f3ce883923",
-      "number": "2",
-      "label": "All Lights",
-      "notes": "Stage Left and Stage Right Test Sequence",
-      "regionStates": [
-        {
-          "regionId": null,
-          "groupId": "fd97fe4e-313a-41bf-9c5d-87ea8748ca20",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "01db32af-f207-4c1a-b14f-9422e6f03e64",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "e48e5792-a955-4c8f-acf4-3439d6080ec8",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "d041146b-4529-4408-982e-62109c8b7b51",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "dee1b578-f301-4364-b7c5-df30fdce3777",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "d4b65ec6-b3ca-4728-8aaf-e71bbd237358",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 255,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "70dcae37-a1c6-46df-9602-efc6b5f73dff",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "28d4100f-b840-41cf-9b05-efaef3a96b4f",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "b4b9116e-fe64-4917-a8d6-b7cc3ff1c670",
-          "fadeTime": 3.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 255,
-              "g": 0,
-              "b": 255,
-              "w": 0
-            },
-            "brightness": 1.0
-          }
-        }
-      ],
-      "followTime": null
-    },
-    {
-      "id": "2fff64bc-2c52-45d7-a86a-89bd74eb8a76",
-      "number": "3",
-      "label": "Stage Left Only",
-      "notes": "",
-      "regionStates": [
-        {
-          "regionId": null,
-          "groupId": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "d4457ba2-6ce6-4a54-b055-a64900c14720",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "f230a79f-0612-413b-94c7-f534ee7fa3b8",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "63b68bb9-0a8f-4386-8d2a-a3b6223b64de",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "b4577b1d-d310-49de-a9e3-32d33adca25d",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        },
-        {
-          "regionId": null,
-          "groupId": "5376b7f2-438f-41dd-b75e-9dd3e044c95a",
-          "fadeTime": 0.0,
-          "effect": {
-            "type": "solid",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "w": 0
-            },
-            "brightness": 0.0
-          }
-        }
-      ],
-      "followTime": null
-    },
-    {
-      "id": "b20c9890-224e-4456-a111-b8cf74ceaebf",
-      "number": "4",
-      "label": "All Off",
+      "label": "Preshow",
       "notes": "",
       "regionStates": [
         {
@@ -1277,8 +498,1501 @@
         }
       ],
       "followTime": null
+    },
+    {
+      "id": "40fbfb75-aad4-4b6a-9f42-d5cb021b5047",
+      "number": "2",
+      "label": "Of The Lord - Music Picks up - Prepare Ye",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "fd97fe4e-313a-41bf-9c5d-87ea8748ca20",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 0.8
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "f440d41f-82c6-4e9c-b5a4-915af3efc85a",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 0.8
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "29ce55a4-14df-4dc7-8675-2af0514fa3fb",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "a6780bbb-c844-452f-b47d-e6ffcb7117af",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "c8e62481-2896-4e67-8b24-2404e25d7a1e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "01db32af-f207-4c1a-b14f-9422e6f03e64",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "e48e5792-a955-4c8f-acf4-3439d6080ec8",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 3,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "dee1b578-f301-4364-b7c5-df30fdce3777",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 30.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "ba73f475-f266-4e16-a230-0bf9617243bd",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "40bdeb8d-dc20-4cdf-84cb-3543970f2e29",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 29.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "1ef8a53e-0d2d-4406-a792-1498250d562e",
+      "number": "3",
+      "label": "Music Picks up - God Save the People",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.22,
+            "speed": 2.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "cfc97570-3e7b-4aeb-82a8-f82cfe6cb428",
+      "number": "4",
+      "label": "Now do not suppose - God Save The People",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "fbd6cefd-4534-4736-8e9c-722ae7afa51c",
+      "number": "5",
+      "label": "Oompah-pah Oompah-pah ",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 60.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b68752f8-8ad6-4c9b-9ccc-713dda038064",
+      "number": "6",
+      "label": "Master - Day By Day",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b2593ad4-fa56-4b6c-bef0-46ecb7c39cc9",
+      "number": "7",
+      "label": "Day by Day - pick up",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 15.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "33f5d18b-33d4-4773-817b-704fa7369709",
+      "number": "8",
+      "label": "Day by Day - Slow down",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "63e8d26e-e733-46fa-90a5-7bfeef29eb55",
+      "number": "9",
+      "label": "Lazarus",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.6
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "79727aa2-548f-480a-a7ec-a7792ad3494c",
+      "number": "11",
+      "label": "Lazarus",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 0.6
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "88291bb5-7eeb-4569-986f-343658aea7c5",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 200,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 50.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "5242d388-d4ef-43fe-9a1e-c850a5f45c1e",
+      "number": "12",
+      "label": "HEY! - Learn Your Lessons Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.6
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "cacd7b97-6906-445d-9240-40cd7b62d074",
+      "number": "13",
+      "label": "Lamp of The Body - Lessons Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.3,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "fefe15ec-4611-4a39-aac4-7ef529facc86",
+      "number": "14",
+      "label": "Fast Part - Learn Your Lessons Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 19.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "c02156f6-52f3-48c4-804e-3e97a6e0aaab",
+      "number": "15",
+      "label": "After Learn Your Lessons",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 1.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b041648a-e392-443c-9593-c65b7cecf915",
+      "number": "16",
+      "label": "Bless the Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 5.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "d6293fba-2c9f-4bc6-b4ed-69c45229af1a",
+      "number": "17",
+      "label": "Faster - Bless the Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 20.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9f19d92f-089d-442f-98c3-356aee2bdaa0",
+      "number": "18",
+      "label": "End the Bless Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "37ba4fbf-0fc4-41af-8044-3f6360cbbf24",
+      "number": "19",
+      "label": "BLESSED ARE YOU",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 154,
+              "g": 4,
+              "b": 4,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "889489b6-3876-4730-b548-70cc4192afe6",
+      "number": "20",
+      "label": "Tyler speaks",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 245,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "colorB": {
+              "r": 255,
+              "g": 211,
+              "b": 51,
+              "w": 0
+            },
+            "brightness": 0.39
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "1f785e6b-4e2c-43e8-b773-412628143f59",
+      "number": "21",
+      "label": "Frankie sings - Alas for You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "88291bb5-7eeb-4569-986f-343658aea7c5",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "ee6bbcc7-07e0-443e-82ba-7df2406f7521",
+      "number": "22",
+      "label": "Tyler and Frankie - Alas for You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "88291bb5-7eeb-4569-986f-343658aea7c5",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "4207dcb9-209c-4c74-b241-b34831840b42",
+      "number": "23",
+      "label": "Overlap - Alas for You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "pixelCount": 1,
+            "speed": 40.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "951bbfca-de6b-4e33-bbba-924993680cac",
+      "number": "24",
+      "label": "Seed Parable",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 38,
+              "g": 102,
+              "b": 10,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "652c5827-3208-4059-94ce-79e4be9858ef",
+      "number": "25",
+      "label": "All Good Gifts",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 38,
+              "g": 102,
+              "b": 10,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 5.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "e6cdfcf7-f9a3-468a-ac57-cb7e47ccd1ea",
+      "number": "26",
+      "label": "After All Good Gifts",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 86,
+              "g": 12,
+              "b": 136,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "3f58d819-af68-4351-85ce-2d21b645a6f5",
+      "number": "27",
+      "label": "Light of the World",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 86,
+              "g": 12,
+              "b": 138,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 202,
+              "g": 122,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 3,
+            "speed": 5.0,
+            "direction": "bounce"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "c29a12eb-8a40-416f-b085-9517ff83b176",
+      "number": "28",
+      "label": "Intermission",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "c4faedcb-df3b-44db-a3df-9487b45efeb6",
+      "number": "29",
+      "label": "Black Out- Turn Back O Man",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "133451b9-9918-4be3-8173-b2bf517fd4a2",
+      "number": "30",
+      "label": "Start - Turn Back O Man",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "572b839a-c851-4035-8991-0c30178a9d62",
+      "number": "31",
+      "label": "After Jesus - Trun Back",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 50.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "6eaa9fee-5920-46b1-bf17-315215a4aca8",
+      "number": "32",
+      "label": "Stop This is the beginning - Pharisee",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "716923ef-4f76-4b0c-ab43-b0f026cd992f",
+      "number": "33",
+      "label": "Alas fo You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "colorB": {
+              "r": 23,
+              "g": 55,
+              "b": 151,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "4b4bf5a4-eb64-47ab-aee0-9f1c6bd3e04a",
+      "number": "34",
+      "label": "Blind Fools!",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "6707738a-d918-449d-8dc0-3bd84053e919",
+      "number": "35",
+      "label": "I am the Messiah - p1",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "85844cb6-f923-46c0-b96c-dbe449665264",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "7691c72b-82df-4cb3-a4bb-8992b8b6ed82",
+      "number": "36",
+      "label": " I am the Messiah - p2",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "6e68c2d9-4c4c-44ea-8ff1-869b4f73c486",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "c7789a09-81ee-49f3-a418-777130dfd486",
+      "number": "37",
+      "label": "I am the Messiah - p3",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "44e2c223-4aad-4676-8bbd-e46fe62e91d0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "d93e1f67-271b-45f3-9026-6618456d31bb",
+      "number": "38",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "6fa87c72-b653-4e90-bb04-55b50442b663",
+      "number": "39",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "9408c5ab-2e97-4976-b8a9-4c0da6a6261e",
+      "number": "40",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "81e79cc1-16ec-45f2-a138-e471bf04bc61",
+      "number": "41",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "8e76e7cb-5ba3-4c3f-84be-24b935513bb3",
+      "number": "42",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "9c945e1c-537d-4a6b-9512-8904b12b2973",
+      "number": "43",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "ff853e48-d55e-463e-ae53-af6a6c79dda8",
+      "number": "44",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "55dd2d48-1fa4-4499-885b-f7e9e7fba722",
+      "number": "45",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "bfd0f1de-501f-4e95-8be6-427a786cb0dd",
+      "number": "46",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "4f2493b6-7b3b-487b-8ec7-685ad4a9cec6",
+      "number": "47",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "fd3ed831-fd98-4657-8262-792d6e2ec538",
+      "number": "48",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "512a5117-ba9e-49bc-8a1d-739cf113658b",
+      "number": "49",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "890f22d7-218a-418b-9adf-25e29cb7cbae",
+      "number": "50",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "2715a11a-30b9-474b-9ab4-1823b3a7e847",
+      "number": "51",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "3b601fb0-3a11-431a-8033-1604c90b6eb9",
+      "number": "52",
+      "label": "New Cue",
+      "notes": "",
+      "regionStates": [],
+      "followTime": null
+    },
+    {
+      "id": "a42451c4-2794-4ccb-8af9-870f01d1e69b",
+      "number": "53",
+      "label": "Beautiful City - Blackout",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "232797de-d0a0-460e-9b58-00ad12030c16",
+      "number": "54",
+      "label": "Last Supper",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.3,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b4c671dd-549b-4d49-8446-45f1a4e7e5df",
+      "number": "55",
+      "label": "Demons",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 163,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "ad0969cd-fe7a-4240-8620-fd9a1ee566db",
+      "number": "56",
+      "label": "Slam Door",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "41a1645e-cb5f-4ced-ac69-e6389d49e72a",
+      "number": "57",
+      "label": "Frankie gets Electrocuted and dies",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a23af86a-0df5-4eb8-9cdf-16c4fc2edca5",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "strobe",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "rate": 5.0,
+            "dutyCycle": 0.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "71e937de-634c-4f4f-822c-eef5283155b6",
+      "number": "58",
+      "label": "Lift Frankie",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.1,
+            "maxBrightness": 1.0,
+            "period": 1.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "3e4c95e3-0e5b-4570-8c03-285ebad025a1",
+      "number": "59",
+      "label": "Blackout",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "cfd0c731-dc56-4cff-b621-498a8b2ea15e",
+      "number": "60",
+      "label": "BOWS",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 85.0
+          }
+        }
+      ],
+      "followTime": null
     }
   ],
   "createdAt": "2026-03-10T19:17:00.818988+00:00",
-  "updatedAt": "2026-03-11T00:26:34.257762+00:00"
+  "updatedAt": "2026-03-11T22:05:11.263262+00:00"
 }
