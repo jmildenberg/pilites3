@@ -15,14 +15,27 @@ interface Props {
   onAddRegion: (channelId: ChannelId, startIndex: number, endIndex: number) => void;
 }
 
-/** Gaps between defined regions — spans of unnamed LEDs */
-function computeGaps(regions: Region[], ledCount: number): Array<{ start: number; end: number }> {
-  const sorted = [...regions].sort((a, b) => a.startIndex - b.startIndex);
+/** A flat list of all used LED ranges across all regions, sorted by start. */
+function usedRanges(regions: Region[]): Array<{ start: number; end: number; regionId: string; segIndex: number }> {
+  const ranges: Array<{ start: number; end: number; regionId: string; segIndex: number }> = [];
+  for (const r of regions) {
+    r.segments.forEach((seg, si) => {
+      ranges.push({ start: seg.startIndex, end: seg.endIndex, regionId: r.id, segIndex: si });
+    });
+  }
+  return ranges.sort((a, b) => a.start - b.start);
+}
+
+/** Gaps between all used ranges. */
+function computeGaps(
+  ranges: Array<{ start: number; end: number }>,
+  ledCount: number,
+): Array<{ start: number; end: number }> {
   const gaps: Array<{ start: number; end: number }> = [];
   let cursor = 0;
-  for (const r of sorted) {
-    if (r.startIndex > cursor) gaps.push({ start: cursor, end: r.startIndex - 1 });
-    cursor = r.endIndex + 1;
+  for (const r of ranges) {
+    if (r.start > cursor) gaps.push({ start: cursor, end: r.start - 1 });
+    cursor = Math.max(cursor, r.end + 1);
   }
   if (cursor < ledCount) gaps.push({ start: cursor, end: ledCount - 1 });
   return gaps;
@@ -32,28 +45,27 @@ export function ChannelStrip({
   channelId, channelLabel, ledCount, regions, selectedRegionId,
   onSelectRegion, onAddRegion,
 }: Props) {
-  const channelRegions = regions
-    .filter((r) => r.channelId === channelId)
-    .sort((a, b) => a.startIndex - b.startIndex);
+  const channelRegions = regions.filter((r) => r.channelId === channelId);
+  const regionById = new Map(channelRegions.map((r) => [r.id, r]));
 
-  const gaps = computeGaps(channelRegions, ledCount);
+  const ranges = usedRanges(channelRegions);
+  const gaps = computeGaps(ranges, ledCount);
 
-  /** Build an ordered list of segments (regions + gaps) for rendering */
-  type Segment =
-    | { kind: 'region'; region: Region }
+  /** Build an ordered list of strip items for rendering */
+  type StripItem =
+    | { kind: 'seg'; regionId: string; segIndex: number; start: number; end: number }
     | { kind: 'gap'; start: number; end: number };
 
-  const segments: Segment[] = [];
-  const allItems: Array<{ start: number; item: Segment }> = [
-    ...channelRegions.map((r) => ({ start: r.startIndex, item: { kind: 'region' as const, region: r } })),
-    ...gaps.map((g) => ({ start: g.start, item: { kind: 'gap' as const, ...g } })),
-  ];
-  allItems.sort((a, b) => a.start - b.start).forEach(({ item }) => segments.push(item));
+  const items: StripItem[] = [
+    ...ranges.map(({ start, end, regionId, segIndex }) => ({
+      kind: 'seg' as const, regionId, segIndex, start, end,
+    })),
+    ...gaps.map(({ start, end }) => ({ kind: 'gap' as const, start, end })),
+  ].sort((a, b) => a.start - b.start);
 
-  function segmentWidth(start: number, end: number) {
+  function slotWidth(start: number, end: number) {
     return `${((end - start + 1) / ledCount) * 100}%`;
   }
-
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -64,41 +76,41 @@ export function ChannelStrip({
 
       {/* Strip visualization */}
       <div className="relative flex h-10 rounded overflow-hidden border border-[#3e3e3e] bg-[#0f0f0f]">
-        {segments.length === 0 ? (
-          // No regions and no gaps means ledCount === 0; shouldn't happen
+        {items.length === 0 ? (
           <div className="flex-1 bg-[#1a1a1a]" />
         ) : (
-          segments.map((seg, i) => {
-            if (seg.kind === 'region') {
-              const { region } = seg;
+          items.map((item, i) => {
+            if (item.kind === 'seg') {
+              const region = regionById.get(item.regionId)!;
               const isSelected = region.id === selectedRegionId;
+              const isFirst = item.segIndex === 0;
+              const title = `${region.label} — segment ${item.segIndex + 1} (${item.start}–${item.end})`;
               return (
                 <button
-                  key={region.id}
+                  key={`${region.id}-${item.segIndex}`}
                   onClick={() => onSelectRegion(region.id)}
-                  title={`${region.label} (${region.startIndex}–${region.endIndex})`}
+                  title={title}
                   className="relative flex items-center justify-center text-xs font-semibold truncate px-1 transition-all"
                   style={{
-                    width: segmentWidth(region.startIndex, region.endIndex),
+                    width: slotWidth(item.start, item.end),
                     backgroundColor: region.uiColor + (isSelected ? 'ff' : '55'),
                     color: isSelected ? '#fff' : region.uiColor,
                     outline: isSelected ? `2px solid ${region.uiColor}` : undefined,
                     outlineOffset: '-2px',
                   }}
                 >
-                  {region.label}
+                  {isFirst ? region.label : ''}
                 </button>
               );
             } else {
-              // Gap — click to add a region here
-              const { start, end } = seg;
+              const { start, end } = item;
               return (
                 <button
                   key={`gap-${i}`}
                   onClick={() => onAddRegion(channelId, start, end)}
                   title={`Add region (${start}–${end})`}
                   className="flex items-center justify-center text-neutral-700 hover:text-neutral-400 hover:bg-[#2e2e2e] transition-colors group"
-                  style={{ width: segmentWidth(start, end) }}
+                  style={{ width: slotWidth(start, end) }}
                 >
                   <span className="text-lg leading-none group-hover:scale-110 transition-transform">+</span>
                 </button>

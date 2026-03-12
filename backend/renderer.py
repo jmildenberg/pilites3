@@ -16,7 +16,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-from models import ChannelConfig, ActiveRegionEntry, Effect
+from models import ChannelConfig, ActiveRegionEntry, Segment, Effect
 from effects import render_effect
 
 logger = logging.getLogger(__name__)
@@ -30,8 +30,7 @@ PixelFrame = tuple[int, list[tuple[int, int, int, int]]]
 @dataclass
 class ActiveRegionState:
     region_id: str
-    start_index: int
-    end_index: int
+    segments: list[Segment]   # ordered; effect rendered across all as one strip
     effect: Effect
     started_at: float = field(default_factory=time.monotonic)
     # Mutable dict that persists across frames for stateful effects
@@ -158,8 +157,7 @@ class ChannelRenderer:
                     started_at = time.monotonic()
                 new_regions[entry.regionId] = ActiveRegionState(
                     region_id=entry.regionId,
-                    start_index=entry.startIndex,
-                    end_index=entry.endIndex,
+                    segments=entry.segments,
                     effect=entry.effect,
                     started_at=started_at,
                     per_effect_state=per_state,
@@ -206,16 +204,22 @@ class ChannelRenderer:
         pixels: list[tuple[int, int, int, int]] = [(0, 0, 0, 0)] * led_count
 
         for rs in snapshot:
-            region_length = rs.end_index - rs.start_index + 1
+            # Total virtual LED count = sum of all segment lengths
+            region_length = sum(s.endIndex - s.startIndex + 1 for s in rs.segments)
             if region_length <= 0:
                 continue
             t = now - rs.started_at
             rs.per_effect_state["dt"] = dt
             rendered = render_effect(rs.effect, region_length, t, rs.per_effect_state)
-            for i, pixel in enumerate(rendered):
-                idx = rs.start_index + i
-                if 0 <= idx < led_count:
-                    pixels[idx] = pixel
+            # Distribute rendered pixels to physical hardware positions across segments
+            render_i = 0
+            for seg in rs.segments:
+                for phys_i in range(seg.startIndex, seg.endIndex + 1):
+                    if render_i >= len(rendered):
+                        break
+                    if 0 <= phys_i < led_count:
+                        pixels[phys_i] = rendered[render_i]
+                    render_i += 1
 
         self._write_pixels(pixels)
         self._strip.show()

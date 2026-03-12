@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { Region, ChannelId, Play } from '../../types';
+import type { Region, Segment, ChannelId, Play } from '../../types';
+import { segmentLedCount } from '../../types';
 import { ChannelStrip, SWATCH_COLORS } from './ChannelStrip';
 import { useChannelConfig } from '../../context/ChannelConfigContext';
 
@@ -15,8 +16,7 @@ function makeId() {
 interface EditingState {
   regionId: string;
   label: string;
-  startIndex: number;
-  endIndex: number;
+  segments: Segment[];
   uiColor: string;
 }
 
@@ -32,8 +32,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
     setEditing({
       regionId: region.id,
       label: region.label,
-      startIndex: region.startIndex,
-      endIndex: region.endIndex,
+      segments: region.segments,
       uiColor: region.uiColor,
     });
   }
@@ -45,8 +44,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
       id: makeId(),
       label: `Region ${play.regions.length + 1}`,
       channelId,
-      startIndex,
-      endIndex,
+      segments: [{ startIndex, endIndex }],
       uiColor,
     };
     const updated = [...play.regions, newRegion];
@@ -65,11 +63,10 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
     if (override) setEditing(state);
     const updated = play.regions.map((r) =>
       r.id === state.regionId
-        ? { ...r, label: state.label, startIndex: state.startIndex, endIndex: state.endIndex, uiColor: state.uiColor }
+        ? { ...r, label: state.label, segments: state.segments, uiColor: state.uiColor }
         : r
     );
     onUpdateRegions(updated);
-    // Panel stays open — it closes only when a different region is selected or deleted.
   }
 
   function deleteRegion(id: string) {
@@ -77,6 +74,45 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
     setSelectedRegionId(null);
     setEditing(null);
   }
+
+  // ── Segment editing helpers ──────────────────────────────────────────────────
+
+  function updateSegment(index: number, patch: Partial<Segment>) {
+    if (!editing) return;
+    const segs = editing.segments.map((s, i) => (i === index ? { ...s, ...patch } : s));
+    const next = { ...editing, segments: segs };
+    setEditing(next);
+    commitEdit({ segments: segs });
+  }
+
+  function addSegment() {
+    if (!editing || !selectedRegion) return;
+    const ch = channels.find((c) => c.id === selectedRegion.channelId);
+    const ledCount = ch?.ledCount ?? 500;
+    // Find first available LED index not already covered by this region's segments
+    const covered = new Set<number>();
+    editing.segments.forEach((s) => {
+      for (let i = s.startIndex; i <= s.endIndex; i++) covered.add(i);
+    });
+    let start = 0;
+    while (covered.has(start) && start < ledCount) start++;
+    const end = Math.min(start, ledCount - 1);
+    if (start >= ledCount) return; // no room
+    const segs = [...editing.segments, { startIndex: start, endIndex: end }];
+    const next = { ...editing, segments: segs };
+    setEditing(next);
+    commitEdit({ segments: segs });
+  }
+
+  function removeSegment(index: number) {
+    if (!editing || editing.segments.length <= 1) return; // must keep at least one
+    const segs = editing.segments.filter((_, i) => i !== index);
+    const next = { ...editing, segments: segs };
+    setEditing(next);
+    commitEdit({ segments: segs });
+  }
+
+  const totalLeds = editing ? segmentLedCount(editing.segments) : 0;
 
   return (
     <div className="flex flex-col gap-6">
@@ -110,7 +146,11 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
           )}
           {play.regions
             .slice()
-            .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
+            .sort((a, b) => {
+              const aStart = a.segments[0]?.startIndex ?? 0;
+              const bStart = b.segments[0]?.startIndex ?? 0;
+              return a.channelId - b.channelId || aStart - bStart;
+            })
             .map((r) => (
               <button
                 key={r.id}
@@ -118,7 +158,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
                 className={
                   'flex items-center gap-2 px-2 py-1.5 rounded text-sm text-left transition-colors ' +
                   (selectedRegionId === r.id
-                    ? 'bg-[#2e2e2e] text-white'
+                    ? 'bg-surface-3 text-white'
                     : 'text-neutral-400 hover:bg-[#1e1e1e]')
                 }
               >
@@ -134,7 +174,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
 
         {/* Edit panel */}
         {editing && selectedRegion && (
-          <div className="flex-1 bg-[#1a1a1a] rounded-lg p-4 flex flex-col gap-3">
+          <div className="flex-1 bg-surface-1 rounded-lg p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs text-neutral-500 uppercase tracking-widest">Edit Region</span>
               <button
@@ -151,40 +191,64 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
                 value={editing.label}
                 onChange={(e) => setEditing({ ...editing, label: e.target.value })}
                 onBlur={() => commitEdit()}
-                className="w-full bg-[#2e2e2e] rounded px-3 py-1.5 text-sm text-neutral-200 outline-none focus:ring-1 ring-[#646cff]"
+                className="w-full bg-surface-3 rounded px-3 py-1.5 text-sm text-neutral-200 outline-none focus:ring-1 ring-accent"
                 autoFocus
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-neutral-500 block mb-1">
-                  Start LED <span className="text-neutral-700">(0-based)</span>
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  max={editing.endIndex}
-                  value={editing.startIndex}
-                  onChange={(e) => setEditing({ ...editing, startIndex: Number(e.target.value) })}
-                  onBlur={() => commitEdit()}
-                  className="w-full bg-[#2e2e2e] rounded px-3 py-1.5 text-sm font-mono text-neutral-200 outline-none focus:ring-1 ring-[#646cff]"
-                />
+            {/* Segment list */}
+            <div>
+              <label className="text-xs text-neutral-500 block mb-2">LED Segments</label>
+              <div className="flex flex-col gap-1.5">
+                {editing.segments.map((seg, si) => {
+                  const ch = channels.find((c) => c.id === selectedRegion.channelId);
+                  const ledCount = (ch?.ledCount ?? 500) - 1;
+                  return (
+                    <div key={si} className="flex items-center gap-2">
+                      <span className="text-xs text-neutral-600 w-4 shrink-0">{si + 1}</span>
+                      <input
+                        type="number"
+                        min={0}
+                        max={seg.endIndex}
+                        value={seg.startIndex}
+                        onChange={(e) => updateSegment(si, { startIndex: Number(e.target.value) })}
+                        onBlur={() => commitEdit()}
+                        className="w-20 bg-surface-3 rounded px-2 py-1 text-sm font-mono text-neutral-200 outline-none focus:ring-1 ring-accent"
+                        title="Start LED (0-based)"
+                      />
+                      <span className="text-xs text-neutral-600">–</span>
+                      <input
+                        type="number"
+                        min={seg.startIndex}
+                        max={ledCount}
+                        value={seg.endIndex}
+                        onChange={(e) => updateSegment(si, { endIndex: Number(e.target.value) })}
+                        onBlur={() => commitEdit()}
+                        className="w-20 bg-surface-3 rounded px-2 py-1 text-sm font-mono text-neutral-200 outline-none focus:ring-1 ring-accent"
+                        title="End LED (inclusive)"
+                      />
+                      <span className="text-xs text-neutral-700 shrink-0">
+                        {seg.endIndex - seg.startIndex + 1} LEDs
+                      </span>
+                      {editing.segments.length > 1 && (
+                        <button
+                          onClick={() => removeSegment(si)}
+                          className="text-neutral-600 hover:text-red-400 text-sm transition-colors ml-auto"
+                          title="Remove segment"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-              <div>
-                <label className="text-xs text-neutral-500 block mb-1">
-                  End LED <span className="text-neutral-700">(inclusive)</span>
-                </label>
-                <input
-                  type="number"
-                  min={editing.startIndex}
-                  max={(channels.find((ch) => ch.id === selectedRegion.channelId)?.ledCount ?? 500) - 1}
-                  value={editing.endIndex}
-                  onChange={(e) => setEditing({ ...editing, endIndex: Number(e.target.value) })}
-                  onBlur={() => commitEdit()}
-                  className="w-full bg-[#2e2e2e] rounded px-3 py-1.5 text-sm font-mono text-neutral-200 outline-none focus:ring-1 ring-[#646cff]"
-                />
-              </div>
+              <button
+                onClick={addSegment}
+                className="mt-2 text-xs text-accent hover:text-[#818cf8] transition-colors"
+              >
+                + Add segment
+              </button>
             </div>
 
             <div>
@@ -206,7 +270,7 @@ export function RegionManager({ play, onUpdateRegions }: Props) {
             </div>
 
             <div className="text-xs text-neutral-600 font-mono">
-              CH{selectedRegion.channelId} · LEDs {editing.startIndex}–{editing.endIndex} · {editing.endIndex - editing.startIndex + 1} LEDs
+              CH{selectedRegion.channelId} · {editing.segments.length} segment{editing.segments.length !== 1 ? 's' : ''} · {totalLeds} LEDs total
             </div>
           </div>
         )}

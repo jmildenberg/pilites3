@@ -47,7 +47,7 @@ function RegionRow({
           {region.label}
         </span>
         <span className="text-xs text-neutral-700 font-mono">
-          CH{region.channelId} · {region.startIndex}–{region.endIndex}
+          CH{region.channelId} · {region.segments.map((s) => `${s.startIndex}–${s.endIndex}`).join(', ')}
         </span>
 
         {/* Badges */}
@@ -420,7 +420,7 @@ function CueDetailPanel({
         )}
 
         {(() => {
-          const sorted = regions.slice().sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex);
+          const sorted = regions.slice().sort((a, b) => a.channelId - b.channelId || (a.segments[0]?.startIndex ?? 0) - (b.segments[0]?.startIndex ?? 0));
           const activeRegions = sorted.filter((r) => groupedRegionIds.has(r.id) || cue.regionStates.some((rs) => rs.regionId === r.id));
           const trackingRegions = sorted.filter((r) => !groupedRegionIds.has(r.id) && !cue.regionStates.some((rs) => rs.regionId === r.id));
 

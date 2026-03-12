@@ -5,7 +5,7 @@ avoiding any need for aliases or serialisation transforms.
 """
 from __future__ import annotations
 from typing import Annotated, Literal, Optional, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # ── Channel ───────────────────────────────────────────────────────────────────
@@ -110,19 +110,34 @@ Effect = Annotated[
 
 # ── Region ────────────────────────────────────────────────────────────────────
 
+class Segment(BaseModel):
+    startIndex: int = Field(ge=0)
+    endIndex: int = Field(ge=0)
+
+
 class Region(BaseModel):
     id: str
     label: str
     channelId: Literal[0, 1]
-    startIndex: int = Field(ge=0)
-    endIndex: int = Field(ge=0)
+    segments: list[Segment]
     uiColor: str  # hex e.g. "#a855f7"
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate_legacy(cls, obj: object) -> object:
+        """Accept legacy single-range format {startIndex, endIndex} and coerce to segments."""
+        if isinstance(obj, dict) and "startIndex" in obj and "segments" not in obj:
+            start, end = obj.get("startIndex", 0), obj.get("endIndex", 0)
+            obj = {k: v for k, v in obj.items() if k not in ("startIndex", "endIndex")}
+            obj["segments"] = [{"startIndex": start, "endIndex": end}]
+        return obj
 
 
 class RegionGroup(BaseModel):
     id: str
     label: str
     regionIds: list[str]
+    strandMode: bool = False
 
 
 # ── Cue ───────────────────────────────────────────────────────────────────────
@@ -163,8 +178,7 @@ class ActiveRegionEntry(BaseModel):
     """One region entry in a set_regions message."""
     regionId: str
     channelId: Literal[0, 1]
-    startIndex: int
-    endIndex: int
+    segments: list[Segment]
     effect: Effect
 
 

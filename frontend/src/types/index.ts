@@ -143,13 +143,27 @@ export const EFFECT_DEFAULTS: Record<EffectType, Effect> = {
 
 // ─── Region ───────────────────────────────────────────────────────────────────
 
-/** A named, non-overlapping contiguous range of LEDs on one channel, per play. */
+/** A contiguous range of LEDs within a single channel (0-based, inclusive). */
+export interface Segment {
+  startIndex: number;
+  endIndex: number;
+}
+
+/** Total number of LEDs covered by an array of segments. */
+export function segmentLedCount(segments: Segment[]): number {
+  return segments.reduce((sum, s) => sum + (s.endIndex - s.startIndex + 1), 0);
+}
+
+/**
+ * A named region of LEDs on one channel, per play.
+ * A region may span multiple non-contiguous segments (e.g. zig-zag wiring).
+ * Effects are rendered as if all segments form one continuous strip, in order.
+ */
 export interface Region {
   id: string;
   label: string;
   channelId: ChannelId;
-  startIndex: number; // 0-based, inclusive
-  endIndex: number;   // 0-based, inclusive
+  segments: Segment[];
   /** Display colour for the region swatch in the editor */
   uiColor: string;    // hex e.g. "#a855f7"
 }
@@ -159,6 +173,8 @@ export interface RegionGroup {
   id: string;
   label: string;
   regionIds: string[];
+  /** When true, all member region segments are treated as one continuous strand. */
+  strandMode?: boolean;
 }
 
 // ─── Cue ──────────────────────────────────────────────────────────────────────

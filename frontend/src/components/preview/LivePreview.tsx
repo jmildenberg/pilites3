@@ -74,7 +74,7 @@ function RegionBulbCanvas({
   pixelStream: PixelGetter | null;
   compact: boolean;
 }) {
-  const regionLedCount = region.endIndex - region.startIndex + 1;
+  const regionLedCount = region.segments.reduce((sum, s) => sum + (s.endIndex - s.startIndex + 1), 0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const badge = EFFECT_BADGES[effect.type];
@@ -108,17 +108,22 @@ function RegionBulbCanvas({
         const spacing = W / regionLedCount;
         const radius  = Math.min(spacing * 0.46, H * 0.38);
         const cy      = H / 2;
-        const byteOffset = region.startIndex * 3;
+
+        // Build a flat array of RGB triples from all segments in order
+        const rgb: Array<[number, number, number]> = [];
+        for (const seg of region.segments) {
+          for (let phys = seg.startIndex; phys <= seg.endIndex; phys++) {
+            rgb.push([channelPixels[phys * 3], channelPixels[phys * 3 + 1], channelPixels[phys * 3 + 2]]);
+          }
+        }
 
         ctx.clearRect(0, 0, W, H);
 
         // ── Glow pass (blurred) ──────────────────────────────────────────────
         if (radius >= 1.5) {
           ctx.filter = `blur(${Math.max(1, radius * 0.9).toFixed(1)}px)`;
-          for (let i = 0; i < regionLedCount; i++) {
-            const r = channelPixels[byteOffset + i * 3];
-            const g = channelPixels[byteOffset + i * 3 + 1];
-            const b = channelPixels[byteOffset + i * 3 + 2];
+          for (let i = 0; i < rgb.length; i++) {
+            const [r, g, b] = rgb[i];
             const lum = (r + g + b) / 765;
             if (lum < 0.02) continue;
             ctx.beginPath();
@@ -130,10 +135,8 @@ function RegionBulbCanvas({
         }
 
         // ── Bulb pass (sharp) ────────────────────────────────────────────────
-        for (let i = 0; i < regionLedCount; i++) {
-          const r = channelPixels[byteOffset + i * 3];
-          const g = channelPixels[byteOffset + i * 3 + 1];
-          const b = channelPixels[byteOffset + i * 3 + 2];
+        for (let i = 0; i < rgb.length; i++) {
+          const [r, g, b] = rgb[i];
           ctx.beginPath();
           ctx.arc((i + 0.5) * spacing, cy, radius, 0, Math.PI * 2);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
@@ -281,7 +284,7 @@ export function LivePreview({ play, cueIndex, compact = false }: LivePreviewProp
     <div className={`flex flex-col gap-${compact ? '2' : '3'}`}>
       {regions
         .slice()
-        .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex)
+        .sort((a, b) => a.channelId - b.channelId || (a.segments[0]?.startIndex ?? 0) - (b.segments[0]?.startIndex ?? 0))
         .map((r) => (
           <RegionCard
             key={r.id}

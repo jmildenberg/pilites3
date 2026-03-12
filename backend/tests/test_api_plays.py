@@ -25,8 +25,7 @@ PLAY_WITH_CONTENT = {
             "id": "r1",
             "label": "Stage",
             "channelId": 0,
-            "startIndex": 0,
-            "endIndex": 99,
+            "segments": [{"startIndex": 0, "endIndex": 99}],
             "uiColor": "#ff0000",
         }
     ],
@@ -131,7 +130,7 @@ class TestCreatePlay:
         bad = {
             **PLAY,
             "regions": [{"id": "r1", "label": "X", "channelId": 9,
-                          "startIndex": 0, "endIndex": 10, "uiColor": "#fff"}],
+                          "segments": [{"startIndex": 0, "endIndex": 10}], "uiColor": "#fff"}],
         }
         r = client.post("/api/plays", json=bad)
         assert r.status_code == 422

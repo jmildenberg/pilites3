@@ -15,7 +15,7 @@ export function GroupManager({ play, onUpdateGroups }: Props) {
 
   const sortedRegions = play.regions
     .slice()
-    .sort((a, b) => a.channelId - b.channelId || a.startIndex - b.startIndex);
+    .sort((a, b) => a.channelId - b.channelId || (a.segments[0]?.startIndex ?? 0) - (b.segments[0]?.startIndex ?? 0));
 
   function addGroup() {
     const newGroup: RegionGroup = {

@@ -130,16 +130,31 @@ class TestEffectUnion:
 
 class TestRegion:
     def test_valid(self) -> None:
-        r = Region(id="r1", label="Stage", channelId=0, startIndex=0, endIndex=99, uiColor="#ff0000")
+        r = Region(id="r1", label="Stage", channelId=0, segments=[{"startIndex": 0, "endIndex": 99}], uiColor="#ff0000")
         assert r.id == "r1"
+        assert len(r.segments) == 1
+        assert r.segments[0].startIndex == 0
+
+    def test_multi_segment(self) -> None:
+        r = Region(id="r1", label="Stage", channelId=0,
+                   segments=[{"startIndex": 0, "endIndex": 49}, {"startIndex": 100, "endIndex": 149}],
+                   uiColor="#ff0000")
+        assert len(r.segments) == 2
+
+    def test_legacy_migration(self) -> None:
+        """Old format with startIndex/endIndex is coerced to segments."""
+        r = Region.model_validate({"id": "r1", "label": "X", "channelId": 0, "startIndex": 10, "endIndex": 50, "uiColor": "#fff"})
+        assert len(r.segments) == 1
+        assert r.segments[0].startIndex == 10
+        assert r.segments[0].endIndex == 50
 
     def test_invalid_channel_id(self) -> None:
         with pytest.raises(ValidationError):
-            Region(id="r1", label="X", channelId=2, startIndex=0, endIndex=10, uiColor="#fff") # type: ignore
+            Region(id="r1", label="X", channelId=2, segments=[{"startIndex": 0, "endIndex": 10}], uiColor="#fff") # type: ignore
 
     def test_negative_start_index(self) -> None:
         with pytest.raises(ValidationError):
-            Region(id="r1", label="X", channelId=0, startIndex=-1, endIndex=10, uiColor="#fff")
+            Region(id="r1", label="X", channelId=0, segments=[{"startIndex": -1, "endIndex": 10}], uiColor="#fff")
 
 
 # ── Play ───────────────────────────────────────────────────────────────────────
@@ -166,7 +181,7 @@ class TestPlay:
             Play(**data) # type: ignore
 
     def test_with_region(self) -> None:
-        region = Region(id="r1", label="Stage", channelId=0, startIndex=0, endIndex=49, uiColor="#aabbcc")
+        region = Region(id="r1", label="Stage", channelId=0, segments=[{"startIndex": 0, "endIndex": 49}], uiColor="#aabbcc")
         p = Play(**{**self.BASE, "regions": [region]})
         assert len(p.regions) == 1
         assert p.regions[0].id == "r1"

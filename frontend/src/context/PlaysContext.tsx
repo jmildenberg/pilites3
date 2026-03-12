@@ -1,7 +1,20 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import type { Play } from '../types';
+import type { Play, Region } from '../types';
 import { api } from '../lib/api';
+
+/** Migrate a region from legacy {startIndex, endIndex} to {segments:[...]}. */
+function migrateRegion(r: Region & { startIndex?: number; endIndex?: number }): Region {
+  if (!('segments' in r) && 'startIndex' in r) {
+    const { startIndex, endIndex, ...rest } = r as any;
+    return { ...rest, segments: [{ startIndex, endIndex }] };
+  }
+  return r;
+}
+
+function migratePlay(play: Play): Play {
+  return { ...play, regions: (play.regions as any[]).map(migrateRegion) };
+}
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
@@ -36,7 +49,7 @@ export function PlaysProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     try {
-      const fetched = await api.plays.list();
+      const fetched = (await api.plays.list()).map(migratePlay);
       setPlays(fetched);
       setError(null);
       // If the currently-selected play no longer exists, fall back to first
@@ -62,13 +75,13 @@ export function PlaysProvider({ children }: { children: ReactNode }) {
   }, [refresh]);
 
   async function createPlay(play: Play): Promise<Play> {
-    const created = await api.plays.create(play);
+    const created = migratePlay(await api.plays.create(play));
     setPlays((prev) => [...prev, created]);
     return created;
   }
 
   async function updatePlay(id: string, play: Play): Promise<Play> {
-    const updated = await api.plays.update(id, play);
+    const updated = migratePlay(await api.plays.update(id, play));
     setPlays((prev) => prev.map((p) => (p.id === id ? updated : p)));
     return updated;
   }

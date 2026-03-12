@@ -4,9 +4,9 @@ import type { Cue, Region } from '../types';
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
 
-const r1: Region = { id: 'r1', label: 'Stage Left',  channelId: 0, startIndex: 0,   endIndex: 149, uiColor: '#a855f7' };
-const r2: Region = { id: 'r2', label: 'Stage Right', channelId: 0, startIndex: 150, endIndex: 299, uiColor: '#3b82f6' };
-const r3: Region = { id: 'r3', label: 'Backdrop',    channelId: 1, startIndex: 0,   endIndex: 249, uiColor: '#22c55e' };
+const r1: Region = { id: 'r1', label: 'Stage Left',  channelId: 0, segments: [{ startIndex: 0,   endIndex: 149 }], uiColor: '#a855f7' };
+const r2: Region = { id: 'r2', label: 'Stage Right', channelId: 0, segments: [{ startIndex: 150, endIndex: 299 }], uiColor: '#3b82f6' };
+const r3: Region = { id: 'r3', label: 'Backdrop',    channelId: 1, segments: [{ startIndex: 0,   endIndex: 249 }], uiColor: '#22c55e' };
 const regions = [r1, r2, r3];
 
 const WARM_WHITE = { r: 255, g: 220, b: 180, w: 0 };

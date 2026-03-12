@@ -14,8 +14,7 @@ SOLID_EFFECT = {
 REGION_ENTRY = {
     "regionId": "region-1",
     "channelId": 0,
-    "startIndex": 0,
-    "endIndex": 9,
+    "segments": [{"startIndex": 0, "endIndex": 9}],
     "effect": SOLID_EFFECT,
 }
 
@@ -39,8 +38,8 @@ class TestSetRegions:
 
     def test_multiple_regions(self, client: TestClient) -> None:
         regions = [
-            {**REGION_ENTRY, "regionId": "r1", "startIndex": 0,   "endIndex": 49},
-            {**REGION_ENTRY, "regionId": "r2", "startIndex": 50,  "endIndex": 99},
+            {**REGION_ENTRY, "regionId": "r1", "segments": [{"startIndex": 0,  "endIndex": 49}]},
+            {**REGION_ENTRY, "regionId": "r2", "segments": [{"startIndex": 50, "endIndex": 99}]},
         ]
         with client.websocket_connect("/ws") as ws:
             ws.send_json({"type": "set_regions", "regions": regions})
@@ -222,8 +221,7 @@ class TestPreviewWebSocket:
                 "regions": [{
                     "regionId": "preview-test",
                     "channelId": 0,
-                    "startIndex": 0,
-                    "endIndex": 9,
+                    "segments": [{"startIndex": 0, "endIndex": 9}],
                     "effect": {
                         "type": "solid",
                         "color": {"r": 255, "g": 0, "b": 0, "w": 0},

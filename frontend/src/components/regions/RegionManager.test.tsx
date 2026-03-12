@@ -23,8 +23,8 @@ function makePlay(regions: Region[] = []): Play {
   };
 }
 
-const r1: Region = { id: 'r1', label: 'Stage Left', channelId: 0, startIndex: 0,   endIndex: 149, uiColor: '#a855f7' };
-const r2: Region = { id: 'r2', label: 'Backdrop',   channelId: 1, startIndex: 0,   endIndex: 249, uiColor: '#22c55e' };
+const r1: Region = { id: 'r1', label: 'Stage Left', channelId: 0, segments: [{ startIndex: 0,   endIndex: 149 }], uiColor: '#a855f7' };
+const r2: Region = { id: 'r2', label: 'Backdrop',   channelId: 1, segments: [{ startIndex: 0,   endIndex: 249 }], uiColor: '#22c55e' };
 
 /**
  * Click the region LIST item (not the strip button) by matching the button
@@ -90,10 +90,10 @@ describe('RegionManager', () => {
       expect(endInput).toHaveValue(149);
     });
 
-    it('shows the LED range summary', async () => {
+    it('shows the LED count summary', async () => {
       render(<RegionManager play={makePlay([r1])} onUpdateRegions={vi.fn()} />, { wrapper: Wrapper });
       await userEvent.click(getListButton('Stage Left'));
-      expect(screen.getByText(/LEDs 0–149/)).toBeInTheDocument();
+      expect(screen.getByText(/150 LEDs total/)).toBeInTheDocument();
     });
   });
 
@@ -137,8 +137,8 @@ describe('RegionManager', () => {
       fireEvent.blur(startInput);
 
       expect(onUpdate).toHaveBeenCalled();
-        const updatedRegions: Region[] = onUpdate.mock.calls.at(-1)?.[0] ?? [];
-      expect(updatedRegions.find((r) => r.id === 'r1')?.startIndex).toBe(10);
+      const updatedRegions: Region[] = onUpdate.mock.calls.at(-1)?.[0] ?? [];
+      expect(updatedRegions.find((r) => r.id === 'r1')?.segments[0].startIndex).toBe(10);
     });
 
     it('calls onUpdateRegions with new endIndex on blur', async () => {
@@ -152,8 +152,8 @@ describe('RegionManager', () => {
       fireEvent.blur(endInput);
 
       expect(onUpdate).toHaveBeenCalled();
-        const updatedRegions: Region[] = onUpdate.mock.calls.at(-1)?.[0] ?? [];
-      expect(updatedRegions.find((r) => r.id === 'r1')?.endIndex).toBe(199);
+      const updatedRegions: Region[] = onUpdate.mock.calls.at(-1)?.[0] ?? [];
+      expect(updatedRegions.find((r) => r.id === 'r1')?.segments[0].endIndex).toBe(199);
     });
 
     it('calls onUpdateRegions immediately when a color swatch is clicked', async () => {

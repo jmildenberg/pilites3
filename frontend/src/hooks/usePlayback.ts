@@ -62,10 +62,9 @@ export function usePlayback(play: Play) {
       const entry = stageState.get(region.id);
       const effect = entry?.state.effect ?? DARK_EFFECT;
       return {
-        regionId:   region.id,
-        channelId:  region.channelId,
-        startIndex: region.startIndex,
-        endIndex:   region.endIndex,
+        regionId:  region.id,
+        channelId: region.channelId,
+        segments:  region.segments,
         effect,
       };
     });
