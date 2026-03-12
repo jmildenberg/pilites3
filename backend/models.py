@@ -151,6 +151,7 @@ class Play(BaseModel):
     description: str
     regions: list[Region]
     regionGroups: list[RegionGroup] = []
+    palette: list[Color] = []
     cues: list[Cue]
     createdAt: str
     updatedAt: str

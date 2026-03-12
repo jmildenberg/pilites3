@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import type { Play, Cue, Region, RegionCueState, RegionGroup, Effect } from '../types';
-import { EFFECT_DEFAULTS } from '../types';
+import type { Play, Cue, Region, RegionCueState, RegionGroup, Effect, Color } from '../types';
+import { EFFECT_DEFAULTS, extractPlayColors, colorToHex, hexToColor } from '../types';
 import { RegionManager } from '../components/regions/RegionManager';
 import { GroupManager } from '../components/regions/GroupManager';
 import { EffectEditor } from '../components/effects/EffectEditor';
@@ -17,6 +17,7 @@ function RegionRow({
   onRelease,
   onOff,
   onChange,
+  palette,
 }: {
   region: Region;
   ownedState: RegionCueState | null;
@@ -25,6 +26,7 @@ function RegionRow({
   onRelease: () => void;
   onOff: () => void;
   onChange: (patch: Partial<RegionCueState>) => void;
+  palette: Color[];
 }) {
   const isOwned = ownedState !== null;
   const displayState = ownedState ?? trackedState;
@@ -97,6 +99,7 @@ function RegionRow({
         effect={displayState.effect}
         onChange={(effect) => onChange({ effect })}
         disabled={!isOwned}
+        palette={palette}
       />
     </div>
   );
@@ -105,7 +108,7 @@ function RegionRow({
 // ─── GroupRow ─────────────────────────────────────────────────────────────────
 
 function GroupRow({
-  group, memberCount, ownedState, trackedState, onCapture, onRelease, onOff, onChange, conflictWith,
+  group, memberCount, ownedState, trackedState, onCapture, onRelease, onOff, onChange, conflictWith, palette,
 }: {
   group: RegionGroup;
   memberCount: number;
@@ -116,6 +119,7 @@ function GroupRow({
   onOff: () => void;
   onChange: (patch: Partial<RegionCueState>) => void;
   conflictWith?: string; // label of the group that conflicts
+  palette: Color[];
 }) {
   const isOwned = ownedState !== null;
   const displayState = ownedState ?? trackedState;
@@ -186,6 +190,7 @@ function GroupRow({
         effect={displayState.effect}
         onChange={(effect) => onChange({ effect })}
         disabled={!isOwned}
+        palette={palette}
       />
     </div>
   );
@@ -195,11 +200,12 @@ function GroupRow({
 // ─── CueDetailPanel ───────────────────────────────────────────────────────────
 
 function CueDetailPanel({
-  cue, cueIndex, allCues, regions, regionGroups, onChange, onDelete,
+  cue, cueIndex, allCues, regions, regionGroups, onChange, onDelete, palette,
 }: {
   cue: Cue; cueIndex: number; allCues: Cue[]; regions: Region[]; regionGroups: RegionGroup[];
   onChange: (updated: Cue) => void;
   onDelete: () => void;
+  palette: Color[];
 }) {
   const owned = ownedRegionIds(cue, regionGroups);
   const resolved = resolveStageState(allCues, regions, cueIndex, regionGroups);
@@ -331,6 +337,7 @@ function CueDetailPanel({
         onRelease={() => releaseGroup(group.id)}
         onOff={() => offGroup(group.id)}
         onChange={(patch) => patchGroupState(group.id, patch)}
+        palette={palette}
       />
     );
   }
@@ -445,6 +452,7 @@ function CueDetailPanel({
                 onRelease={() => releaseRegion(region.id)}
                 onOff={() => offRegion(region.id)}
                 onChange={(patch) => patchRegionState(region.id, patch)}
+                palette={palette}
               />
             );
           }
@@ -473,6 +481,85 @@ function CueDetailPanel({
           );
         })()}
       </div>
+    </div>
+  );
+}
+
+// ─── PaletteEditor ────────────────────────────────────────────────────────────
+
+function PaletteEditor({ palette, onChange }: { palette: Color[]; onChange: (p: Color[]) => void }) {
+  const addRef = useRef<HTMLInputElement>(null);
+  // Keep refs current so the native event handler always sees the latest values
+  const paletteRef = useRef(palette);
+  paletteRef.current = palette;
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    const el = addRef.current;
+    if (!el) return;
+    // Use the native 'change' event (fires once when picker closes) not React's onChange (fires on every drag)
+    const handler = (e: Event) => {
+      onChangeRef.current([...paletteRef.current, hexToColor((e.target as HTMLInputElement).value)]);
+    };
+    el.addEventListener('change', handler);
+    return () => el.removeEventListener('change', handler);
+  }, []);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-xs text-neutral-500 uppercase tracking-widest">Show Palette</h3>
+        <div className="relative">
+          <span className="block text-xs px-2 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors font-medium pointer-events-none select-none">
+            + Add colour
+          </span>
+          <input
+            ref={addRef}
+            type="color"
+            defaultValue="#ff0000"
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+          />
+        </div>
+      </div>
+
+      {palette.length === 0 ? (
+        <p className="text-xs text-neutral-600 italic mb-2">No custom colours yet. Click "+ Add colour" to define your show palette.</p>
+      ) : (
+        <div className="flex flex-wrap gap-2 items-center mb-2">
+          {palette.map((color, i) => {
+            const hex = colorToHex(color);
+            return (
+              <div key={i} className="relative group">
+                <div
+                  className="w-8 h-8 rounded border border-[#3e3e3e] cursor-pointer hover:scale-110 transition-transform"
+                  style={{ backgroundColor: hex }}
+                  title={hex}
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'color';
+                    input.value = hex;
+                    input.addEventListener('input', (ev) => {
+                      const next = [...palette];
+                      next[i] = hexToColor((ev.target as HTMLInputElement).value);
+                      onChange(next);
+                    });
+                    input.click();
+                  }}
+                />
+                <button
+                  onClick={() => onChange(palette.filter((_, j) => j !== i))}
+                  className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-surface-1 border border-[#3e3e3e] text-neutral-500 hover:text-red-400 text-[10px] leading-none items-center justify-center hidden group-hover:flex transition-colors"
+                >
+                  ×
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <p className="text-xs text-neutral-700">Custom colours appear first in all colour pickers.</p>
     </div>
   );
 }
@@ -745,8 +832,12 @@ export function EditorPage() {
         </div>
 
         {tab === 'regions' && (
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-8">
             <RegionManager play={displayPlay} onUpdateRegions={(regions) => editPlay({ regions })} />
+            <PaletteEditor
+              palette={displayPlay.palette ?? []}
+              onChange={(palette) => editPlay({ palette })}
+            />
           </div>
         )}
 
@@ -848,6 +939,7 @@ export function EditorPage() {
                   regionGroups={displayPlay.regionGroups ?? []}
                   onChange={updateCue}
                   onDelete={() => deleteCue(selectedCue.id)}
+                  palette={extractPlayColors(displayPlay)}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-neutral-600 text-sm">

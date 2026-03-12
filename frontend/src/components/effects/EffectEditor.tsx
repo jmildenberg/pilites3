@@ -21,18 +21,47 @@ const EFFECT_TYPES: Array<{ type: EffectType; label: string; description: string
 
 // ─── Small shared controls ────────────────────────────────────────────────────
 
-function ColorPick({ label, value, onChange }: { label: string; value: Color; onChange: (c: Color) => void }) {
+function ColorPick({
+  label, value, onChange, palette = [],
+}: {
+  label: string; value: Color; onChange: (c: Color) => void; palette?: Color[];
+}) {
   const hex = colorToHex(value);
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-1">
       <label className="text-xs text-neutral-600">{label}</label>
-      <div className="relative w-8 h-8 rounded border border-[#3e3e3e] overflow-hidden" style={{ backgroundColor: hex }}>
-        <input
-          type="color"
-          value={hex}
-          onChange={(e) => onChange(hexToColor(e.target.value))}
-          className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-        />
+      <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Native colour picker swatch */}
+        <div
+          className="relative w-7 h-7 rounded border border-[#3e3e3e] overflow-hidden shrink-0"
+          style={{ backgroundColor: hex }}
+          title="Custom colour"
+        >
+          <input
+            type="color"
+            value={hex}
+            onChange={(e) => onChange(hexToColor(e.target.value))}
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+          />
+        </div>
+        {/* Palette swatches */}
+        {palette.map((c) => {
+          const ch = colorToHex(c);
+          const isActive = ch === hex;
+          return (
+            <button
+              key={ch}
+              onClick={() => onChange(c)}
+              title={ch}
+              className="w-5 h-5 rounded shrink-0 transition-transform hover:scale-110"
+              style={{
+                backgroundColor: ch,
+                outline: isActive ? '2px solid white' : '1px solid rgba(255,255,255,0.15)',
+                outlineOffset: isActive ? '1px' : '0',
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -80,28 +109,30 @@ function NumberInput({ label, value, min, max, step = 1, unit = '', onChange }: 
 
 // ─── Per-effect param panels ───────────────────────────────────────────────────
 
-function SolidParams({ e, patch }: { e: SolidEffect; patch: (p: Partial<SolidEffect>) => void }) {
+type ParamProps<T> = { e: T; patch: (p: Partial<T>) => void; palette: Color[] };
+
+function SolidParams({ e, patch, palette }: ParamProps<SolidEffect>) {
   return (
     <div className="flex flex-col gap-3">
-      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} />
+      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} palette={palette} />
       <Slider label="Brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
     </div>
   );
 }
 
-function GradientParams({ e, patch }: { e: GradientEffect; patch: (p: Partial<GradientEffect>) => void }) {
+function GradientParams({ e, patch, palette }: ParamProps<GradientEffect>) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-4">
-        <ColorPick label="Color A" value={e.colorA} onChange={(colorA) => patch({ colorA })} />
-        <ColorPick label="Color B" value={e.colorB} onChange={(colorB) => patch({ colorB })} />
+        <ColorPick label="Color A" value={e.colorA} onChange={(colorA) => patch({ colorA })} palette={palette} />
+        <ColorPick label="Color B" value={e.colorB} onChange={(colorB) => patch({ colorB })} palette={palette} />
       </div>
       <Slider label="Brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
     </div>
   );
 }
 
-function RainbowParams({ e, patch }: { e: RainbowEffect; patch: (p: Partial<RainbowEffect>) => void }) {
+function RainbowParams({ e, patch }: ParamProps<RainbowEffect>) {
   return (
     <div className="flex flex-col gap-3">
       <Slider label="Brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
@@ -110,10 +141,10 @@ function RainbowParams({ e, patch }: { e: RainbowEffect; patch: (p: Partial<Rain
   );
 }
 
-function PulseParams({ e, patch }: { e: PulseEffect; patch: (p: Partial<PulseEffect>) => void }) {
+function PulseParams({ e, patch, palette }: ParamProps<PulseEffect>) {
   return (
     <div className="flex flex-col gap-3">
-      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} />
+      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} palette={palette} />
       <Slider label="Min brightness" value={e.minBrightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(v) => patch({ minBrightness: Math.min(v, e.maxBrightness) })} />
       <Slider label="Max brightness" value={e.maxBrightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(v) => patch({ maxBrightness: Math.max(v, e.minBrightness) })} />
       <Slider label="Period" value={e.period} min={0.1} max={30} step={0.1} unit="s" format={(v) => `${v.toFixed(1)}s`} onChange={(period) => patch({ period })} />
@@ -121,10 +152,10 @@ function PulseParams({ e, patch }: { e: PulseEffect; patch: (p: Partial<PulseEff
   );
 }
 
-function StrobeParams({ e, patch }: { e: StrobeEffect; patch: (p: Partial<StrobeEffect>) => void }) {
+function StrobeParams({ e, patch, palette }: ParamProps<StrobeEffect>) {
   return (
     <div className="flex flex-col gap-3">
-      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} />
+      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} palette={palette} />
       <Slider label="Brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
       <Slider label="Rate" value={e.rate} min={0.5} max={30} step={0.5} format={(v) => `${v} Hz`} onChange={(rate) => patch({ rate })} />
       <Slider label="Duty cycle" value={e.dutyCycle} min={0.05} max={0.95} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(dutyCycle) => patch({ dutyCycle })} />
@@ -132,12 +163,12 @@ function StrobeParams({ e, patch }: { e: StrobeEffect; patch: (p: Partial<Strobe
   );
 }
 
-function ChaseParams({ e, patch }: { e: ChaseEffect; patch: (p: Partial<ChaseEffect>) => void }) {
+function ChaseParams({ e, patch, palette }: ParamProps<ChaseEffect>) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-4">
-        <ColorPick label="Segment" value={e.color} onChange={(color) => patch({ color })} />
-        <ColorPick label="Background" value={e.backgroundColor} onChange={(backgroundColor) => patch({ backgroundColor })} />
+        <ColorPick label="Segment" value={e.color} onChange={(color) => patch({ color })} palette={palette} />
+        <ColorPick label="Background" value={e.backgroundColor} onChange={(backgroundColor) => patch({ backgroundColor })} palette={palette} />
       </div>
       <NumberInput label="Segment size" value={e.pixelCount} min={1} max={100} unit="LEDs" onChange={(pixelCount) => patch({ pixelCount })} />
       <Slider label="Speed" value={e.speed} min={1} max={500} step={1} format={(v) => `${v} px/s`} onChange={(speed) => patch({ speed })} />
@@ -164,10 +195,10 @@ function ChaseParams({ e, patch }: { e: ChaseEffect; patch: (p: Partial<ChaseEff
   );
 }
 
-function TwinkleParams({ e, patch }: { e: TwinkleEffect; patch: (p: Partial<TwinkleEffect>) => void }) {
+function TwinkleParams({ e, patch, palette }: ParamProps<TwinkleEffect>) {
   return (
     <div className="flex flex-col gap-3">
-      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} />
+      <ColorPick label="Color" value={e.color} onChange={(color) => patch({ color })} palette={palette} />
       <Slider label="Peak brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
       <Slider label="Density" value={e.density} min={0.01} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(density) => patch({ density })} />
       <Slider label="Speed" value={e.speed} min={0.1} max={5} step={0.1} format={(v) => `${v.toFixed(1)}×`} onChange={(speed) => patch({ speed })} />
@@ -175,7 +206,7 @@ function TwinkleParams({ e, patch }: { e: TwinkleEffect; patch: (p: Partial<Twin
   );
 }
 
-function FireParams({ e, patch }: { e: FireEffect; patch: (p: Partial<FireEffect>) => void }) {
+function FireParams({ e, patch }: ParamProps<FireEffect>) {
   return (
     <div className="flex flex-col gap-3">
       <Slider label="Brightness" value={e.brightness} min={0} max={1} format={(v) => `${(v * 100).toFixed(0)}%`} onChange={(brightness) => patch({ brightness })} />
@@ -191,9 +222,10 @@ interface Props {
   effect: Effect;
   onChange: (effect: Effect) => void;
   disabled?: boolean;
+  palette?: Color[];
 }
 
-export function EffectEditor({ effect, onChange, disabled = false }: Props) {
+export function EffectEditor({ effect, onChange, disabled = false, palette = [] }: Props) {
   // Retain the last known color across effect type switches, including colorless types (rainbow, fire)
   const lastColorRef = useRef<Color>(
     'color' in effect ? effect.color
@@ -249,14 +281,14 @@ export function EffectEditor({ effect, onChange, disabled = false }: Props) {
 
       {/* Per-type params */}
       <div className="bg-[#0f0f0f] rounded p-3">
-        {effect.type === 'solid'    && <SolidParams    e={effect} patch={patch} />}
-        {effect.type === 'gradient' && <GradientParams e={effect} patch={patch} />}
-        {effect.type === 'rainbow'  && <RainbowParams  e={effect} patch={patch} />}
-        {effect.type === 'pulse'    && <PulseParams    e={effect} patch={patch} />}
-        {effect.type === 'strobe'   && <StrobeParams   e={effect} patch={patch} />}
-        {effect.type === 'chase'    && <ChaseParams    e={effect} patch={patch} />}
-        {effect.type === 'twinkle'  && <TwinkleParams  e={effect} patch={patch} />}
-        {effect.type === 'fire'     && <FireParams     e={effect} patch={patch} />}
+        {effect.type === 'solid'    && <SolidParams    e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'gradient' && <GradientParams e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'rainbow'  && <RainbowParams  e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'pulse'    && <PulseParams    e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'strobe'   && <StrobeParams   e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'chase'    && <ChaseParams    e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'twinkle'  && <TwinkleParams  e={effect} patch={patch} palette={palette} />}
+        {effect.type === 'fire'     && <FireParams     e={effect} patch={patch} palette={palette} />}
       </div>
     </div>
   );

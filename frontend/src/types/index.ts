@@ -198,9 +198,30 @@ export interface Play {
   description: string;
   regions: Region[];
   regionGroups?: RegionGroup[]; // optional; defaults to [] for shows without groups
+  palette?: Color[];            // user-defined colour palette for this show
   cues: Cue[];
   createdAt: string;
   updatedAt: string;
+}
+
+/**
+ * Build the full colour palette for a play: custom colours first (in defined order),
+ * then any additional colours detected from cue effects, deduped by hex.
+ */
+export function extractPlayColors(play: Play): Color[] {
+  const seen = new Map<string, Color>();
+  function add(c: Color) { const h = colorToHex(c); if (!seen.has(h)) seen.set(h, c); }
+  for (const c of play.palette ?? []) add(c);
+  for (const cue of play.cues) {
+    for (const rs of cue.regionStates) {
+      const e = rs.effect;
+      if ('color' in e) add(e.color);
+      if ('colorA' in e) add((e as GradientEffect).colorA);
+      if ('colorB' in e) add((e as GradientEffect).colorB);
+      if ('backgroundColor' in e) add((e as ChaseEffect).backgroundColor);
+    }
+  }
+  return Array.from(seen.values());
 }
 
 // ─── Playback state (runtime, from WebSocket) ─────────────────────────────────
