@@ -57,16 +57,44 @@ export function usePlayback(play: Play) {
   const applyCue = useCallback((index: number) => {
     setPlayback((prev) => ({ ...prev, currentCueIndex: index, status: 'running' }));
 
-    const stageState = resolveStageState(cues, regions, index, play.regionGroups ?? []);
+    const regionGroups = play.regionGroups ?? [];
+    const stageState = resolveStageState(cues, regions, index, regionGroups);
+
+    // Precompute strand offsets for strand-mode groups
+    type StrandInfo = { strandKey: string; strandOffset: number; strandLength: number };
+    const strandInfoByRegionId = new Map<string, StrandInfo>();
+    for (const group of regionGroups) {
+      if (!group.strandMode) continue;
+      let offset = 0;
+      let totalLength = 0;
+      const lengths = group.regionIds.map((rid) => {
+        const r = regions.find((rg) => rg.id === rid);
+        return r ? r.endIndex - r.startIndex + 1 : 0;
+      });
+      totalLength = lengths.reduce((s, l) => s + l, 0);
+      for (let i = 0; i < group.regionIds.length; i++) {
+        strandInfoByRegionId.set(group.regionIds[i], {
+          strandKey: group.id,
+          strandOffset: offset,
+          strandLength: totalLength,
+        });
+        offset += lengths[i];
+      }
+    }
+
     const regionEntries = regions.map((region) => {
       const entry = stageState.get(region.id);
       const effect = entry?.state.effect ?? DARK_EFFECT;
+      const sourceGroupId = entry?.sourceGroupId ?? null;
+      const group = sourceGroupId ? regionGroups.find((g) => g.id === sourceGroupId) : null;
+      const strandInfo = group?.strandMode ? strandInfoByRegionId.get(region.id) : undefined;
       return {
         regionId:   region.id,
         channelId:  region.channelId,
         startIndex: region.startIndex,
         endIndex:   region.endIndex,
         effect,
+        ...(strandInfo ?? {}),
       };
     });
 

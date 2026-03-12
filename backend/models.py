@@ -123,6 +123,7 @@ class RegionGroup(BaseModel):
     id: str
     label: str
     regionIds: list[str]
+    strandMode: bool = False
 
 
 # ── Cue ───────────────────────────────────────────────────────────────────────
@@ -165,6 +166,10 @@ class ActiveRegionEntry(BaseModel):
     startIndex: int
     endIndex: int
     effect: Effect
+    # Strand mode: when set, this region is a slice of a shared strand effect
+    strandKey: str | None = None    # shared key for all members of the same strand group
+    strandOffset: int | None = None # LED offset of this region within the full strand
+    strandLength: int | None = None # total LED count of the full strand
 
 
 class SetRegionsMessage(BaseModel):

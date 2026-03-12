@@ -24,12 +24,12 @@ export function resolveStageState(
   regions: Region[],
   cueIndex: number,
   regionGroups: RegionGroup[] = [],
-): Map<string, { state: RegionCueState; ownedByCueIndex: number | null }> {
+): Map<string, { state: RegionCueState; ownedByCueIndex: number | null; sourceGroupId: string | null }> {
   const groupById = new Map(regionGroups.map((g) => [g.id, g]));
-  const result = new Map<string, { state: RegionCueState; ownedByCueIndex: number | null }>();
+  const result = new Map<string, { state: RegionCueState; ownedByCueIndex: number | null; sourceGroupId: string | null }>();
 
   for (const region of regions) {
-    let found: { state: RegionCueState; ownedByCueIndex: number } | null = null;
+    let found: { state: RegionCueState; ownedByCueIndex: number; sourceGroupId: string | null } | null = null;
     for (let i = cueIndex; i >= 0; i--) {
       const match = cues[i].regionStates.find((rs) => {
         if (rs.regionId === region.id) return true;
@@ -44,11 +44,11 @@ export function resolveStageState(
         const resolved: RegionCueState = match.groupId
           ? { regionId: region.id, fadeTime: match.fadeTime, effect: match.effect }
           : match;
-        found = { state: resolved, ownedByCueIndex: i };
+        found = { state: resolved, ownedByCueIndex: i, sourceGroupId: match.groupId ?? null };
         break;
       }
     }
-    result.set(region.id, found ?? { state: DARK_STATE(region.id), ownedByCueIndex: null });
+    result.set(region.id, found ?? { state: DARK_STATE(region.id), ownedByCueIndex: null, sourceGroupId: null });
   }
 
   return result;

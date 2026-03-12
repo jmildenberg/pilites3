@@ -32,6 +32,10 @@ export function GroupManager({ play, onUpdateGroups }: Props) {
     onUpdateGroups(groups.map((g) => (g.id === groupId ? { ...g, label } : g)));
   }
 
+  function toggleStrandMode(groupId: string) {
+    onUpdateGroups(groups.map((g) => g.id === groupId ? { ...g, strandMode: !g.strandMode } : g));
+  }
+
   function toggleRegion(groupId: string, regionId: string) {
     onUpdateGroups(
       groups.map((g) => {
@@ -166,6 +170,21 @@ export function GroupManager({ play, onUpdateGroups }: Props) {
                 );
               })}
             </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={selectedGroup.strandMode ?? false}
+                onChange={() => toggleStrandMode(selectedGroup.id)}
+                className="accent-accent"
+              />
+              <span className="text-sm text-neutral-300">Strand mode</span>
+            </label>
+            <p className="text-xs text-neutral-600 mt-1 ml-5">
+              Play the effect across all member LEDs as one continuous strip, in the order regions are listed above.
+            </p>
           </div>
 
           {selectedGroup.regionIds.length > 0 && (

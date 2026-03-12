@@ -159,6 +159,8 @@ export interface RegionGroup {
   id: string;
   label: string;
   regionIds: string[];
+  /** When true, the effect is rendered across all member LEDs as one continuous strand. */
+  strandMode?: boolean;
 }
 
 // ─── Cue ──────────────────────────────────────────────────────────────────────

@@ -37,6 +37,10 @@ class ActiveRegionState:
     # Mutable dict that persists across frames for stateful effects
     # (Fire heat array, Twinkle levels, Chase position/direction, etc.)
     per_effect_state: dict[str, Any] = field(default_factory=dict)
+    # Strand mode: if set, this region is a slice of a shared strand
+    strand_key: str | None = None
+    strand_offset: int | None = None
+    strand_length: int | None = None
 
 
 # ─── WLED DDP strip adapter ───────────────────────────────────────────────────
@@ -143,19 +147,40 @@ class ChannelRenderer:
         Replace the active region map for this channel.
         Preserves per-effect state when the same region+effect type is re-applied
         (e.g. tweaking Fire brightness shouldn't reset the heat array).
+        Strand-mode regions share per-effect state and started_at so the effect
+        plays as one continuous animation across all member regions.
         Any regions not present in `entries` are dropped, preventing stale effects
         from persisting across cue changes or play switches.
         """
         new_regions: dict[str, ActiveRegionState] = {}
+        # Shared state for strand groups: strandKey → (per_effect_state, started_at)
+        strand_shared: dict[str, tuple[dict[str, Any], float]] = {}
+
         async with self._lock:
             for entry in entries:
-                existing = self._active_regions.get(entry.regionId)
-                if existing and existing.effect.type == entry.effect.type:
-                    per_state = existing.per_effect_state
-                    started_at = existing.started_at
+                if entry.strandKey is not None:
+                    if entry.strandKey not in strand_shared:
+                        # Reuse existing strand state if the effect type is unchanged
+                        existing = next(
+                            (r for r in self._active_regions.values()
+                             if r.strand_key == entry.strandKey
+                             and r.effect.type == entry.effect.type),
+                            None,
+                        )
+                        strand_shared[entry.strandKey] = (
+                            existing.per_effect_state if existing else {},
+                            existing.started_at if existing else time.monotonic(),
+                        )
+                    per_state, started_at = strand_shared[entry.strandKey]
                 else:
-                    per_state = {}
-                    started_at = time.monotonic()
+                    existing = self._active_regions.get(entry.regionId)
+                    if existing and existing.effect.type == entry.effect.type:
+                        per_state = existing.per_effect_state
+                        started_at = existing.started_at
+                    else:
+                        per_state = {}
+                        started_at = time.monotonic()
+
                 new_regions[entry.regionId] = ActiveRegionState(
                     region_id=entry.regionId,
                     start_index=entry.startIndex,
@@ -163,6 +188,9 @@ class ChannelRenderer:
                     effect=entry.effect,
                     started_at=started_at,
                     per_effect_state=per_state,
+                    strand_key=entry.strandKey,
+                    strand_offset=entry.strandOffset,
+                    strand_length=entry.strandLength,
                 )
             self._active_regions = new_regions
 
@@ -205,17 +233,36 @@ class ChannelRenderer:
 
         pixels: list[tuple[int, int, int, int]] = [(0, 0, 0, 0)] * led_count
 
+        # Strand groups are rendered once for the full strand then sliced per region.
+        # Cache rendered strands within this frame to avoid redundant computation.
+        strand_cache: dict[str, list[tuple[int, int, int, int]]] = {}
+
         for rs in snapshot:
             region_length = rs.end_index - rs.start_index + 1
             if region_length <= 0:
                 continue
-            t = now - rs.started_at
-            rs.per_effect_state["dt"] = dt
-            rendered = render_effect(rs.effect, region_length, t, rs.per_effect_state)
-            for i, pixel in enumerate(rendered):
-                idx = rs.start_index + i
-                if 0 <= idx < led_count:
-                    pixels[idx] = pixel
+
+            if rs.strand_key is not None:
+                if rs.strand_key not in strand_cache:
+                    strand_len = rs.strand_length or region_length
+                    t = now - rs.started_at
+                    rs.per_effect_state["dt"] = dt
+                    strand_cache[rs.strand_key] = render_effect(rs.effect, strand_len, t, rs.per_effect_state)
+                rendered_strand = strand_cache[rs.strand_key]
+                offset = rs.strand_offset or 0
+                slice_pixels = rendered_strand[offset:offset + region_length]
+                for i, pixel in enumerate(slice_pixels):
+                    idx = rs.start_index + i
+                    if 0 <= idx < led_count:
+                        pixels[idx] = pixel
+            else:
+                t = now - rs.started_at
+                rs.per_effect_state["dt"] = dt
+                rendered = render_effect(rs.effect, region_length, t, rs.per_effect_state)
+                for i, pixel in enumerate(rendered):
+                    idx = rs.start_index + i
+                    if 0 <= idx < led_count:
+                        pixels[idx] = pixel
 
         self._write_pixels(pixels)
         self._strip.show()
