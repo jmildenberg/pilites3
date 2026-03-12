@@ -1,0 +1,485 @@
+{
+  "id": "052fb2ff-623c-401b-960d-6d887bd8d745",
+  "title": "GodSpell (Newer Version - DO NOT TOUCH)",
+  "description": "",
+  "regions": [
+    {
+      "id": "d07baea1-a644-4380-a739-801b9d8a7f16",
+      "label": "Stage Left - Start",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 0,
+          "endIndex": 10
+        }
+      ],
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "4c532918-c398-4823-9846-1e2e331029ab",
+      "label": "Stage Left - Left Run",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 11,
+          "endIndex": 33
+        }
+      ],
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "7d77db9f-57bb-4e34-bca5-d9d1b9e3fb13",
+      "label": "Stage Left - Back Wash",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 34,
+          "endIndex": 45
+        }
+      ],
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "c1fccc76-5e3d-4590-89a1-e1ecd7db752f",
+      "label": "Stage Left - Middle Run",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 46,
+          "endIndex": 55
+        },
+        {
+          "startIndex": 106,
+          "endIndex": 115
+        }
+      ],
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "d1493346-163d-4fa4-8539-cfa99e8a3cc0",
+      "label": "Stage Left - Left Cross",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 56,
+          "endIndex": 69
+        },
+        {
+          "startIndex": 80,
+          "endIndex": 93
+        }
+      ],
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "957db897-892b-4aaf-9b45-0f0eb1a4feb6",
+      "label": "Stage Left - Front Wash",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 70,
+          "endIndex": 79
+        },
+        {
+          "startIndex": 116,
+          "endIndex": 124
+        }
+      ],
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "8b079f23-6345-4aab-b446-6d549816029f",
+      "label": "Stage Left - Middle Wash",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 94,
+          "endIndex": 105
+        },
+        {
+          "startIndex": 173,
+          "endIndex": 182
+        }
+      ],
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40",
+      "label": "Stage Left - Right Run",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 125,
+          "endIndex": 135
+        },
+        {
+          "startIndex": 183,
+          "endIndex": 195
+        }
+      ],
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "7aec7808-5d12-455e-ad7c-7d7955e25c86",
+      "label": "Stage Left - Right Cross",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 136,
+          "endIndex": 148
+        },
+        {
+          "startIndex": 160,
+          "endIndex": 172
+        }
+      ],
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "b16e0f8d-4b21-458c-b5ff-d294932dae97",
+      "label": "Stage Left - Hidden Front",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 149,
+          "endIndex": 159
+        }
+      ],
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "f8a17edc-9ce0-4343-88f7-ca0e019b1a28",
+      "label": "Stage Left - Hidden Back",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 196,
+          "endIndex": 199
+        }
+      ],
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "fc391b31-3b9d-4f40-b5b3-bb36598deed2",
+      "label": "Stage Left - Fence",
+      "channelId": 0,
+      "segments": [
+        {
+          "startIndex": 200,
+          "endIndex": 249
+        }
+      ],
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "45618935-835c-404a-9d77-d07940b8362c",
+      "label": "Stage Right - Start",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 0,
+          "endIndex": 8
+        }
+      ],
+      "uiColor": "#a855f7"
+    },
+    {
+      "id": "0130a49c-e371-4264-bcca-0a1fe1faa3df",
+      "label": "Stage Right - Right Run",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 9,
+          "endIndex": 29
+        }
+      ],
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "84857e40-519a-4d4b-999b-2c8e16470d8b",
+      "label": "Stage Right - Back Wash",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 30,
+          "endIndex": 40
+        }
+      ],
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "6c441819-2083-4e23-9d47-794c9c5ee4d1",
+      "label": "Stage Right - Middle Run",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 41,
+          "endIndex": 52
+        },
+        {
+          "startIndex": 103,
+          "endIndex": 112
+        }
+      ],
+      "uiColor": "#f59e0b"
+    },
+    {
+      "id": "88518c16-b0de-461e-a7f8-a2a6824d2b7d",
+      "label": "Stage Right - Right Cross",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 53,
+          "endIndex": 66
+        },
+        {
+          "startIndex": 78,
+          "endIndex": 91
+        }
+      ],
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "6cb17138-f190-4799-9d06-9d24676ca4b4",
+      "label": "Stage Right - Front Wash",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 67,
+          "endIndex": 77
+        },
+        {
+          "startIndex": 113,
+          "endIndex": 123
+        }
+      ],
+      "uiColor": "#06b6d4"
+    },
+    {
+      "id": "7b11aeaa-1a9f-4f0f-bf30-e97330ec21e4",
+      "label": "Stage Right - Middle Wash",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 92,
+          "endIndex": 102
+        },
+        {
+          "startIndex": 170,
+          "endIndex": 178
+        }
+      ],
+      "uiColor": "#f97316"
+    },
+    {
+      "id": "943beea7-439a-42f0-8b22-68f5fb882735",
+      "label": "Stage Right - Left Run",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 124,
+          "endIndex": 135
+        },
+        {
+          "startIndex": 179,
+          "endIndex": 191
+        }
+      ],
+      "uiColor": "#ec4899"
+    },
+    {
+      "id": "27baceaa-d10a-4aed-965d-4853dd6eee5e",
+      "label": "Stage Right - Left Cross",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 136,
+          "endIndex": 147
+        },
+        {
+          "startIndex": 157,
+          "endIndex": 169
+        }
+      ],
+      "uiColor": "#ef4444"
+    },
+    {
+      "id": "d14055bd-5f93-4f97-91be-f0fb358fe74a",
+      "label": "Stage Right - Hidden Front",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 148,
+          "endIndex": 156
+        }
+      ],
+      "uiColor": "#3b82f6"
+    },
+    {
+      "id": "d18523c6-ed2a-4d8a-a551-ea5aed07a5a8",
+      "label": "Stage Right - Hidden Back",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 192,
+          "endIndex": 199
+        }
+      ],
+      "uiColor": "#22c55e"
+    },
+    {
+      "id": "b7335ef7-1691-4029-915a-c0bd0a807e8d",
+      "label": "Stage Right - Fence",
+      "channelId": 1,
+      "segments": [
+        {
+          "startIndex": 200,
+          "endIndex": 249
+        }
+      ],
+      "uiColor": "#f59e0b"
+    }
+  ],
+  "regionGroups": [
+    {
+      "id": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+      "label": "All Lights",
+      "regionIds": [
+        "d07baea1-a644-4380-a739-801b9d8a7f16",
+        "4c532918-c398-4823-9846-1e2e331029ab",
+        "7d77db9f-57bb-4e34-bca5-d9d1b9e3fb13",
+        "c1fccc76-5e3d-4590-89a1-e1ecd7db752f",
+        "d1493346-163d-4fa4-8539-cfa99e8a3cc0",
+        "957db897-892b-4aaf-9b45-0f0eb1a4feb6",
+        "8b079f23-6345-4aab-b446-6d549816029f",
+        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40",
+        "7aec7808-5d12-455e-ad7c-7d7955e25c86",
+        "fc391b31-3b9d-4f40-b5b3-bb36598deed2",
+        "45618935-835c-404a-9d77-d07940b8362c",
+        "0130a49c-e371-4264-bcca-0a1fe1faa3df",
+        "84857e40-519a-4d4b-999b-2c8e16470d8b",
+        "6c441819-2083-4e23-9d47-794c9c5ee4d1",
+        "88518c16-b0de-461e-a7f8-a2a6824d2b7d",
+        "6cb17138-f190-4799-9d06-9d24676ca4b4",
+        "7b11aeaa-1a9f-4f0f-bf30-e97330ec21e4",
+        "943beea7-439a-42f0-8b22-68f5fb882735",
+        "27baceaa-d10a-4aed-965d-4853dd6eee5e",
+        "b7335ef7-1691-4029-915a-c0bd0a807e8d"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+      "label": "Stage Left",
+      "regionIds": [
+        "d07baea1-a644-4380-a739-801b9d8a7f16",
+        "4c532918-c398-4823-9846-1e2e331029ab",
+        "7d77db9f-57bb-4e34-bca5-d9d1b9e3fb13",
+        "c1fccc76-5e3d-4590-89a1-e1ecd7db752f",
+        "d1493346-163d-4fa4-8539-cfa99e8a3cc0",
+        "957db897-892b-4aaf-9b45-0f0eb1a4feb6",
+        "8b079f23-6345-4aab-b446-6d549816029f",
+        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40",
+        "7aec7808-5d12-455e-ad7c-7d7955e25c86",
+        "fc391b31-3b9d-4f40-b5b3-bb36598deed2"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+      "label": "Stage Right",
+      "regionIds": [
+        "45618935-835c-404a-9d77-d07940b8362c",
+        "0130a49c-e371-4264-bcca-0a1fe1faa3df",
+        "84857e40-519a-4d4b-999b-2c8e16470d8b",
+        "6c441819-2083-4e23-9d47-794c9c5ee4d1",
+        "88518c16-b0de-461e-a7f8-a2a6824d2b7d",
+        "6cb17138-f190-4799-9d06-9d24676ca4b4",
+        "7b11aeaa-1a9f-4f0f-bf30-e97330ec21e4",
+        "943beea7-439a-42f0-8b22-68f5fb882735",
+        "27baceaa-d10a-4aed-965d-4853dd6eee5e",
+        "b7335ef7-1691-4029-915a-c0bd0a807e8d"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "5cef9f87-0c55-4d08-9e06-3b67c6227e60",
+      "label": "All Washes",
+      "regionIds": [
+        "7d77db9f-57bb-4e34-bca5-d9d1b9e3fb13",
+        "957db897-892b-4aaf-9b45-0f0eb1a4feb6",
+        "8b079f23-6345-4aab-b446-6d549816029f",
+        "84857e40-519a-4d4b-999b-2c8e16470d8b",
+        "6cb17138-f190-4799-9d06-9d24676ca4b4",
+        "7b11aeaa-1a9f-4f0f-bf30-e97330ec21e4"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "eeb63ce5-e6bf-44c5-baed-b555bb2ad3eb",
+      "label": "All Runs",
+      "regionIds": [
+        "4c532918-c398-4823-9846-1e2e331029ab",
+        "d07baea1-a644-4380-a739-801b9d8a7f16",
+        "c1fccc76-5e3d-4590-89a1-e1ecd7db752f",
+        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40",
+        "45618935-835c-404a-9d77-d07940b8362c",
+        "0130a49c-e371-4264-bcca-0a1fe1faa3df",
+        "6c441819-2083-4e23-9d47-794c9c5ee4d1",
+        "943beea7-439a-42f0-8b22-68f5fb882735"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "20056745-34a8-444f-ba2a-8d1e67ce56ec",
+      "label": "All Fences",
+      "regionIds": [
+        "b7335ef7-1691-4029-915a-c0bd0a807e8d",
+        "fc391b31-3b9d-4f40-b5b3-bb36598deed2"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "69a74657-aa28-48ae-a373-0d6162864024",
+      "label": "Back of Stage",
+      "regionIds": [
+        "7d77db9f-57bb-4e34-bca5-d9d1b9e3fb13",
+        "b7335ef7-1691-4029-915a-c0bd0a807e8d",
+        "84857e40-519a-4d4b-999b-2c8e16470d8b",
+        "fc391b31-3b9d-4f40-b5b3-bb36598deed2"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "44dd7fe6-589d-4b74-981b-7d04d2e4b3a0",
+      "label": "Middle Stage",
+      "regionIds": [
+        "c1fccc76-5e3d-4590-89a1-e1ecd7db752f",
+        "4c532918-c398-4823-9846-1e2e331029ab",
+        "0130a49c-e371-4264-bcca-0a1fe1faa3df",
+        "6c441819-2083-4e23-9d47-794c9c5ee4d1",
+        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40"
+      ],
+      "strandMode": false
+    },
+    {
+      "id": "1cf30e4d-3e66-4183-bafd-1e1544b854a6",
+      "label": "Front Stage",
+      "regionIds": [
+        "d1493346-163d-4fa4-8539-cfa99e8a3cc0",
+        "957db897-892b-4aaf-9b45-0f0eb1a4feb6",
+        "8b079f23-6345-4aab-b446-6d549816029f",
+        "7aec7808-5d12-455e-ad7c-7d7955e25c86",
+        "88518c16-b0de-461e-a7f8-a2a6824d2b7d",
+        "6cb17138-f190-4799-9d06-9d24676ca4b4",
+        "7b11aeaa-1a9f-4f0f-bf30-e97330ec21e4",
+        "27baceaa-d10a-4aed-965d-4853dd6eee5e"
+      ],
+      "strandMode": false
+    }
+  ],
+  "palette": [],
+  "cues": [],
+  "createdAt": "2026-03-12T18:03:57.391194+00:00",
+  "updatedAt": "2026-03-12T18:54:54.848802+00:00"
+}

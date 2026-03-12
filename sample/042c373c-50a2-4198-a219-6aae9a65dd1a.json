@@ -7,288 +7,432 @@
       "id": "05893987-24cf-4ea7-b001-31bfb3dfb1b6",
       "label": "Stage Left - Left Run",
       "channelId": 0,
-      "startIndex": 11,
-      "endIndex": 33,
+      "segments": [
+        {
+          "startIndex": 11,
+          "endIndex": 33
+        }
+      ],
       "uiColor": "#a855f7"
     },
     {
       "id": "99653ffc-f514-4de0-839e-deb2d96917b2",
       "label": "Stage Right - Start",
       "channelId": 1,
-      "startIndex": 0,
-      "endIndex": 8,
+      "segments": [
+        {
+          "startIndex": 0,
+          "endIndex": 8
+        }
+      ],
       "uiColor": "#3b82f6"
     },
     {
       "id": "01da444f-3e82-4481-aea6-7e365e4254ad",
       "label": "Stage Right - Fence",
       "channelId": 1,
-      "startIndex": 200,
-      "endIndex": 249,
+      "segments": [
+        {
+          "startIndex": 200,
+          "endIndex": 249
+        }
+      ],
       "uiColor": "#3b82f6"
     },
     {
       "id": "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
       "label": "Stage Left - Start",
       "channelId": 0,
-      "startIndex": 0,
-      "endIndex": 10,
+      "segments": [
+        {
+          "startIndex": 0,
+          "endIndex": 10
+        }
+      ],
       "uiColor": "#22c55e"
     },
     {
       "id": "0a8f49dd-d737-4997-a784-b085695aa627",
       "label": "Stage Left - Back Wash",
       "channelId": 0,
-      "startIndex": 34,
-      "endIndex": 45,
+      "segments": [
+        {
+          "startIndex": 34,
+          "endIndex": 45
+        }
+      ],
       "uiColor": "#f59e0b"
     },
     {
       "id": "80facd70-8b45-4bbd-8d84-aed3e9f66fce",
       "label": "Stage Left - Middle Run 1",
       "channelId": 0,
-      "startIndex": 46,
-      "endIndex": 55,
+      "segments": [
+        {
+          "startIndex": 46,
+          "endIndex": 55
+        }
+      ],
       "uiColor": "#ef4444"
     },
     {
       "id": "21a120e3-2985-4b49-a791-5c2143aa3688",
       "label": "Stage Left - Left Cross 1",
       "channelId": 0,
-      "startIndex": 56,
-      "endIndex": 69,
+      "segments": [
+        {
+          "startIndex": 56,
+          "endIndex": 69
+        }
+      ],
       "uiColor": "#06b6d4"
     },
     {
       "id": "82994303-7227-467d-b5dc-5bb15dfd3c0a",
       "label": "Stage Left - Front Wash 1",
       "channelId": 0,
-      "startIndex": 70,
-      "endIndex": 79,
+      "segments": [
+        {
+          "startIndex": 70,
+          "endIndex": 79
+        }
+      ],
       "uiColor": "#22c55e"
     },
     {
       "id": "c3a641a5-6e44-4c12-8d90-5b0d4b332bee",
       "label": "Stage Left - Left Cross 2",
       "channelId": 0,
-      "startIndex": 80,
-      "endIndex": 93,
+      "segments": [
+        {
+          "startIndex": 80,
+          "endIndex": 93
+        }
+      ],
       "uiColor": "#06b6d4"
     },
     {
       "id": "8690bec5-040d-4888-b7e0-4c9f8c43b2c4",
       "label": "Stage Left - Middle Wash",
       "channelId": 0,
-      "startIndex": 94,
-      "endIndex": 105,
+      "segments": [
+        {
+          "startIndex": 94,
+          "endIndex": 105
+        }
+      ],
       "uiColor": "#ec4899"
     },
     {
       "id": "6906cc74-927c-4df3-a682-85509f1d9f41",
       "label": "Stage Left - Middle Run 2",
       "channelId": 0,
-      "startIndex": 106,
-      "endIndex": 115,
+      "segments": [
+        {
+          "startIndex": 106,
+          "endIndex": 115
+        }
+      ],
       "uiColor": "#ef4444"
     },
     {
       "id": "a0c5503d-9ece-4ba6-ae2e-d4ed1ea9fb71",
       "label": "Stage Left - Front Wash 2",
       "channelId": 0,
-      "startIndex": 116,
-      "endIndex": 124,
+      "segments": [
+        {
+          "startIndex": 116,
+          "endIndex": 124
+        }
+      ],
       "uiColor": "#f97316"
     },
     {
       "id": "beee4cde-581a-4edb-98c3-f17c9c136353",
       "label": "Stage Left - Right Run 1",
       "channelId": 0,
-      "startIndex": 125,
-      "endIndex": 135,
+      "segments": [
+        {
+          "startIndex": 125,
+          "endIndex": 135
+        }
+      ],
       "uiColor": "#ec4899"
     },
     {
       "id": "379fc3fc-3091-4f58-a7e3-54be6df5f51e",
       "label": "Stage Left - Right Cross 1",
       "channelId": 0,
-      "startIndex": 136,
-      "endIndex": 148,
+      "segments": [
+        {
+          "startIndex": 136,
+          "endIndex": 148
+        }
+      ],
       "uiColor": "#a855f7"
     },
     {
       "id": "ca16c2b4-d734-4aa3-813e-e94ebd96af3f",
       "label": "Stage Left - Blank",
       "channelId": 0,
-      "startIndex": 149,
-      "endIndex": 159,
+      "segments": [
+        {
+          "startIndex": 149,
+          "endIndex": 159
+        }
+      ],
       "uiColor": "#3b82f6"
     },
     {
       "id": "3334044d-1f2a-41d6-9106-d03bea4d7c54",
       "label": "Stage Left - Right Cross 2",
       "channelId": 0,
-      "startIndex": 160,
-      "endIndex": 172,
+      "segments": [
+        {
+          "startIndex": 160,
+          "endIndex": 172
+        }
+      ],
       "uiColor": "#22c55e"
     },
     {
       "id": "793330eb-2e89-483f-9d11-74458525b322",
       "label": "Stage Left - Middle Wash 2",
       "channelId": 0,
-      "startIndex": 173,
-      "endIndex": 182,
+      "segments": [
+        {
+          "startIndex": 173,
+          "endIndex": 182
+        }
+      ],
       "uiColor": "#f59e0b"
     },
     {
       "id": "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
       "label": "Stage Left - Right Run 2",
       "channelId": 0,
-      "startIndex": 183,
-      "endIndex": 195,
+      "segments": [
+        {
+          "startIndex": 183,
+          "endIndex": 195
+        }
+      ],
       "uiColor": "#ef4444"
     },
     {
       "id": "ce4df159-8ed4-4921-9671-797b416374b1",
       "label": "Stage Left - Blank 2",
       "channelId": 0,
-      "startIndex": 196,
-      "endIndex": 199,
+      "segments": [
+        {
+          "startIndex": 196,
+          "endIndex": 199
+        }
+      ],
       "uiColor": "#06b6d4"
     },
     {
       "id": "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
       "label": "Stage Left - Fence",
       "channelId": 0,
-      "startIndex": 200,
-      "endIndex": 249,
+      "segments": [
+        {
+          "startIndex": 200,
+          "endIndex": 249
+        }
+      ],
       "uiColor": "#f97316"
     },
     {
       "id": "8d730c3f-df17-420d-b45b-f77eb9e6a00c",
       "label": "Stage Right - Right Run",
       "channelId": 1,
-      "startIndex": 9,
-      "endIndex": 29,
+      "segments": [
+        {
+          "startIndex": 9,
+          "endIndex": 29
+        }
+      ],
       "uiColor": "#ec4899"
     },
     {
       "id": "2549b2ed-8743-4c91-96de-daaadedf1e60",
       "label": "Stage Right - Back Wash",
       "channelId": 1,
-      "startIndex": 30,
-      "endIndex": 40,
+      "segments": [
+        {
+          "startIndex": 30,
+          "endIndex": 40
+        }
+      ],
       "uiColor": "#a855f7"
     },
     {
       "id": "74c47f06-0c44-4dc3-9199-56713cd41bde",
       "label": "Stage Right - Middle Run 1",
       "channelId": 1,
-      "startIndex": 41,
-      "endIndex": 52,
+      "segments": [
+        {
+          "startIndex": 41,
+          "endIndex": 52
+        }
+      ],
       "uiColor": "#f97316"
     },
     {
       "id": "805c4d31-d8fa-46b5-8463-4bac20c23ac1",
       "label": "Stage Left - Right Cross 1",
       "channelId": 1,
-      "startIndex": 53,
-      "endIndex": 66,
+      "segments": [
+        {
+          "startIndex": 53,
+          "endIndex": 66
+        }
+      ],
       "uiColor": "#ec4899"
     },
     {
       "id": "6f070bf8-a57f-4f30-bf7f-2db6e7121672",
       "label": "Stage Right - Front Wash 1",
       "channelId": 1,
-      "startIndex": 67,
-      "endIndex": 77,
+      "segments": [
+        {
+          "startIndex": 67,
+          "endIndex": 77
+        }
+      ],
       "uiColor": "#a855f7"
     },
     {
       "id": "fd119253-decc-4966-9c1b-61604668ee73",
       "label": "Stage Right - Right Cross 2",
       "channelId": 1,
-      "startIndex": 78,
-      "endIndex": 91,
+      "segments": [
+        {
+          "startIndex": 78,
+          "endIndex": 91
+        }
+      ],
       "uiColor": "#3b82f6"
     },
     {
       "id": "dd184819-9f11-46f6-b46b-1f602519290c",
       "label": "Stage Right - Middle Wash",
       "channelId": 1,
-      "startIndex": 92,
-      "endIndex": 102,
+      "segments": [
+        {
+          "startIndex": 92,
+          "endIndex": 102
+        }
+      ],
       "uiColor": "#22c55e"
     },
     {
       "id": "30f7bb6c-d628-446a-bfff-721c7d30aece",
       "label": "Stage Left - Middle Run 2",
       "channelId": 1,
-      "startIndex": 103,
-      "endIndex": 112,
+      "segments": [
+        {
+          "startIndex": 103,
+          "endIndex": 112
+        }
+      ],
       "uiColor": "#f59e0b"
     },
     {
       "id": "d8442871-267f-4abb-a6d8-fb80d4e6d84f",
       "label": "Stage Right - Front Wash 2",
       "channelId": 1,
-      "startIndex": 113,
-      "endIndex": 123,
+      "segments": [
+        {
+          "startIndex": 113,
+          "endIndex": 123
+        }
+      ],
       "uiColor": "#ef4444"
     },
     {
       "id": "efe66423-18cd-4a76-8182-4f43d7a581a3",
       "label": "Stage Right - Left Run 1",
       "channelId": 1,
-      "startIndex": 124,
-      "endIndex": 135,
+      "segments": [
+        {
+          "startIndex": 124,
+          "endIndex": 135
+        }
+      ],
       "uiColor": "#06b6d4"
     },
     {
       "id": "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
       "label": "Stage Right - Left Cross 1",
       "channelId": 1,
-      "startIndex": 136,
-      "endIndex": 147,
+      "segments": [
+        {
+          "startIndex": 136,
+          "endIndex": 147
+        }
+      ],
       "uiColor": "#f97316"
     },
     {
       "id": "33e6db1e-8d24-407b-bdd3-2ad267bdd4fc",
       "label": "Stage Right - Blank",
       "channelId": 1,
-      "startIndex": 148,
-      "endIndex": 156,
+      "segments": [
+        {
+          "startIndex": 148,
+          "endIndex": 156
+        }
+      ],
       "uiColor": "#ec4899"
     },
     {
       "id": "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a",
       "label": "Stage Right - Left Cross 2",
       "channelId": 1,
-      "startIndex": 157,
-      "endIndex": 169,
+      "segments": [
+        {
+          "startIndex": 157,
+          "endIndex": 169
+        }
+      ],
       "uiColor": "#a855f7"
     },
     {
       "id": "16203764-9929-4aee-80e7-ec0b6d0d3a52",
       "label": "Stage Left - Middle Wash 2",
       "channelId": 1,
-      "startIndex": 170,
-      "endIndex": 178,
+      "segments": [
+        {
+          "startIndex": 170,
+          "endIndex": 178
+        }
+      ],
       "uiColor": "#3b82f6"
     },
     {
       "id": "93e3bf30-f263-421c-8780-82d9bf4d5640",
       "label": "Stage Right - Right Run 2",
       "channelId": 1,
-      "startIndex": 179,
-      "endIndex": 191,
+      "segments": [
+        {
+          "startIndex": 179,
+          "endIndex": 191
+        }
+      ],
       "uiColor": "#22c55e"
     },
     {
       "id": "0206c975-7b88-4ede-9003-c744732e7dcc",
       "label": "Stage Right - Blank 2",
       "channelId": 1,
-      "startIndex": 192,
-      "endIndex": 199,
+      "segments": [
+        {
+          "startIndex": 192,
+          "endIndex": 199
+        }
+      ],
       "uiColor": "#f59e0b"
     }
   ],
@@ -333,7 +477,8 @@
         "93e3bf30-f263-421c-8780-82d9bf4d5640",
         "0206c975-7b88-4ede-9003-c744732e7dcc",
         "01da444f-3e82-4481-aea6-7e365e4254ad"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
@@ -357,7 +502,8 @@
         "86d60f84-e8e4-4f15-9bca-da6a5bcf3085",
         "ce4df159-8ed4-4921-9671-797b416374b1",
         "20ec142a-6514-44fb-9d4d-e87df66b6b1d"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "88291bb5-7eeb-4569-986f-343658aea7c5",
@@ -381,7 +527,8 @@
         "93e3bf30-f263-421c-8780-82d9bf4d5640",
         "0206c975-7b88-4ede-9003-c744732e7dcc",
         "01da444f-3e82-4481-aea6-7e365e4254ad"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "ba73f475-f266-4e16-a230-0bf9617243bd",
@@ -397,7 +544,8 @@
         "2549b2ed-8743-4c91-96de-daaadedf1e60",
         "dd184819-9f11-46f6-b46b-1f602519290c",
         "16203764-9929-4aee-80e7-ec0b6d0d3a52"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "40bdeb8d-dc20-4cdf-84cb-3543970f2e29",
@@ -415,7 +563,8 @@
         "93e3bf30-f263-421c-8780-82d9bf4d5640",
         "1938f8e0-cdd6-4fb8-85ff-839a44efb831",
         "99653ffc-f514-4de0-839e-deb2d96917b2"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "85844cb6-f923-46c0-b96c-dbe449665264",
@@ -425,7 +574,8 @@
         "2549b2ed-8743-4c91-96de-daaadedf1e60",
         "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
         "01da444f-3e82-4481-aea6-7e365e4254ad"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "6e68c2d9-4c4c-44ea-8ff1-869b4f73c486",
@@ -441,7 +591,8 @@
         "74c47f06-0c44-4dc3-9199-56713cd41bde",
         "30f7bb6c-d628-446a-bfff-721c7d30aece",
         "efe66423-18cd-4a76-8182-4f43d7a581a3"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "44e2c223-4aad-4676-8bbd-e46fe62e91d0",
@@ -463,7 +614,8 @@
         "fd119253-decc-4966-9c1b-61604668ee73",
         "c1c4f5ea-1874-4af9-a483-4637d0db7a60",
         "fcc66cc6-5f0b-4f72-b4fe-fba0bd657b0a"
-      ]
+      ],
+      "strandMode": false
     },
     {
       "id": "a23af86a-0df5-4eb8-9cdf-16c4fc2edca5",
@@ -471,7 +623,28 @@
       "regionIds": [
         "20ec142a-6514-44fb-9d4d-e87df66b6b1d",
         "01da444f-3e82-4481-aea6-7e365e4254ad"
-      ]
+      ],
+      "strandMode": false
+    }
+  ],
+  "palette": [
+    {
+      "r": 255,
+      "g": 2,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 47,
+      "g": 76,
+      "b": 58,
+      "w": 0
     }
   ],
   "cues": [
@@ -878,7 +1051,7 @@
     {
       "id": "63e8d26e-e733-46fa-90a5-7bfeef29eb55",
       "number": "9",
-      "label": "Lazarus",
+      "label": "There Once Was a Rich Man - Lazarus",
       "notes": "",
       "regionStates": [
         {
@@ -989,7 +1162,7 @@
               "w": 0
             },
             "brightness": 1.0,
-            "density": 0.3,
+            "density": 0.2,
             "speed": 1.0
           }
         }
@@ -1572,9 +1745,9 @@
               "w": 0
             },
             "colorB": {
-              "r": 23,
-              "g": 55,
-              "b": 151,
+              "r": 6,
+              "g": 34,
+              "b": 116,
               "w": 0
             },
             "brightness": 1.0
@@ -1682,127 +1855,125 @@
     {
       "id": "d93e1f67-271b-45f3-9026-6618456d31bb",
       "number": "38",
-      "label": "New Cue",
+      "label": "By my side -  Start",
       "notes": "",
-      "regionStates": [],
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 211,
+              "b": 51,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
       "followTime": null
     },
     {
       "id": "6fa87c72-b653-4e90-bb04-55b50442b663",
       "number": "39",
-      "label": "New Cue",
+      "label": "\"Now\" - ",
       "notes": "",
-      "regionStates": [],
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 2,
+              "g": 151,
+              "b": 20,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "88291bb5-7eeb-4569-986f-343658aea7c5",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
       "followTime": null
     },
     {
       "id": "9408c5ab-2e97-4976-b8a9-4c0da6a6261e",
       "number": "40",
-      "label": "New Cue",
+      "label": "Everlasting Life - Beesch THEE",
       "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "81e79cc1-16ec-45f2-a138-e471bf04bc61",
-      "number": "41",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "8e76e7cb-5ba3-4c3f-84be-24b935513bb3",
-      "number": "42",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "9c945e1c-537d-4a6b-9512-8904b12b2973",
-      "number": "43",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "ff853e48-d55e-463e-ae53-af6a6c79dda8",
-      "number": "44",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "55dd2d48-1fa4-4499-885b-f7e9e7fba722",
-      "number": "45",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "bfd0f1de-501f-4e95-8be6-427a786cb0dd",
-      "number": "46",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "4f2493b6-7b3b-487b-8ec7-685ad4a9cec6",
-      "number": "47",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "fd3ed831-fd98-4657-8262-792d6e2ec538",
-      "number": "48",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "512a5117-ba9e-49bc-8a1d-739cf113658b",
-      "number": "49",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "890f22d7-218a-418b-9adf-25e29cb7cbae",
-      "number": "50",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "2715a11a-30b9-474b-9ab4-1823b3a7e847",
-      "number": "51",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
-      "followTime": null
-    },
-    {
-      "id": "3b601fb0-3a11-431a-8033-1604c90b6eb9",
-      "number": "52",
-      "label": "New Cue",
-      "notes": "",
-      "regionStates": [],
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "3a57b8c9-2abe-49fe-a687-4bdfb8002495",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 2,
+              "g": 151,
+              "b": 20,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 16.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "88291bb5-7eeb-4569-986f-343658aea7c5",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 16.0,
+            "direction": "reverse"
+          }
+        }
+      ],
       "followTime": null
     },
     {
       "id": "a42451c4-2794-4ccb-8af9-870f01d1e69b",
       "number": "53",
-      "label": "Beautiful City - Blackout",
+      "label": "Beautiful City",
       "notes": "",
       "regionStates": [
         {
@@ -1813,11 +1984,11 @@
             "type": "solid",
             "color": {
               "r": 0,
-              "g": 0,
-              "b": 0,
+              "g": 170,
+              "b": 255,
               "w": 0
             },
-            "brightness": 0.0
+            "brightness": 1.0
           }
         }
       ],
@@ -1826,7 +1997,7 @@
     {
       "id": "232797de-d0a0-460e-9b58-00ad12030c16",
       "number": "54",
-      "label": "Last Supper",
+      "label": "Last Supper -  Last Piano Note of Beautiful City",
       "notes": "",
       "regionStates": [
         {
@@ -1916,8 +2087,32 @@
               "w": 0
             },
             "brightness": 1.0,
-            "rate": 5.0,
+            "rate": 4.0,
             "dutyCycle": 0.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "12b48800-02ff-4379-9e42-ef9dc1fa2e39",
+      "number": "57.5",
+      "label": "Black out",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "a6f8a99e-a348-46ad-8438-72565391568e",
+          "fadeTime": 10.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
           }
         }
       ],
@@ -1994,5 +2189,5 @@
     }
   ],
   "createdAt": "2026-03-10T19:17:00.818988+00:00",
-  "updatedAt": "2026-03-11T22:05:11.263262+00:00"
+  "updatedAt": "2026-03-12T21:46:35.345357+00:00"
 }
