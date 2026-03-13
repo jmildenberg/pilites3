@@ -1,6 +1,6 @@
 {
   "id": "052fb2ff-623c-401b-960d-6d887bd8d745",
-  "title": "GodSpell (Newer Version - DO NOT TOUCH)",
+  "title": "GodSpell (Newer Version)",
   "description": "",
   "regions": [
     {
@@ -458,7 +458,8 @@
         "4c532918-c398-4823-9846-1e2e331029ab",
         "0130a49c-e371-4264-bcca-0a1fe1faa3df",
         "6c441819-2083-4e23-9d47-794c9c5ee4d1",
-        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40"
+        "3f7aaeb1-fb30-4ff3-8941-c214d4ec1a40",
+        "943beea7-439a-42f0-8b22-68f5fb882735"
       ],
       "strandMode": false
     },
@@ -478,8 +479,1501 @@
       "strandMode": false
     }
   ],
-  "palette": [],
-  "cues": [],
+  "palette": [
+    {
+      "r": 0,
+      "g": 0,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 0,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 79,
+      "g": 4,
+      "b": 113,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 89,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 0,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 200,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 0,
+      "b": 136,
+      "w": 0
+    },
+    {
+      "r": 154,
+      "g": 4,
+      "b": 4,
+      "w": 0
+    },
+    {
+      "r": 245,
+      "g": 0,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 211,
+      "b": 51,
+      "w": 0
+    },
+    {
+      "r": 14,
+      "g": 31,
+      "b": 160,
+      "w": 0
+    },
+    {
+      "r": 128,
+      "g": 0,
+      "b": 0,
+      "w": 0
+    },
+    {
+      "r": 38,
+      "g": 102,
+      "b": 10,
+      "w": 0
+    },
+    {
+      "r": 202,
+      "g": 122,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 71,
+      "g": 140,
+      "b": 205,
+      "w": 0
+    },
+    {
+      "r": 255,
+      "g": 211,
+      "b": 51,
+      "w": 0
+    },
+    {
+      "r": 2,
+      "g": 151,
+      "b": 20,
+      "w": 0
+    },
+    {
+      "r": 0,
+      "g": 170,
+      "b": 255,
+      "w": 0
+    },
+    {
+      "r": 163,
+      "g": 0,
+      "b": 0,
+      "w": 0
+    }
+  ],
+  "cues": [
+    {
+      "id": "29e2e064-bc07-41a2-9cfa-a4bf299aac60",
+      "number": "1",
+      "label": "Preshow",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "5626dc17-3343-4408-b359-07520e2feb66",
+      "number": "2",
+      "label": "Of The Lord - Music Picks up - Prepare Ye",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "5cef9f87-0c55-4d08-9e06-3b67c6227e60",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "eeb63ce5-e6bf-44c5-baed-b555bb2ad3eb",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 29.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b3315298-5c4a-4fdd-83cf-0a5d08c24ede",
+      "number": "3",
+      "label": "Music Picks Up - God Save the People ",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.22,
+            "speed": 2.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9dbebf3a-4d81-42fb-94e8-5491acc85b01",
+      "number": "4",
+      "label": "Now do not suppose - God Save The People",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "68c7d9ce-0c48-4bba-a053-81b3b5221249",
+      "number": "5",
+      "label": "Oompah-pah Oompah-pah",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 60.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "e55c2e72-17f3-4e7b-9b85-f4a248da8fae",
+      "number": "6",
+      "label": "Master - Day by Day",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b4b87ec0-2671-4e46-aed3-4f200948fb27",
+      "number": "7",
+      "label": "Music Picks Up - Day by Day",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 15.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "a15a7188-3d83-4871-8f06-d1cb4e0d8ef1",
+      "number": "8",
+      "label": "Music Slows Down - Day by Day",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b755db14-52d9-4b70-b257-bf51c60b8b35",
+      "number": "9",
+      "label": "There Once Was A Rich Man - Lazarus",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "741e2acc-a837-4fa5-a694-f6ff5953c3b7",
+      "number": "10",
+      "label": "Hell Scene - Lazarus",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 200,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 50.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "2b08bbd6-6be6-42ad-9bf8-3a0ebca9f624",
+      "number": "11",
+      "label": "Hey! - Learn Your Lesson Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "78a5cfab-047d-42bc-b93a-6f280b9673ec",
+      "number": "12",
+      "label": "Lamp of the Body - Learn Your Lessons Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.2,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "3ff9a030-3d97-46d2-93ed-23651babd36a",
+      "number": "13",
+      "label": "Fast Part - Learn Your Lessons Well",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 19.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "18ec8821-f5de-4dd6-b443-14541f82378c",
+      "number": "14",
+      "label": "After Learn Your Lessons",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 1.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "51bc36fc-54f5-4940-a25a-82b657e5ec87",
+      "number": "15",
+      "label": "Bless The Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 5.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "8e6ada9e-9937-461c-abde-42b10b1255d9",
+      "number": "16",
+      "label": "Faster - Bless The Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 20.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "4e46f3e4-ef3b-45e7-8da1-597d18d8ba9e",
+      "number": "17",
+      "label": "Ending - Bless The Lord",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "colorB": {
+              "r": 255,
+              "g": 0,
+              "b": 136,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "5a3c723d-1016-4c67-94d0-7cf7358457ea",
+      "number": "18",
+      "label": "Blessed Are You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 154,
+              "g": 4,
+              "b": 4,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "260843ce-8c87-4ef3-8950-3d1ab851dd3e",
+      "number": "19",
+      "label": "After Blessed Are You (Tyler)",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 245,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "colorB": {
+              "r": 255,
+              "g": 211,
+              "b": 51,
+              "w": 0
+            },
+            "brightness": 0.39
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "090f184a-0221-4ea8-92c6-c43d5a69d0bc",
+      "number": "20",
+      "label": "Frankie Sings - Alas For You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "798354ad-b779-45e5-8cfb-66144e4fb055",
+      "number": "21",
+      "label": "Tyler and Frankie - Alas for You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "a81fcefd-03d5-48ee-a978-b0bb88b5e276",
+      "number": "22",
+      "label": "Overlap - Alas For You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 128,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "pixelCount": 1,
+            "speed": 40.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9b67cd76-0126-47ef-b03a-f656e448e469",
+      "number": "23",
+      "label": "Seed Parable",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 38,
+              "g": 102,
+              "b": 10,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "187578c0-8e34-40c9-93c8-2ea4badba336",
+      "number": "24",
+      "label": "Start - All Good Gifts",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 38,
+              "g": 102,
+              "b": 10,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 4,
+            "speed": 5.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "f8249c7e-71f8-4dd9-9d6f-359ee209a52b",
+      "number": "25",
+      "label": "After - All Good Gifts",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "dd1bd764-a48c-4040-b6bc-74305371fbf5",
+      "number": "26",
+      "label": "Light Of The World",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 79,
+              "g": 4,
+              "b": 113,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 202,
+              "g": 122,
+              "b": 255,
+              "w": 0
+            },
+            "pixelCount": 3,
+            "speed": 5.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "8b4dd97e-472c-46e0-ab74-b5bf17edfd05",
+      "number": "27",
+      "label": "Intermission",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "362a6861-3340-4772-9d1e-8386715735d5",
+      "number": "28",
+      "label": "Black Out - Turn Back O Man",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "eaf22465-6e98-46b8-a711-b72e6d2e9f9e",
+      "number": "29",
+      "label": "Start - Turn Back O Man",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "e3ee16b5-b919-4267-8914-e46945b997f5",
+      "number": "30",
+      "label": "After Jesus - Turn Back O Man",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 10,
+            "speed": 50.0,
+            "direction": "forward"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "fa289a77-3f65-407b-9842-d9263c2593d0",
+      "number": "31",
+      "label": "Stop This Is The Beginning - Pharisees",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "b679119a-0e66-4008-9f77-96a24612e9fd",
+      "number": "32",
+      "label": "Alas To You",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "gradient",
+            "colorA": {
+              "r": 255,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "colorB": {
+              "r": 14,
+              "g": 31,
+              "b": 160,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "054702f0-1131-44c2-b0b6-b50f24a9d1eb",
+      "number": "33",
+      "label": "Blind Fools!",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "629b39a1-89c9-4094-9c0d-f40c59668957",
+      "number": "34",
+      "label": "I Am The Messiah - First",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "69a74657-aa28-48ae-a373-0d6162864024",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "caa69fc5-7d22-4dd0-80a7-7ffa2a93186b",
+      "number": "35",
+      "label": "I Am The Messiah - Second",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "44dd7fe6-589d-4b74-981b-7d04d2e4b3a0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "66bf577e-80ae-4d21-a2e0-1359ecfd45ab",
+      "number": "36",
+      "label": "I Am The Messiah - Third",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "1cf30e4d-3e66-4183-bafd-1e1544b854a6",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 71,
+              "g": 140,
+              "b": 205,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "8267fc37-bc61-4693-9354-5be29266e0a9",
+      "number": "37",
+      "label": "Start - By My Side",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 211,
+              "b": 51,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "008a4a0f-4716-4fb0-9210-6dde162eb743",
+      "number": "38",
+      "label": "\"Now\" (Ending) - By My Side",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 2,
+              "g": 151,
+              "b": 20,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "f9020009-1c8d-4d22-bc5a-d5244a785d6c",
+      "number": "39",
+      "label": "Everlasting Life - We Beseech Thee",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "115cc92c-8165-4a2e-8970-74e749bbf89d",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 2,
+              "g": 151,
+              "b": 20,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 16.0,
+            "direction": "forward"
+          }
+        },
+        {
+          "regionId": null,
+          "groupId": "0744cadc-0904-47cb-85c1-fc5d73a548c0",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "chase",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "backgroundColor": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "pixelCount": 5,
+            "speed": 16.0,
+            "direction": "reverse"
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "a448605e-1de2-4bed-84f0-eb8ab487f232",
+      "number": "40",
+      "label": "Start - Beautiful City",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 170,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9f83b023-8d9b-488d-ade7-bcc51a358600",
+      "number": "41",
+      "label": "Last Supper - (Last Note) On The Willows",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "twinkle",
+            "color": {
+              "r": 255,
+              "g": 89,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "density": 0.3,
+            "speed": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "7db1b97e-b12d-44cb-9145-1dd41de17402",
+      "number": "42",
+      "label": "Demons",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 163,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 1.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "f10b47bc-81fc-473b-ba9e-1d3931da27ec",
+      "number": "43",
+      "label": "Slam Door",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "98d4db96-9e4e-4b78-9b32-4dcab72bf384",
+      "number": "44",
+      "label": "Jesus Gets Electrocuted",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "20056745-34a8-444f-ba2a-8d1e67ce56ec",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "strobe",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "brightness": 1.0,
+            "rate": 4.0,
+            "dutyCycle": 0.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "81482e32-832e-423d-b49b-db656e90c98f",
+      "number": "45",
+      "label": "Black Out",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "02dfbfe8-7818-4065-8128-939f7ca60d8e",
+      "number": "46",
+      "label": "Lift Jesus",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "20056745-34a8-444f-ba2a-8d1e67ce56ec",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "pulse",
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "w": 0
+            },
+            "minBrightness": 0.1,
+            "maxBrightness": 1.0,
+            "period": 1.5
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "9da79970-cc99-48fe-baaf-65bee06b3f3d",
+      "number": "47",
+      "label": "Black Out",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "solid",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "w": 0
+            },
+            "brightness": 0.0
+          }
+        }
+      ],
+      "followTime": null
+    },
+    {
+      "id": "353f671f-695c-4429-bb4d-ed7425096e13",
+      "number": "48",
+      "label": "Bows",
+      "notes": "",
+      "regionStates": [
+        {
+          "regionId": null,
+          "groupId": "183b588a-9f42-4504-8e9e-cc7d253f0b4f",
+          "fadeTime": 0.0,
+          "effect": {
+            "type": "rainbow",
+            "brightness": 1.0,
+            "speed": 85.0
+          }
+        }
+      ],
+      "followTime": null
+    }
+  ],
   "createdAt": "2026-03-12T18:03:57.391194+00:00",
-  "updatedAt": "2026-03-12T18:54:54.848802+00:00"
+  "updatedAt": "2026-03-13T00:55:19.518549+00:00"
 }
